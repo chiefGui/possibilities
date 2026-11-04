@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 
-import { gray, grayDark } from "./primitives.stylex";
+import { gray, grayDark, green, greenDark, red, redDark } from "./primitives.stylex";
 
 export const bg = stylex.defineVars({
   canvas: `light-dark(${gray[1]}, ${grayDark[1]})`,
@@ -31,6 +31,6 @@ export const accent = stylex.defineVars({
 });
 
 export const status = stylex.defineVars({
-  success: "light-dark(oklch(0.6 0.15 150), oklch(0.72 0.15 150))",
-  danger: "light-dark(oklch(0.577 0.215 27), oklch(0.704 0.191 22))",
+  success: `light-dark(${green[9]}, ${greenDark[9]})`,
+  danger: `light-dark(${red[9]}, ${redDark[9]})`,
 });

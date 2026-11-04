@@ -2,7 +2,7 @@ import { Tabs } from "@base-ui/react/tabs";
 import * as stylex from "@stylexjs/stylex";
 
 import { bg, fg } from "@/theme/colors.stylex";
-import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
+import { radius, shadow, size, space, text, weight } from "@/theme/tokens.stylex";
 
 export function Root(props: Omit<Tabs.Root.Props, "className" | "style">) {
   return <Tabs.Root {...props} />;
@@ -38,7 +38,7 @@ const styles = stylex.create({
     fontWeight: weight.medium,
     color: { default: fg.muted, ":is([data-active])": fg.default },
     backgroundColor: { default: "transparent", ":is([data-active])": bg.canvas },
-    boxShadow: { default: "none", ":is([data-active])": "0 1px 2px oklch(0 0 0 / 8%)" },
+    boxShadow: { default: "none", ":is([data-active])": shadow.sm },
   },
   panel: {
     marginTop: space[2],

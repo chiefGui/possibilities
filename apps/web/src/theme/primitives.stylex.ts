@@ -29,3 +29,19 @@ export const grayDark = stylex.defineConsts({
   11: "oklch(0.72 0 0)",
   12: "oklch(0.95 0 0)",
 });
+
+export const green = stylex.defineConsts({
+  9: "oklch(0.6 0.15 150)",
+});
+
+export const greenDark = stylex.defineConsts({
+  9: "oklch(0.72 0.15 150)",
+});
+
+export const red = stylex.defineConsts({
+  9: "oklch(0.577 0.215 27)",
+});
+
+export const redDark = stylex.defineConsts({
+  9: "oklch(0.704 0.191 22)",
+});

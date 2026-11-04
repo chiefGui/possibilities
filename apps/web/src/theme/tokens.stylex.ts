@@ -45,3 +45,16 @@ export const motion = stylex.defineVars({
   fast: "100ms",
   easing: "cubic-bezier(0.2, 0, 0, 1)",
 });
+
+export const shadow = stylex.defineVars({
+  sm: "0 1px 2px oklch(0 0 0 / 8%)",
+});
+
+export const ring = stylex.defineVars({
+  width: "3px",
+  offset: "1px",
+});
+
+export const opacity = stylex.defineVars({
+  disabled: "0.5",
+});

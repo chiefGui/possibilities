@@ -2,7 +2,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
 
 import { accent, bg, border, fg } from "@/theme/colors.stylex";
-import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
+import { opacity, radius, ring, size, space, text, weight } from "@/theme/tokens.stylex";
 
 type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   variant?: keyof typeof variants;
@@ -29,11 +29,11 @@ const styles = stylex.create({
     fontWeight: weight.medium,
     whiteSpace: "nowrap",
     userSelect: "none",
-    opacity: { default: 1, ":disabled": 0.5 },
+    opacity: { default: null, ":disabled": opacity.disabled },
     outlineStyle: { default: "none", ":focus-visible": "solid" },
-    outlineWidth: 3,
+    outlineWidth: ring.width,
     outlineColor: border.focus,
-    outlineOffset: 1,
+    outlineOffset: ring.offset,
   },
 });
 
