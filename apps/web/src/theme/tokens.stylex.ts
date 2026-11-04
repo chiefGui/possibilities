@@ -1,24 +1,35 @@
 import * as stylex from "@stylexjs/stylex";
 
-const DARK = "@media (prefers-color-scheme: dark)";
-
-export const colors = stylex.defineVars({
-  background: { default: "oklch(1 0 0)", [DARK]: "oklch(0.145 0 0)" },
-  foreground: { default: "oklch(0.145 0 0)", [DARK]: "oklch(0.985 0 0)" },
-  primary: { default: "oklch(0.205 0 0)", [DARK]: "oklch(0.922 0 0)" },
-  primaryHover: { default: "oklch(0.205 0 0 / 80%)", [DARK]: "oklch(0.922 0 0 / 80%)" },
-  primaryForeground: { default: "oklch(0.985 0 0)", [DARK]: "oklch(0.205 0 0)" },
-  muted: { default: "oklch(0.97 0 0)", [DARK]: "oklch(0.269 0 0)" },
-  mutedForeground: { default: "oklch(0.556 0 0)", [DARK]: "oklch(0.708 0 0)" },
-  border: { default: "oklch(0.922 0 0)", [DARK]: "oklch(1 0 0 / 10%)" },
-  ring: { default: "oklch(0.708 0 0)", [DARK]: "oklch(0.556 0 0)" },
+export const space = stylex.defineVars({
+  1: "4px",
+  2: "8px",
+  3: "12px",
+  4: "16px",
+  6: "24px",
+  8: "32px",
 });
 
-export const radii = stylex.defineVars({
+export const radius = stylex.defineVars({
   sm: "6px",
   md: "8px",
 });
 
-export const fonts = stylex.defineVars({
+export const text = stylex.defineVars({
+  sm: "13px",
+  md: "14px",
+  xl: "24px",
+  display: "40px",
+});
+
+export const weight = stylex.defineVars({
+  medium: "500",
+  semibold: "600",
+});
+
+export const font = stylex.defineVars({
   sans: "'Geist Variable', system-ui, sans-serif",
+});
+
+export const motion = stylex.defineVars({
+  fast: "150ms",
 });

@@ -7,9 +7,13 @@ export default defineConfig({
   lint: {
     ignorePatterns: generated,
     plugins: ["react", "typescript", "oxc"],
-    jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
+    jsPlugins: [
+      { name: "vite-plus", specifier: "vite-plus/oxlint-plugin" },
+      { name: "possibilities", specifier: "./lint/possibilities.js" },
+    ],
     rules: {
       "vite-plus/prefer-vite-plus-imports": "error",
+      "possibilities/no-pointer-cursor": "error",
       "react/rules-of-hooks": "error",
       "react/only-export-components": ["warn", { allowConstantExport: true }],
     },
