@@ -1,8 +1,8 @@
 import { Field } from "@base-ui/react/field";
 import * as stylex from "@stylexjs/stylex";
 
-import { fg, status } from "@/theme/colors.stylex";
-import { space, text, weight } from "@/theme/tokens.stylex";
+import { text } from "@/theme/colors.stylex";
+import { fontSize, space, weight } from "@/theme/tokens.stylex";
 
 export function Root(props: Omit<Field.Root.Props, "className" | "style">) {
   return <Field.Root {...props} {...stylex.props(styles.root)} />;
@@ -23,13 +23,13 @@ const styles = stylex.create({
     gap: space[2],
   },
   label: {
-    fontSize: text.sm,
+    fontSize: fontSize.sm,
     fontWeight: weight.medium,
-    color: fg.muted,
+    color: text.subtle,
   },
   error: {
     margin: 0,
-    fontSize: text.sm,
-    color: status.danger,
+    fontSize: fontSize.sm,
+    color: text.danger,
   },
 });

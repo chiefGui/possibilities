@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { workspaceQuery, workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceSidebar } from "@/features/workspaces/workspace-sidebar";
-import { border, fg } from "@/theme/colors.stylex";
+import { border, text } from "@/theme/colors.stylex";
 import { size, space, weight } from "@/theme/tokens.stylex";
 import * as CenteredPage from "@/ui/centered-page";
 
@@ -48,7 +48,7 @@ const styles = stylex.create({
     minHeight: "100vh",
   },
   muted: {
-    color: fg.muted,
+    color: text.subtle,
   },
   message: {
     margin: 0,

@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { space, text, weight } from "@/theme/tokens.stylex";
+import { fontSize, space, weight } from "@/theme/tokens.stylex";
 
 export function Root({ children }: Pick<ComponentProps<"div">, "children">) {
   return (
@@ -32,7 +32,7 @@ const styles = stylex.create({
   },
   title: {
     margin: 0,
-    fontSize: text.xl,
+    fontSize: fontSize.xl,
     fontWeight: weight.semibold,
     letterSpacing: "-0.01em",
   },

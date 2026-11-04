@@ -2,8 +2,8 @@ import type { Environment } from "@possibilities/contract";
 import * as stylex from "@stylexjs/stylex";
 
 import { isDone, steps } from "@/features/environment/steps";
-import { fg, status } from "@/theme/colors.stylex";
-import { font, size, space, text, weight } from "@/theme/tokens.stylex";
+import { icon, text } from "@/theme/colors.stylex";
+import { font, fontSize, size, space, weight } from "@/theme/tokens.stylex";
 import * as Accordion from "@/ui/accordion";
 import { StatusIcon } from "@/ui/status-icon";
 
@@ -59,7 +59,7 @@ const styles = stylex.create({
     textAlign: "start",
   },
   value: {
-    color: fg.muted,
+    color: text.subtle,
   },
   checks: {
     display: "flex",
@@ -78,7 +78,7 @@ const styles = stylex.create({
     alignItems: "center",
     gap: space[3],
     height: size.line,
-    color: fg.muted,
+    color: text.subtle,
   },
   dotCell: {
     display: "flex",
@@ -91,10 +91,10 @@ const styles = stylex.create({
     width: "6px",
     height: "6px",
     borderRadius: "50%",
-    backgroundColor: fg.muted,
+    backgroundColor: icon.subtle,
   },
   dotOk: {
-    backgroundColor: status.success,
+    backgroundColor: icon.success,
   },
   fix: {
     overflow: "hidden",
@@ -103,8 +103,8 @@ const styles = stylex.create({
     lineHeight: size.line,
     paddingInlineStart: `calc(${size.icon} + ${space[3]})`,
     fontFamily: font.mono,
-    fontSize: text.sm,
-    color: fg.muted,
+    fontSize: fontSize.sm,
+    color: text.subtle,
     userSelect: "text",
   },
 });

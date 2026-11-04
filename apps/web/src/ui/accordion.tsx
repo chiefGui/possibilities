@@ -2,8 +2,8 @@ import { Accordion } from "@base-ui/react/accordion";
 import * as stylex from "@stylexjs/stylex";
 import { ChevronRight } from "lucide-react";
 
-import { bg, border, fg } from "@/theme/colors.stylex";
-import { motion, radius, size, space, text } from "@/theme/tokens.stylex";
+import { background, border, icon, surface, text } from "@/theme/colors.stylex";
+import { fontSize, motion, radius, size, space } from "@/theme/tokens.stylex";
 
 export function Root(props: Omit<Accordion.Root.Props, "className" | "style">) {
   return <Accordion.Root {...props} {...stylex.props(styles.root)} />;
@@ -39,7 +39,7 @@ const styles = stylex.create({
     borderStyle: "solid",
     borderColor: border.default,
     borderRadius: radius.md,
-    backgroundColor: bg.surface,
+    backgroundColor: surface.raised,
     overflow: "hidden",
   },
   item: {
@@ -61,16 +61,16 @@ const styles = stylex.create({
     borderWidth: 0,
     borderRadius: radius.sm,
     fontFamily: "inherit",
-    fontSize: text.md,
-    color: fg.default,
-    backgroundColor: { default: "transparent", ":hover": bg.hover },
+    fontSize: fontSize.md,
+    color: text.default,
+    backgroundColor: { default: "transparent", ":hover": background.hovered },
     outlineStyle: "none",
   },
   chevron: {
     width: size.icon,
     height: size.icon,
     flexShrink: 0,
-    color: fg.muted,
+    color: icon.subtle,
     opacity: {
       default: 0,
       ":is(:hover > *)": 1,

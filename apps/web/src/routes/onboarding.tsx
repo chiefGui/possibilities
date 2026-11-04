@@ -6,7 +6,7 @@ import { EnvironmentChecks } from "@/features/environment/environment-checks";
 import { environmentQuery } from "@/features/environment/queries";
 import { isReady } from "@/features/environment/steps";
 import { WorkspaceForm } from "@/features/workspaces/workspace-form";
-import { border, fg } from "@/theme/colors.stylex";
+import { background, border } from "@/theme/colors.stylex";
 import { space } from "@/theme/tokens.stylex";
 import { Actions } from "@/ui/actions";
 import { Button } from "@/ui/button";
@@ -87,6 +87,6 @@ const styles = stylex.create({
     backgroundColor: border.default,
   },
   reached: {
-    backgroundColor: fg.default,
+    backgroundColor: background.brand,
   },
 });

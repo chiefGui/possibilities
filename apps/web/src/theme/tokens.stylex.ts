@@ -15,7 +15,7 @@ export const radius = stylex.defineVars({
   md: "8px",
 });
 
-export const text = stylex.defineVars({
+export const fontSize = stylex.defineVars({
   xs: "11px",
   sm: "12px",
   md: "13px",
@@ -44,4 +44,17 @@ export const size = stylex.defineVars({
 export const motion = stylex.defineVars({
   fast: "100ms",
   easing: "cubic-bezier(0.2, 0, 0, 1)",
+});
+
+export const shadow = stylex.defineVars({
+  raised: "0 1px 2px oklch(0 0 0 / 8%)",
+});
+
+export const ring = stylex.defineVars({
+  width: "3px",
+  offset: "1px",
+});
+
+export const opacity = stylex.defineVars({
+  disabled: "0.5",
 });

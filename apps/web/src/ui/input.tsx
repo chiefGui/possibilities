@@ -2,8 +2,8 @@ import { Input } from "@base-ui/react/input";
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { bg, border, fg, status } from "@/theme/colors.stylex";
-import { radius, size, space, text } from "@/theme/tokens.stylex";
+import { border, surface, text } from "@/theme/colors.stylex";
+import { fontSize, radius, size, space } from "@/theme/tokens.stylex";
 
 type RootProps = Omit<ComponentProps<"div">, "className" | "style"> & {
   xstyle?: stylex.StyleXStyles;
@@ -32,13 +32,13 @@ const styles = stylex.create({
     borderStyle: "solid",
     borderColor: {
       default: border.default,
-      ":focus-within:not(:has([data-invalid]))": border.focus,
-      ":has([data-invalid])": status.danger,
+      ":focus-within:not(:has([data-invalid]))": border.focused,
+      ":has([data-invalid])": border.danger,
     },
     borderRadius: radius.md,
-    backgroundColor: bg.canvas,
-    color: fg.default,
-    fontSize: text.md,
+    backgroundColor: surface.default,
+    color: text.default,
+    fontSize: fontSize.md,
   },
   control: {
     flex: 1,
@@ -51,12 +51,12 @@ const styles = stylex.create({
     color: "inherit",
     fontFamily: "inherit",
     fontSize: "inherit",
-    "::placeholder": { color: fg.muted },
+    "::placeholder": { color: text.subtle },
   },
   addon: {
     flexShrink: 0,
     whiteSpace: "nowrap",
-    color: fg.muted,
+    color: text.subtle,
     marginInlineStart: { default: 0, ":is(input ~ *)": space[2] },
   },
 });
