@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 
-import { CenteredPage } from "@/components/centered-page";
-import { WorkspaceForm } from "@/components/workspace-form";
-import { workspacesQuery } from "@/queries";
+import { workspacesQuery } from "@/features/workspaces/queries";
+import { WorkspaceForm } from "@/features/workspaces/workspace-form";
+import { CenteredPage } from "@/ui/centered-page";
 
 export const Route = createFileRoute("/workspaces/new")({
   component: NewWorkspace,

@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { workspacesQuery } from "@/queries";
+import { workspacesQuery } from "@/features/workspaces/queries";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async ({ context }) => {
