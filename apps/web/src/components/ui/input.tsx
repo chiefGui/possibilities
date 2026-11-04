@@ -1,6 +1,7 @@
 import { Input as BaseInput } from "@base-ui/react/input";
 import * as stylex from "@stylexjs/stylex";
 import type { ReactNode } from "react";
+
 import { bg, border, fg, status } from "@/theme/colors.stylex";
 import { radius, size, space, text } from "@/theme/tokens.stylex";
 

@@ -1,6 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+
 import { bg, fg } from "@/theme/colors.stylex";
 import { font, text } from "@/theme/tokens.stylex";
 

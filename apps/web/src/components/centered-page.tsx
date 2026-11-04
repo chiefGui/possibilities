@@ -1,5 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 import type { ReactNode } from "react";
+
 import { space, text, weight } from "@/theme/tokens.stylex";
 
 type CenteredPageProps = {

@@ -219,7 +219,7 @@ const styles = stylex.create({
       ":hover": bg.hover,
       ":is([aria-pressed=true])": bg.hover,
     },
-    fontWeight: { default: 400, ":is([aria-pressed=true])": weight.medium },
+    fontWeight: { default: null, ":is([aria-pressed=true])": weight.medium },
   },
   badge: {
     fontSize: text.xs,
