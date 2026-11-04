@@ -11,9 +11,13 @@ export default defineConfig({
   resolve: {
     alias: { "@": src },
   },
-  server: { port: 5173, strictPort: true },
   plugins: lazyPlugins(() => [
-    tanstackRouter({ target: "react", autoCodeSplitting: true }),
+    tanstackRouter({
+      target: "react",
+      autoCodeSplitting: true,
+      routesDirectory: `${src}/routes`,
+      generatedRouteTree: `${src}/routeTree.gen.ts`,
+    }),
     stylex({ aliases: { "@/*": [`${src}/*`] } }),
     react(),
   ]),

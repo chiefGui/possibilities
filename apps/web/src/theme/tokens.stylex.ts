@@ -17,7 +17,6 @@ export const colors = stylex.defineVars({
 export const radii = stylex.defineVars({
   sm: "6px",
   md: "8px",
-  lg: "10px",
 });
 
 export const fonts = stylex.defineVars({

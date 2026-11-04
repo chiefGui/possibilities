@@ -4,7 +4,7 @@ import { routeTree } from "./routeTree.gen";
 
 export const router = createRouter({
   routeTree,
-  history: window.desktop ? createHashHistory() : createBrowserHistory(),
+  history: location.protocol === "file:" ? createHashHistory() : createBrowserHistory(),
   defaultPreload: "intent",
 });
 

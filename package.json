@@ -8,10 +8,10 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "vp run web#dev",
-    "dev:desktop": "vp run --parallel --filter web --filter desktop dev",
+    "dev": "vp run desktop#dev",
+    "dev:web": "vp run web#dev",
     "build": "vp run -r build",
-    "start:desktop": "vp run -r build && vp run desktop#start",
+    "start": "vp run desktop#start",
     "typecheck": "vp run -r typecheck",
     "check": "vp check",
     "ready": "vp check && vp run -r typecheck && vp run -r build"

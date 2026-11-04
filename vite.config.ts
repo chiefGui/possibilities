@@ -1,11 +1,11 @@
 import { defineConfig } from "vite-plus";
 
+const generated = ["**/routeTree.gen.ts"];
+
 export default defineConfig({
-  fmt: {
-    ignorePatterns: ["**/routeTree.gen.ts"],
-  },
+  fmt: { ignorePatterns: generated },
   lint: {
-    ignorePatterns: ["**/routeTree.gen.ts"],
+    ignorePatterns: generated,
     plugins: ["react", "typescript", "oxc"],
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
     rules: {

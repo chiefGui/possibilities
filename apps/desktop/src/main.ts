@@ -1,12 +1,9 @@
 import { app, BrowserWindow } from "electron";
 import { join } from "node:path";
 
-const webDevServerUrl = process.env.WEB_DEV_SERVER_URL;
+const { DESKTOP_RENDERER_URL, DESKTOP_USER_DATA_DIR, DESKTOP_TITLE_SUFFIX } = process.env;
 
-function loadWebDevServerUntilReady(win: BrowserWindow, url: string) {
-  win.webContents.on("did-fail-load", () => setTimeout(() => win.loadURL(url), 250));
-  void win.loadURL(url);
-}
+if (DESKTOP_USER_DATA_DIR) app.setPath("userData", DESKTOP_USER_DATA_DIR);
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -22,8 +19,15 @@ function createWindow() {
 
   win.once("ready-to-show", () => win.show());
 
-  if (webDevServerUrl) {
-    loadWebDevServerUntilReady(win, webDevServerUrl);
+  if (DESKTOP_TITLE_SUFFIX) {
+    win.on("page-title-updated", (event, title) => {
+      event.preventDefault();
+      win.setTitle(`${title} — ${DESKTOP_TITLE_SUFFIX}`);
+    });
+  }
+
+  if (DESKTOP_RENDERER_URL) {
+    void win.loadURL(DESKTOP_RENDERER_URL);
   } else {
     void win.loadFile(join(__dirname, "../../web/dist/index.html"));
   }

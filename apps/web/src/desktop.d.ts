@@ -1,5 +1,5 @@
 interface Window {
   desktop?: {
-    versions: { electron: string; chrome: string; node: string };
+    versions: { electron: string; chrome: string };
   };
 }

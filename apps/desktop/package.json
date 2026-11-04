@@ -2,11 +2,11 @@
   "name": "desktop",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "main": "dist/main.cjs",
   "scripts": {
     "build": "vp pack",
-    "start": "electron .",
-    "typecheck": "tsrs --noEmit --fast"
+    "typecheck": "tsrs --fast"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

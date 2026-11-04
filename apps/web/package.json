@@ -7,7 +7,7 @@
     "dev": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
-    "typecheck": "tsrs -p tsconfig.app.json --noEmit --fast && tsrs -p tsconfig.node.json --noEmit --fast"
+    "typecheck": "tsrs --fast"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
