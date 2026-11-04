@@ -1,18 +1,15 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
 
-import { colors, fontSizes, radii, dimensions, space } from "@/theme/tokens.stylex";
+import { colors, dimensions, fontSizes, radii, space } from "@/theme/tokens.stylex";
 
 type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   variant?: keyof typeof variants;
-  size?: keyof typeof sizes;
   xstyle?: stylex.StyleXStyles;
 };
 
-export function Button({ variant = "primary", size = "md", xstyle, ...props }: ButtonProps) {
-  return (
-    <BaseButton {...props} {...stylex.props(styles.base, variants[variant], sizes[size], xstyle)} />
-  );
+export function Button({ variant = "primary", xstyle, ...props }: ButtonProps) {
+  return <BaseButton {...props} {...stylex.props(styles.base, variants[variant], xstyle)} />;
 }
 
 const styles = stylex.create({
@@ -22,9 +19,9 @@ const styles = stylex.create({
     justifyContent: "center",
     gap: space.sm,
     flexShrink: 0,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "transparent",
+    height: dimensions.md,
+    paddingInline: space.md,
+    borderWidth: 0,
     borderRadius: radii.md,
     fontFamily: "inherit",
     fontSize: fontSizes.md,
@@ -45,24 +42,8 @@ const variants = stylex.create({
     backgroundColor: { default: colors.primary, ":hover": colors.primaryHover },
     color: colors.primaryForeground,
   },
-  outline: {
-    backgroundColor: { default: colors.background, ":hover": colors.muted },
-    borderColor: colors.border,
-    color: colors.foreground,
-  },
   ghost: {
     backgroundColor: { default: "transparent", ":hover": colors.muted },
     color: colors.foreground,
   },
-});
-
-const sizes = stylex.create({
-  sm: {
-    height: dimensions.sm,
-    paddingInline: space.sm,
-    fontSize: fontSizes.sm,
-    borderRadius: radii.sm,
-  },
-  md: { height: dimensions.md, paddingInline: space.md },
-  lg: { height: dimensions.lg, paddingInline: space.lg },
 });

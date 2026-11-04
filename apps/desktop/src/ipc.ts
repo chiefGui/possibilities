@@ -1,4 +1,4 @@
-import { channel } from "@possibilities/contract/channel";
+import { channel } from "@possibilities/contract/bridge";
 import { Effect, Layer, Queue, Schema } from "effect";
 import { type RpcMessage, type RpcSerialization, RpcServer } from "effect/rpc";
 import { type IpcMainEvent, ipcMain, type WebContents } from "electron";

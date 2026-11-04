@@ -52,9 +52,9 @@ export class Registry extends Context.Service<Registry>()("Registry", {
           }),
         );
 
-      const find = (repository: string) =>
+      const has = (repository: string) =>
         read.pipe(
-          Effect.map((entries) => entries.find((entry) => entry.repository === repository)),
+          Effect.map((entries) => entries.some((entry) => entry.repository === repository)),
         );
 
       const add = (workspace: Workspace) =>
@@ -66,9 +66,9 @@ export class Registry extends Context.Service<Registry>()("Registry", {
           ),
         );
 
-      const clonePath = (repository: string) => path.join(directory, "workspaces", repository);
+      const directoryOf = (repository: string) => path.join(directory, "workspaces", repository);
 
-      return { list, open, find, add, clonePath };
+      return { list, open, has, add, directoryOf };
     }),
 }) {
   static readonly layer = (directory: string) => Layer.effect(this, this.make(directory));

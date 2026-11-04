@@ -10,6 +10,7 @@ export const environmentQuery = queryOptions({
 export const repositoriesQuery = queryOptions({
   queryKey: ["repositories"],
   queryFn: () => call((api) => api.repositories()),
+  staleTime: Infinity,
 });
 
 export const workspacesQuery = queryOptions({

@@ -3,10 +3,15 @@ import { Effect, Option, Schema } from "effect";
 
 import { run, succeeds } from "./command.ts";
 
-const viaGh = ["-c", "credential.helper=", "-c", "credential.helper=!gh auth git-credential"];
+const ghCredentials = [
+  "-c",
+  "credential.helper=",
+  "-c",
+  "credential.helper=!gh auth git-credential",
+];
 
 export const git = (cwd: string, ...args: ReadonlyArray<string>) =>
-  run("git", [...viaGh, ...args], cwd);
+  run("git", [...ghCredentials, ...args], cwd);
 
 export const login = run("gh", ["api", "user", "--jq", ".login"]);
 

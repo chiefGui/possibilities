@@ -70,7 +70,7 @@ export function WorkspaceForm({ cancel }: WorkspaceFormProps) {
       </Field>
 
       <Field name="repository" label="Repository">
-        <Tabs.Root value={source} onValueChange={edit((value: Source) => setSource(value))}>
+        <Tabs.Root value={source} onValueChange={edit(setSource)}>
           <Tabs.List {...stylex.props(styles.tabs)}>
             {(["New", "Existing"] as const).map((value) => (
               <Tabs.Tab key={value} value={value} {...stylex.props(styles.tab)}>
@@ -82,7 +82,7 @@ export function WorkspaceForm({ cancel }: WorkspaceFormProps) {
             <Input
               value={repositoryName}
               placeholder="acme"
-              start={`${login}/`}
+              start={login && `${login}/`}
               end="Private"
               onValueChange={edit(setName)}
             />
@@ -126,7 +126,7 @@ function RepositoryPicker({ selected, onSelect }: RepositoryPickerProps) {
       <Input
         value={filter}
         placeholder="Filter repositories"
-        onChange={(event) => setFilter(event.target.value)}
+        onValueChange={setFilter}
         xstyle={styles.filter}
       />
       <ul {...stylex.props(styles.repositories)}>

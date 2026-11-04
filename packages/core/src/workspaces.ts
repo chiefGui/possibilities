@@ -12,14 +12,6 @@ const resolveRepository = (choice: CreateWorkspace["repository"]) =>
     ? Effect.succeed(choice.nameWithOwner)
     : login.pipe(Effect.map((owner) => `${owner}/${choice.name}`));
 
-export const listWorkspaces = Effect.gen(function* () {
-  return yield* (yield* Registry).list;
-});
-
-export const openWorkspace = Effect.fn("openWorkspace")(function* (id: string) {
-  return yield* (yield* Registry).open(id);
-});
-
 export const createWorkspace = Effect.fn("createWorkspace")(function* ({
   title,
   repository: choice,
@@ -29,12 +21,12 @@ export const createWorkspace = Effect.fn("createWorkspace")(function* ({
   const path = yield* Path.Path;
 
   const repository = yield* resolveRepository(choice);
-  if (yield* registry.find(repository)) {
+  if (yield* registry.has(repository)) {
     return yield* new WorkspaceExists({ message: `${repository} is already a workspace` });
   }
   if (choice._tag === "New") yield* createRepository(choice.name);
 
-  const directory = registry.clonePath(repository);
+  const directory = registry.directoryOf(repository);
   const manifestPath = path.join(directory, "workspace.json");
 
   const workspace = yield* Effect.gen(function* () {
@@ -58,7 +50,7 @@ export const createWorkspace = Effect.fn("createWorkspace")(function* ({
       yield* git(directory, "push", "-u", "origin", "HEAD");
     }
 
-    return Workspace.make({ ...manifest, repository, path: directory });
+    return Workspace.make({ ...manifest, repository });
   }).pipe(
     Effect.onError(() =>
       fs.remove(directory, { recursive: true, force: true }).pipe(Effect.ignore),

@@ -1,11 +1,13 @@
-import { channel } from "@possibilities/contract/channel";
+import { type Bridge, channel } from "@possibilities/contract/bridge";
 import { contextBridge, type IpcRendererEvent, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld("desktop", {
-  send: (message: unknown) => ipcRenderer.send(channel, message),
-  subscribe: (listener: (message: unknown) => void) => {
+const bridge: Bridge = {
+  send: (message) => ipcRenderer.send(channel, message),
+  subscribe: (listener) => {
     const forward = (_event: IpcRendererEvent, message: unknown) => listener(message);
     ipcRenderer.on(channel, forward);
     return () => ipcRenderer.off(channel, forward);
   },
-});
+};
+
+contextBridge.exposeInMainWorld("desktop", bridge);

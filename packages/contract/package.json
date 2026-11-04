@@ -5,7 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./channel": "./src/channel.ts"
+    "./bridge": "./src/bridge.ts"
   },
   "scripts": {
     "typecheck": "tsrs --fast"

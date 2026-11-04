@@ -1,6 +1,7 @@
-interface Window {
-  desktop?: {
-    send(message: unknown): void;
-    subscribe(listener: (message: unknown) => void): () => void;
-  };
+import type { Bridge } from "@possibilities/contract/bridge";
+
+declare global {
+  interface Window {
+    desktop?: Bridge;
+  }
 }
