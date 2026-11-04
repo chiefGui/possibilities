@@ -14,3 +14,7 @@
 body {
   margin: 0;
 }
+
+:any-link {
+  cursor: default;
+}

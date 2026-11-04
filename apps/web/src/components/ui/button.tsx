@@ -32,7 +32,6 @@ const styles = stylex.create({
     fontWeight: weight.medium,
     whiteSpace: "nowrap",
     userSelect: "none",
-    cursor: { default: "pointer", ":disabled": "not-allowed" },
     opacity: { default: 1, ":disabled": 0.5 },
     outlineStyle: { default: "none", ":focus-visible": "solid" },
     outlineWidth: 3,
