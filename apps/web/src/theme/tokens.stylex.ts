@@ -11,6 +11,7 @@ export const space = stylex.defineVars({
 });
 
 export const radius = stylex.defineVars({
+  xs: "4px",
   sm: "6px",
   md: "8px",
 });
@@ -48,6 +49,7 @@ export const motion = stylex.defineVars({
 
 export const shadow = stylex.defineVars({
   raised: "0 1px 2px oklch(0 0 0 / 8%)",
+  overlay: "0 4px 16px oklch(0 0 0 / 16%)",
 });
 
 export const ring = stylex.defineVars({

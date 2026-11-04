@@ -1,11 +1,11 @@
 import * as stylex from "@stylexjs/stylex";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
 import { workspaceQuery, workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceSidebar } from "@/features/workspaces/workspace-sidebar";
-import { border, text } from "@/theme/colors.stylex";
-import { size, space, weight } from "@/theme/tokens.stylex";
+import { text } from "@/theme/colors.stylex";
 import * as CenteredPage from "@/ui/centered-page";
+import * as Shell from "@/ui/shell";
 
 export const Route = createFileRoute("/workspaces/$workspaceId")({
   loader: async ({ context, params }) => {
@@ -16,11 +16,11 @@ export const Route = createFileRoute("/workspaces/$workspaceId")({
     });
     return workspace;
   },
-  component: WorkspacePage,
+  component: WorkspaceLayout,
   errorComponent: ({ error }) => (
     <CenteredPage.Root>
       <CenteredPage.Title>Workspace unavailable</CenteredPage.Title>
-      <p {...stylex.props(styles.muted, styles.message)}>
+      <p {...stylex.props(styles.message)}>
         {error instanceof Error ? error.message : String(error)}
       </p>
       <Link to="/">Back</Link>
@@ -28,45 +28,22 @@ export const Route = createFileRoute("/workspaces/$workspaceId")({
   ),
 });
 
-function WorkspacePage() {
+function WorkspaceLayout() {
   const workspace = Route.useLoaderData();
 
   return (
-    <div {...stylex.props(styles.layout)}>
+    <Shell.Root>
       <WorkspaceSidebar workspace={workspace} />
-      <section {...stylex.props(styles.main)}>
-        <header {...stylex.props(styles.header)}>{workspace.title}</header>
-      </section>
-    </div>
+      <Shell.Main>
+        <Outlet />
+      </Shell.Main>
+    </Shell.Root>
   );
 }
 
 const styles = stylex.create({
-  layout: {
-    display: "flex",
-    flex: 1,
-    minHeight: "100vh",
-  },
-  muted: {
-    color: text.subtle,
-  },
   message: {
     margin: 0,
-  },
-  main: {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-    minWidth: 0,
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    height: size.row,
-    paddingInline: space[4],
-    borderBottomWidth: 1,
-    borderBottomStyle: "solid",
-    borderBottomColor: border.default,
-    fontWeight: weight.medium,
+    color: text.subtle,
   },
 });
