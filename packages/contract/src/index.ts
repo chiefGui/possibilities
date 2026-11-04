@@ -12,6 +12,7 @@ export const Repository = Schema.Struct({
   nameWithOwner: Schema.String,
   isPrivate: Schema.Boolean,
 });
+export type Repository = typeof Repository.Type;
 
 export const Environment = Schema.Struct({
   git: Schema.Boolean,

@@ -3,6 +3,8 @@
 ## Code
 
 - No comments or docstrings. Needing one means the design or naming is wrong; fix that instead.
+- Fake data lives only in `@possibilities/scenarios`, imported only behind `import.meta.env.DEV` at the RPC client. Nothing else knows whether data is fake.
+- A new UI state worth seeing gets a scenario.
 
 ## Verification
 
