@@ -1,4 +1,4 @@
-import { Workspace, WorkspaceNotFound } from "contract";
+import { Workspace, WorkspaceNotFound } from "@possibilities/contract";
 import { Context, Effect, FileSystem, Layer, Path, Schema, Semaphore, Struct } from "effect";
 
 const Entry = Schema.Struct({ ...Workspace.fields, openedAt: Schema.Number });

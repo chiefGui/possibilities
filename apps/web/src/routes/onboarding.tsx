@@ -3,7 +3,7 @@ import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
-import type { Environment } from "contract";
+import type { Environment } from "@possibilities/contract";
 
 import { CenteredPage } from "@/components/centered-page";
 import { StatusIcon } from "@/components/status-icon";

@@ -1,4 +1,4 @@
-import { CommandFailed } from "contract";
+import { CommandFailed } from "@possibilities/contract";
 import { Effect, Stream } from "effect";
 import { ChildProcess } from "effect/process";
 

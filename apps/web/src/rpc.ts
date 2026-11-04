@@ -1,4 +1,10 @@
-import { type Input, type Output, type ProcedureName, procedures, result } from "contract";
+import {
+  type Input,
+  type Output,
+  type ProcedureName,
+  procedures,
+  result,
+} from "@possibilities/contract";
 import { Cause, Exit, Schema } from "effect";
 
 type Arguments<K extends ProcedureName> = Input<K> extends void ? [] : [input: Input<K>];

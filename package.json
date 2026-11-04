@@ -8,10 +8,10 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "vp run desktop#dev",
-    "dev:web": "vp run web#dev",
+    "dev": "vp run @possibilities/desktop#dev",
+    "dev:web": "vp run @possibilities/web#dev",
     "build": "vp run -r build",
-    "start": "vp run desktop#start",
+    "start": "vp run @possibilities/desktop#start",
     "typecheck": "vp run -r typecheck",
     "check": "vp check",
     "ready": "vp check && vp run -r typecheck && vp run -r build"

@@ -1,4 +1,4 @@
-import { type CreateWorkspace, Workspace, WorkspaceExists } from "contract";
+import { type CreateWorkspace, Workspace, WorkspaceExists } from "@possibilities/contract";
 import { Effect, FileSystem, Path, Schema } from "effect";
 
 import { clone, createRepository, git, login } from "./github.ts";

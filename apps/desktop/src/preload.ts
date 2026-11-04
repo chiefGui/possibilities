@@ -1,4 +1,4 @@
-import { channel } from "contract/channel";
+import { channel } from "@possibilities/contract/channel";
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("desktop", {

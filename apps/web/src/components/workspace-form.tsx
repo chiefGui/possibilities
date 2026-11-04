@@ -2,7 +2,7 @@ import { Tabs } from "@base-ui/react/tabs";
 import * as stylex from "@stylexjs/stylex";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { type RepositoryChoice, WorkspaceExists } from "contract";
+import { type RepositoryChoice, WorkspaceExists } from "@possibilities/contract";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";

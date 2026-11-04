@@ -1,4 +1,4 @@
-import { Environment, Repository } from "contract";
+import { Environment, Repository } from "@possibilities/contract";
 import { Effect, Option, Schema } from "effect";
 
 import { run, succeeds } from "./command.ts";

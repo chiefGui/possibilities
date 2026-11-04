@@ -18,7 +18,7 @@ export default defineConfig({
       },
       start: {
         command: "electron .",
-        dependsOn: ["build", "web#build"],
+        dependsOn: ["build", "@possibilities/web#build"],
         cache: false,
       },
     },

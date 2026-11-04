@@ -6,8 +6,8 @@ import {
   type ProcedureName,
   procedures,
   result,
-} from "contract";
-import { channel } from "contract/channel";
+} from "@possibilities/contract";
+import { channel } from "@possibilities/contract/channel";
 import { Effect, type ManagedRuntime, Schema } from "effect";
 import { ipcMain } from "electron";
 
