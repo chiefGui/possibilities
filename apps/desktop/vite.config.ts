@@ -1,12 +1,14 @@
 import { defineConfig } from "vite-plus";
 
+const bundle = (entry: string) => ({
+  entry: [entry],
+  format: "cjs" as const,
+  target: "node24",
+  deps: { neverBundle: ["electron"], alwaysBundle: (id: string) => id !== "electron" },
+});
+
 export default defineConfig({
-  pack: {
-    entry: ["src/main.ts", "src/preload.ts"],
-    format: "cjs",
-    target: "node24",
-    deps: { neverBundle: ["electron"] },
-  },
+  pack: [bundle("src/main.ts"), { ...bundle("src/preload.ts"), clean: false }],
   run: {
     tasks: {
       dev: {

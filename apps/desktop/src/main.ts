@@ -1,5 +1,12 @@
+import { NodeServices } from "@effect/platform-node";
+import { Effect, Layer, ManagedRuntime } from "effect";
 import { app, BrowserWindow } from "electron";
 import { join } from "node:path";
+
+import { environment, repositories } from "./github.ts";
+import { Registry } from "./registry.ts";
+import { serve } from "./rpc.ts";
+import { createWorkspace, listWorkspaces, openWorkspace } from "./workspaces.ts";
 
 const { DESKTOP_RENDERER_URL, DESKTOP_USER_DATA_DIR, DESKTOP_TITLE_SUFFIX } = process.env;
 
@@ -33,12 +40,26 @@ function createWindow() {
   }
 }
 
+const runtime = ManagedRuntime.make(
+  Registry.layer(app.getPath("userData")).pipe(Layer.provideMerge(NodeServices.layer)),
+);
+
+serve(runtime, {
+  environment: () => environment,
+  repositories: () => repositories,
+  workspaces: () => listWorkspaces,
+  openWorkspace,
+  createWorkspace,
+});
+
 void app.whenReady().then(() => {
   createWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
+app.on("will-quit", () => void Effect.runPromise(runtime.disposeEffect));
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();

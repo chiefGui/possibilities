@@ -8,6 +8,11 @@
     "build": "vp pack",
     "typecheck": "tsrs --fast"
   },
+  "dependencies": {
+    "@effect/platform-node": "^4.1.2",
+    "contract": "workspace:*",
+    "effect": "^4.1.2"
+  },
   "devDependencies": {
     "@types/node": "^26.6.6",
     "electron": "^45.2.2",

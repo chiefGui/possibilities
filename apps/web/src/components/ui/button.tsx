@@ -1,7 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
 
-import { colors, radii } from "@/theme/tokens.stylex";
+import { colors, fontSizes, radii, dimensions, space } from "@/theme/tokens.stylex";
 
 type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   variant?: keyof typeof variants;
@@ -20,26 +20,23 @@ const styles = stylex.create({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: 6,
+    gap: space.sm,
     flexShrink: 0,
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: "transparent",
     borderRadius: radii.md,
     fontFamily: "inherit",
-    fontSize: 14,
+    fontSize: fontSizes.md,
     fontWeight: 500,
     whiteSpace: "nowrap",
     userSelect: "none",
-    cursor: { default: "pointer", ":disabled": "not-allowed" },
     opacity: { default: 1, ":disabled": 0.5 },
     outlineStyle: { default: "none", ":focus-visible": "solid" },
     outlineWidth: 3,
     outlineColor: colors.ring,
     outlineOffset: 1,
     transform: { default: null, ":active": "translateY(1px)" },
-    transitionProperty: "background-color, border-color, transform",
-    transitionDuration: "150ms",
   },
 });
 
@@ -60,7 +57,12 @@ const variants = stylex.create({
 });
 
 const sizes = stylex.create({
-  sm: { height: 28, paddingInline: 10, fontSize: 13, borderRadius: radii.sm },
-  md: { height: 32, paddingInline: 10 },
-  lg: { height: 36, paddingInline: 12 },
+  sm: {
+    height: dimensions.sm,
+    paddingInline: space.sm,
+    fontSize: fontSizes.sm,
+    borderRadius: radii.sm,
+  },
+  md: { height: dimensions.md, paddingInline: space.md },
+  lg: { height: dimensions.lg, paddingInline: space.lg },
 });

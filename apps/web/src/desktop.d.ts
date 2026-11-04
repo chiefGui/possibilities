@@ -1,5 +1,5 @@
 interface Window {
   desktop?: {
-    versions: { electron: string; chrome: string };
+    invoke(name: string, input: unknown): Promise<unknown>;
   };
 }

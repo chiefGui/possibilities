@@ -1,8 +1,6 @@
-import { contextBridge } from "electron";
+import { channel } from "contract/channel";
+import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("desktop", {
-  versions: {
-    electron: process.versions.electron,
-    chrome: process.versions.chrome,
-  },
+  invoke: (name: string, input: unknown) => ipcRenderer.invoke(channel, name, input),
 });

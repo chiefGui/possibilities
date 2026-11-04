@@ -1,0 +1,19 @@
+{
+  "name": "contract",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./channel": "./src/channel.ts"
+  },
+  "scripts": {
+    "typecheck": "tsrs --fast"
+  },
+  "dependencies": {
+    "effect": "^4.1.2"
+  },
+  "devDependencies": {
+    "tsrs": "^0.21.0-ts7.1.0-beta"
+  }
+}

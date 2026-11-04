@@ -1,23 +1,21 @@
 import * as stylex from "@stylexjs/stylex";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import type { QueryClient } from "@tanstack/react-query";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
-import { colors, fonts } from "@/theme/tokens.stylex";
+import { colors, fontSizes, fonts } from "@/theme/tokens.stylex";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   component: RootLayout,
 });
 
 const styles = stylex.create({
   root: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 16,
     minHeight: "100vh",
     backgroundColor: colors.background,
     color: colors.foreground,
     fontFamily: fonts.sans,
+    fontSize: fontSizes.md,
   },
 });
 
