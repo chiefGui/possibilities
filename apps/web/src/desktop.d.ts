@@ -1,5 +1,7 @@
-interface Window {
-  desktop?: {
-    versions: { electron: string; chrome: string };
-  };
+import type { Bridge } from "@possibilities/contract/bridge";
+
+declare global {
+  interface Window {
+    desktop?: Bridge;
+  }
 }

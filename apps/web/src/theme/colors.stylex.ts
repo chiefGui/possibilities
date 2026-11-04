@@ -29,3 +29,8 @@ export const accent = stylex.defineVars({
   subtle: `light-dark(${gray[3]}, ${grayDark[3]})`,
   fg: `light-dark(${gray[12]}, ${grayDark[12]})`,
 });
+
+export const status = stylex.defineVars({
+  success: "light-dark(oklch(0.6 0.15 150), oklch(0.72 0.15 150))",
+  danger: "light-dark(oklch(0.577 0.215 27), oklch(0.704 0.191 22))",
+});

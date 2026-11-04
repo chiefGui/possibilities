@@ -1,5 +1,12 @@
+import { NodeServices } from "@effect/platform-node";
+import { Api } from "@possibilities/contract";
+import * as Core from "@possibilities/core";
+import { Effect, Fiber, Layer } from "effect";
+import { RpcServer } from "effect/rpc";
 import { app, BrowserWindow, nativeTheme } from "electron";
 import { join } from "node:path";
+
+import { ipcProtocol } from "./ipc.ts";
 
 const { DESKTOP_RENDERER_URL, DESKTOP_USER_DATA_DIR, DESKTOP_TITLE_SUFFIX } = process.env;
 
@@ -44,12 +51,23 @@ function createWindow() {
   }
 }
 
+const server = Effect.runFork(
+  Layer.launch(
+    RpcServer.layer(Api).pipe(
+      Layer.provide([Core.layer(app.getPath("userData")), ipcProtocol]),
+      Layer.provide(NodeServices.layer),
+    ),
+  ),
+);
+
 void app.whenReady().then(() => {
   createWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
+app.on("will-quit", () => void Effect.runPromise(Fiber.interrupt(server)));
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();

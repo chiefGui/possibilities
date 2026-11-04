@@ -1,0 +1,19 @@
+{
+  "name": "@possibilities/contract",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./bridge": "./src/bridge.ts"
+  },
+  "scripts": {
+    "typecheck": "tsrs --fast"
+  },
+  "dependencies": {
+    "effect": "^4.1.2"
+  },
+  "devDependencies": {
+    "tsrs": "^0.21.0-ts7.1.0-beta"
+  }
+}

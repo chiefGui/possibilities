@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: "24"
           cache: true
-      - run: vp run desktop#package
+      - run: vp run @possibilities/desktop#package
       - name: Upload installers
         shell: bash
         env:

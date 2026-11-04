@@ -1,6 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 
 export const space = stylex.defineVars({
+  0.5: "2px",
   1: "4px",
   2: "8px",
   3: "12px",
@@ -15,10 +16,10 @@ export const radius = stylex.defineVars({
 });
 
 export const text = stylex.defineVars({
-  sm: "13px",
-  md: "14px",
-  xl: "24px",
-  display: "40px",
+  xs: "11px",
+  sm: "12px",
+  md: "13px",
+  xl: "20px",
 });
 
 export const weight = stylex.defineVars({
@@ -28,8 +29,19 @@ export const weight = stylex.defineVars({
 
 export const font = stylex.defineVars({
   sans: "'Geist Variable', system-ui, sans-serif",
+  mono: "ui-monospace, monospace",
+});
+
+export const size = stylex.defineVars({
+  icon: "16px",
+  line: "24px",
+  sm: "28px",
+  md: "32px",
+  lg: "36px",
+  row: "44px",
 });
 
 export const motion = stylex.defineVars({
-  fast: "150ms",
+  fast: "100ms",
+  easing: "cubic-bezier(0.2, 0, 0, 1)",
 });
