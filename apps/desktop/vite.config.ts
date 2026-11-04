@@ -21,6 +21,11 @@ export default defineConfig({
         dependsOn: ["build", "@possibilities/web#build"],
         cache: false,
       },
+      package: {
+        command: "electron-builder",
+        dependsOn: ["build", "@possibilities/web#build"],
+        cache: false,
+      },
     },
   },
 });

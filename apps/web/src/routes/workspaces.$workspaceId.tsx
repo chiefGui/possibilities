@@ -4,7 +4,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { CenteredPage } from "@/components/centered-page";
 import { workspaceQuery, workspacesQuery } from "@/queries";
-import { colors, fontSizes, radii, dimensions, space } from "@/theme/tokens.stylex";
+import { bg, border, fg } from "@/theme/colors.stylex";
+import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
 
 export const Route = createFileRoute("/workspaces/$workspaceId")({
   loader: async ({ context, params }) => {
@@ -72,49 +73,49 @@ const styles = stylex.create({
   sidebar: {
     display: "flex",
     flexDirection: "column",
-    gap: space.lg,
+    gap: space[4],
     width: "220px",
     flexShrink: 0,
-    padding: space.sm,
+    padding: space[2],
     borderRightWidth: 1,
     borderRightStyle: "solid",
-    borderRightColor: colors.border,
-    backgroundColor: colors.surface,
+    borderRightColor: border.default,
+    backgroundColor: bg.surface,
   },
   current: {
     display: "flex",
     flexDirection: "column",
-    gap: space.xxs,
-    paddingBlock: space.xs,
-    paddingInline: space.sm,
+    gap: space[0.5],
+    paddingBlock: space[1],
+    paddingInline: space[2],
   },
   currentTitle: {
-    fontWeight: 600,
+    fontWeight: weight.semibold,
   },
   section: {
     display: "flex",
     flexDirection: "column",
-    gap: space.xxs,
+    gap: space[0.5],
   },
   sectionTitle: {
-    paddingBlock: space.xs,
-    paddingInline: space.sm,
-    fontSize: fontSizes.sm,
-    fontWeight: 500,
-    color: colors.mutedForeground,
+    paddingBlock: space[1],
+    paddingInline: space[2],
+    fontSize: text.sm,
+    fontWeight: weight.medium,
+    color: fg.muted,
   },
   item: {
     display: "flex",
     alignItems: "center",
-    height: dimensions.sm,
-    paddingInline: space.sm,
-    borderRadius: radii.sm,
-    color: colors.foreground,
+    height: size.sm,
+    paddingInline: space[2],
+    borderRadius: radius.sm,
+    color: fg.default,
     textDecoration: "none",
-    backgroundColor: { default: "transparent", ":hover": colors.muted },
+    backgroundColor: { default: "transparent", ":hover": bg.hover },
   },
   muted: {
-    color: colors.mutedForeground,
+    color: fg.muted,
   },
   message: {
     margin: 0,
@@ -128,11 +129,11 @@ const styles = stylex.create({
   header: {
     display: "flex",
     alignItems: "center",
-    height: dimensions.row,
-    paddingInline: space.lg,
+    height: size.row,
+    paddingInline: space[4],
     borderBottomWidth: 1,
     borderBottomStyle: "solid",
-    borderBottomColor: colors.border,
-    fontWeight: 500,
+    borderBottomColor: border.default,
+    fontWeight: weight.medium,
   },
 });

@@ -10,7 +10,8 @@ import { Field, Form, FormActions, FormError } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { environmentQuery, repositoriesQuery, workspacesQuery } from "@/queries";
 import { call } from "@/rpc";
-import { colors, dimensions, fontSizes, radii, space } from "@/theme/tokens.stylex";
+import { bg, border, fg, status } from "@/theme/colors.stylex";
+import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
 
 type Source = "New" | "Existing";
 
@@ -157,25 +158,25 @@ function RepositoryPicker({ selected, onSelect }: RepositoryPickerProps) {
 
 const styles = stylex.create({
   panel: {
-    marginTop: space.sm,
+    marginTop: space[2],
   },
   tabs: {
     display: "flex",
-    gap: space.xxs,
-    padding: space.xxs,
-    borderRadius: radii.md,
-    backgroundColor: colors.muted,
+    gap: space[0.5],
+    padding: space[0.5],
+    borderRadius: radius.md,
+    backgroundColor: bg.hover,
   },
   tab: {
     flex: 1,
-    height: dimensions.line,
+    height: size.line,
     borderWidth: 0,
-    borderRadius: radii.sm,
+    borderRadius: radius.sm,
     fontFamily: "inherit",
-    fontSize: fontSizes.sm,
-    fontWeight: 500,
-    color: { default: colors.mutedForeground, ":is([data-active])": colors.foreground },
-    backgroundColor: { default: "transparent", ":is([data-active])": colors.background },
+    fontSize: text.sm,
+    fontWeight: weight.medium,
+    color: { default: fg.muted, ":is([data-active])": fg.default },
+    backgroundColor: { default: "transparent", ":is([data-active])": bg.canvas },
     boxShadow: { default: "none", ":is([data-active])": "0 1px 2px oklch(0 0 0 / 8%)" },
   },
   picker: {
@@ -183,8 +184,8 @@ const styles = stylex.create({
     flexDirection: "column",
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: colors.border,
-    borderRadius: radii.md,
+    borderColor: border.default,
+    borderRadius: radius.md,
     overflow: "hidden",
   },
   filter: {
@@ -194,44 +195,44 @@ const styles = stylex.create({
   },
   repositories: {
     margin: 0,
-    padding: space.xs,
+    padding: space[1],
     listStyle: "none",
-    maxHeight: `calc(7 * ${dimensions.sm} + 2 * ${space.xs})`,
+    maxHeight: `calc(7 * ${size.sm} + 2 * ${space[1]})`,
     overflowY: "auto",
   },
   repository: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: space.sm,
+    gap: space[2],
     width: "100%",
-    height: dimensions.sm,
-    paddingInline: space.sm,
+    height: size.sm,
+    paddingInline: space[2],
     borderWidth: 0,
-    borderRadius: radii.sm,
+    borderRadius: radius.sm,
     fontFamily: "inherit",
-    fontSize: fontSizes.md,
+    fontSize: text.md,
     textAlign: "start",
-    color: colors.foreground,
+    color: fg.default,
     backgroundColor: {
       default: "transparent",
-      ":hover": colors.muted,
-      ":is([aria-pressed=true])": colors.muted,
+      ":hover": bg.hover,
+      ":is([aria-pressed=true])": bg.hover,
     },
-    fontWeight: { default: 400, ":is([aria-pressed=true])": 500 },
+    fontWeight: { default: 400, ":is([aria-pressed=true])": weight.medium },
   },
   badge: {
-    fontSize: fontSizes.xs,
-    color: colors.mutedForeground,
+    fontSize: text.xs,
+    color: fg.muted,
   },
   empty: {
     display: "flex",
     alignItems: "center",
-    height: dimensions.sm,
-    paddingInline: space.sm,
-    color: colors.mutedForeground,
+    height: size.sm,
+    paddingInline: space[2],
+    color: fg.muted,
   },
   error: {
-    color: colors.danger,
+    color: status.danger,
   },
 });

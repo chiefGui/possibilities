@@ -1,8 +1,8 @@
 import { Input as BaseInput } from "@base-ui/react/input";
 import * as stylex from "@stylexjs/stylex";
 import type { ReactNode } from "react";
-
-import { colors, dimensions, fontSizes, radii, space } from "@/theme/tokens.stylex";
+import { bg, border, fg, status } from "@/theme/colors.stylex";
+import { radius, size, space, text } from "@/theme/tokens.stylex";
 
 type InputProps = Omit<BaseInput.Props, "className" | "style"> & {
   start?: ReactNode;
@@ -28,24 +28,24 @@ const styles = stylex.create({
     display: "flex",
     alignItems: "center",
     width: "100%",
-    height: dimensions.md,
-    paddingInline: space.md,
+    height: size.md,
+    paddingInline: space[3],
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: {
-      default: colors.border,
-      ":focus-within:not([data-invalid], :has([data-invalid]))": colors.ring,
-      ":is([data-invalid], :has([data-invalid]))": colors.danger,
+      default: border.default,
+      ":focus-within:not([data-invalid], :has([data-invalid]))": border.focus,
+      ":is([data-invalid], :has([data-invalid]))": status.danger,
     },
-    borderRadius: radii.md,
-    backgroundColor: colors.background,
-    color: colors.foreground,
+    borderRadius: radius.md,
+    backgroundColor: bg.canvas,
+    color: fg.default,
     fontFamily: "inherit",
-    fontSize: fontSizes.md,
+    fontSize: text.md,
   },
   input: {
     outlineStyle: "none",
-    "::placeholder": { color: colors.mutedForeground },
+    "::placeholder": { color: fg.muted },
   },
   bare: {
     flex: 1,
@@ -61,9 +61,9 @@ const styles = stylex.create({
   adornment: {
     flexShrink: 0,
     whiteSpace: "nowrap",
-    color: colors.mutedForeground,
+    color: fg.muted,
   },
   end: {
-    paddingInlineStart: space.sm,
+    paddingInlineStart: space[2],
   },
 });

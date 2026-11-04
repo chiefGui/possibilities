@@ -2,8 +2,8 @@ import { Field as BaseField } from "@base-ui/react/field";
 import { Form as BaseForm } from "@base-ui/react/form";
 import * as stylex from "@stylexjs/stylex";
 import type { ReactNode } from "react";
-
-import { colors, fontSizes, space } from "@/theme/tokens.stylex";
+import { fg, status } from "@/theme/colors.stylex";
+import { space, text, weight } from "@/theme/tokens.stylex";
 
 type FormProps = Omit<BaseForm.Props, "className" | "style">;
 
@@ -42,26 +42,26 @@ const styles = stylex.create({
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: space.xl,
+    gap: space[6],
   },
   field: {
     display: "flex",
     flexDirection: "column",
-    gap: space.sm,
+    gap: space[2],
   },
   label: {
-    fontSize: fontSizes.sm,
-    fontWeight: 500,
-    color: colors.mutedForeground,
+    fontSize: text.sm,
+    fontWeight: weight.medium,
+    color: fg.muted,
   },
   message: {
     margin: 0,
-    fontSize: fontSizes.sm,
-    color: colors.danger,
+    fontSize: text.sm,
+    color: status.danger,
   },
   actions: {
     display: "flex",
     justifyContent: "flex-end",
-    gap: space.sm,
+    gap: space[2],
   },
 });

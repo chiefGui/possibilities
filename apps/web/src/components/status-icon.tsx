@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import { CircleCheck, CircleDashed } from "lucide-react";
-
-import { colors, dimensions } from "@/theme/tokens.stylex";
+import { fg, status } from "@/theme/colors.stylex";
+import { size } from "@/theme/tokens.stylex";
 
 export function StatusIcon({ ok }: { ok: boolean }) {
   const Icon = ok ? CircleCheck : CircleDashed;
@@ -11,9 +11,9 @@ export function StatusIcon({ ok }: { ok: boolean }) {
 const styles = stylex.create({
   icon: {
     flexShrink: 0,
-    width: dimensions.icon,
-    height: dimensions.icon,
+    width: size.icon,
+    height: size.icon,
   },
-  ok: { color: colors.success },
-  pending: { color: colors.mutedForeground },
+  ok: { color: status.success },
+  pending: { color: fg.muted },
 });

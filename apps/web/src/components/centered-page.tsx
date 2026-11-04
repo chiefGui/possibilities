@@ -1,7 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 import type { ReactNode } from "react";
-
-import { fontSizes, space } from "@/theme/tokens.stylex";
+import { space, text, weight } from "@/theme/tokens.stylex";
 
 type CenteredPageProps = {
   title: string;
@@ -27,19 +26,19 @@ const styles = stylex.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: space.xl,
+    padding: space[6],
   },
   column: {
     display: "flex",
     flexDirection: "column",
-    gap: space.xl,
+    gap: space[6],
     width: "100%",
     maxWidth: 420,
   },
   title: {
     margin: 0,
-    fontSize: fontSizes.xl,
-    fontWeight: 600,
+    fontSize: text.xl,
+    fontWeight: weight.semibold,
     letterSpacing: "-0.01em",
   },
 });

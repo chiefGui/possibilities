@@ -1,7 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
-
-import { colors, dimensions, fontSizes, radii, space } from "@/theme/tokens.stylex";
+import { accent, bg, border, fg } from "@/theme/colors.stylex";
+import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
 
 type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   variant?: keyof typeof variants;
@@ -17,21 +17,21 @@ const styles = stylex.create({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: space.sm,
+    gap: space[2],
     flexShrink: 0,
-    height: dimensions.md,
-    paddingInline: space.md,
+    height: size.md,
+    paddingInline: space[3],
     borderWidth: 0,
-    borderRadius: radii.md,
+    borderRadius: radius.md,
     fontFamily: "inherit",
-    fontSize: fontSizes.md,
-    fontWeight: 500,
+    fontSize: text.md,
+    fontWeight: weight.medium,
     whiteSpace: "nowrap",
     userSelect: "none",
     opacity: { default: 1, ":disabled": 0.5 },
     outlineStyle: { default: "none", ":focus-visible": "solid" },
     outlineWidth: 3,
-    outlineColor: colors.ring,
+    outlineColor: border.focus,
     outlineOffset: 1,
     transform: { default: null, ":active": "translateY(1px)" },
   },
@@ -39,11 +39,11 @@ const styles = stylex.create({
 
 const variants = stylex.create({
   primary: {
-    backgroundColor: { default: colors.primary, ":hover": colors.primaryHover },
-    color: colors.primaryForeground,
+    backgroundColor: { default: accent.solid, ":hover": accent.solidHover },
+    color: fg.onAccent,
   },
   ghost: {
-    backgroundColor: { default: "transparent", ":hover": colors.muted },
-    color: colors.foreground,
+    backgroundColor: { default: "transparent", ":hover": bg.hover },
+    color: fg.default,
   },
 });

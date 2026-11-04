@@ -10,7 +10,8 @@ import { StatusIcon } from "@/components/status-icon";
 import { Button } from "@/components/ui/button";
 import { WorkspaceForm } from "@/components/workspace-form";
 import { environmentQuery } from "@/queries";
-import { colors, dimensions, fontSizes, fonts, motion, radii, space } from "@/theme/tokens.stylex";
+import { bg, border, fg, status } from "@/theme/colors.stylex";
+import { font, motion, radius, size, space, text, weight } from "@/theme/tokens.stylex";
 
 const stages = ["setup", "workspace"] as const;
 type Stage = (typeof stages)[number];
@@ -150,65 +151,65 @@ function Progress({ current }: { current: Stage }) {
 const styles = stylex.create({
   progress: {
     display: "flex",
-    gap: space.xs,
+    gap: space[1],
   },
   segment: {
     flex: 1,
-    height: space.xxs,
-    borderRadius: space.xxs,
-    backgroundColor: colors.border,
+    height: space[0.5],
+    borderRadius: space[0.5],
+    backgroundColor: border.default,
   },
   reached: {
-    backgroundColor: colors.foreground,
+    backgroundColor: fg.default,
   },
   steps: {
     display: "flex",
     flexDirection: "column",
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: colors.border,
-    borderRadius: radii.md,
-    backgroundColor: colors.surface,
+    borderColor: border.default,
+    borderRadius: radius.md,
+    backgroundColor: bg.surface,
     overflow: "hidden",
-    minHeight: dimensions.row,
+    minHeight: size.row,
   },
   step: {
     borderTopWidth: { default: 1, ":first-child": 0 },
     borderTopStyle: "solid",
-    borderTopColor: colors.border,
+    borderTopColor: border.default,
   },
   header: {
     margin: 0,
-    padding: space.xs,
+    padding: space[1],
   },
   trigger: {
     display: "flex",
     alignItems: "center",
-    gap: space.md,
+    gap: space[3],
     width: "100%",
-    height: dimensions.lg,
-    paddingInline: space.sm,
+    height: size.lg,
+    paddingInline: space[2],
     borderWidth: 0,
-    borderRadius: radii.sm,
+    borderRadius: radius.sm,
     fontFamily: "inherit",
-    fontSize: fontSizes.md,
-    color: colors.foreground,
-    backgroundColor: { default: "transparent", ":hover": colors.muted },
+    fontSize: text.md,
+    color: fg.default,
+    backgroundColor: { default: "transparent", ":hover": bg.hover },
     outlineStyle: "none",
   },
   stepTitle: {
     flex: 1,
-    fontWeight: 500,
+    fontWeight: weight.medium,
     textAlign: "start",
   },
   value: {
-    color: colors.mutedForeground,
+    color: fg.muted,
   },
   chevron: {
-    width: dimensions.icon,
-    height: dimensions.icon,
+    width: size.icon,
+    height: size.icon,
     flexShrink: 0,
-    color: colors.mutedForeground,
+    color: fg.muted,
     opacity: {
       default: 0,
       ":is(:hover > *)": 1,
@@ -217,7 +218,7 @@ const styles = stylex.create({
     },
     transform: { default: "rotate(0deg)", ":is([data-panel-open] > *)": "rotate(90deg)" },
     transitionProperty: "transform",
-    transitionDuration: motion.duration,
+    transitionDuration: motion.fast,
     transitionTimingFunction: motion.easing,
   },
   panel: {
@@ -227,15 +228,15 @@ const styles = stylex.create({
       ":is([data-starting-style], [data-ending-style])": 0,
     },
     transitionProperty: "height",
-    transitionDuration: motion.duration,
+    transitionDuration: motion.fast,
     transitionTimingFunction: motion.easing,
   },
   checks: {
     display: "flex",
     flexDirection: "column",
     margin: 0,
-    paddingBlockEnd: space.sm,
-    paddingInline: space.md,
+    paddingBlockEnd: space[2],
+    paddingInline: space[3],
     listStyle: "none",
   },
   check: {
@@ -245,40 +246,40 @@ const styles = stylex.create({
   checkLine: {
     display: "flex",
     alignItems: "center",
-    gap: space.md,
-    height: dimensions.line,
-    color: colors.mutedForeground,
+    gap: space[3],
+    height: size.line,
+    color: fg.muted,
   },
   dotCell: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: dimensions.icon,
+    width: size.icon,
     flexShrink: 0,
   },
   dot: {
     width: "6px",
     height: "6px",
     borderRadius: "50%",
-    backgroundColor: colors.mutedForeground,
+    backgroundColor: fg.muted,
   },
   dotOk: {
-    backgroundColor: colors.success,
+    backgroundColor: status.success,
   },
   fix: {
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
-    lineHeight: dimensions.line,
-    paddingInlineStart: `calc(${dimensions.icon} + ${space.md})`,
-    fontFamily: fonts.mono,
-    fontSize: fontSizes.sm,
-    color: colors.mutedForeground,
+    lineHeight: size.line,
+    paddingInlineStart: `calc(${size.icon} + ${space[3]})`,
+    fontFamily: font.mono,
+    fontSize: text.sm,
+    color: fg.muted,
     userSelect: "text",
   },
   actions: {
     display: "flex",
     justifyContent: "flex-end",
-    gap: space.sm,
+    gap: space[2],
   },
 });

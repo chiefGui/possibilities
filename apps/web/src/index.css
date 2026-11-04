@@ -9,14 +9,12 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  cursor: default;
-}
-
-input,
-textarea {
-  cursor: text;
 }
 
 body {
   margin: 0;
+}
+
+:any-link {
+  cursor: default;
 }

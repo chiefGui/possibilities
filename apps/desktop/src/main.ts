@@ -3,7 +3,7 @@ import { Api } from "@possibilities/contract";
 import * as Core from "@possibilities/core";
 import { Effect, Fiber, Layer } from "effect";
 import { RpcServer } from "effect/rpc";
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, nativeTheme } from "electron";
 import { join } from "node:path";
 
 import { ipcProtocol } from "./ipc.ts";
@@ -12,11 +12,22 @@ const { DESKTOP_RENDERER_URL, DESKTOP_USER_DATA_DIR, DESKTOP_TITLE_SUFFIX } = pr
 
 if (DESKTOP_USER_DATA_DIR) app.setPath("userData", DESKTOP_USER_DATA_DIR);
 
+const canvas = { light: "#fdfdfd", dark: "#0a0a0a" };
+
+function canvasColor() {
+  return nativeTheme.shouldUseDarkColors ? canvas.dark : canvas.light;
+}
+
+nativeTheme.on("updated", () => {
+  for (const win of BrowserWindow.getAllWindows()) win.setBackgroundColor(canvasColor());
+});
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 960,
     height: 640,
     show: false,
+    backgroundColor: canvasColor(),
     webPreferences: {
       preload: join(__dirname, "preload.cjs"),
       contextIsolation: true,
