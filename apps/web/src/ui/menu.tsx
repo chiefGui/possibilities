@@ -2,9 +2,10 @@ import { Menu } from "@base-ui/react/menu";
 import * as stylex from "@stylexjs/stylex";
 import { Check as CheckIcon } from "lucide-react";
 
-import { background, border, surface } from "@/theme/colors.stylex";
-import { font, radius, shadow, space } from "@/theme/tokens.stylex";
+import { border } from "@/theme/colors.stylex";
+import { space } from "@/theme/tokens.stylex";
 import { Icon } from "@/ui/icon";
+import { popup } from "@/ui/popup";
 import { row } from "@/ui/row";
 
 export const Root = Menu.Root;
@@ -15,18 +16,18 @@ export function Popup(props: Omit<Menu.Popup.Props, "className" | "style">) {
   return (
     <Menu.Portal>
       <Menu.Positioner align="start" sideOffset={4}>
-        <Menu.Popup {...props} {...stylex.props(styles.popup)} />
+        <Menu.Popup {...props} {...stylex.props(popup.root)} />
       </Menu.Positioner>
     </Menu.Portal>
   );
 }
 
 export function LinkItem(props: Omit<Menu.LinkItem.Props, "className" | "style">) {
-  return <Menu.LinkItem closeOnClick {...props} {...stylex.props(row.base, styles.item)} />;
+  return <Menu.LinkItem closeOnClick {...props} {...stylex.props(row.base, popup.item)} />;
 }
 
 export function Check() {
-  return <Icon icon={CheckIcon} xstyle={styles.check} />;
+  return <Icon icon={CheckIcon} xstyle={[popup.indicator, styles.current]} />;
 }
 
 export function Separator() {
@@ -34,26 +35,7 @@ export function Separator() {
 }
 
 const styles = stylex.create({
-  popup: {
-    display: "flex",
-    flexDirection: "column",
-    minWidth: 220,
-    padding: space[1],
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: border.default,
-    borderRadius: radius.md,
-    backgroundColor: surface.raised,
-    boxShadow: shadow.overlay,
-    fontFamily: font.sans,
-    outlineStyle: "none",
-    WebkitAppRegion: "no-drag",
-  },
-  item: {
-    backgroundColor: { default: "transparent", ":is([data-highlighted])": background.hovered },
-  },
-  check: {
-    marginInlineStart: "auto",
+  current: {
     visibility: { default: "hidden", ":is([aria-current=page] > *)": "visible" },
   },
   separator: {

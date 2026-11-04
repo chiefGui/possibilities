@@ -1,7 +1,7 @@
 import { type CreateWorkspace, Workspace } from "@possibilities/contract";
 import { Context, Effect, FileSystem, Path } from "effect";
 
-import { clone, createRepository, login } from "./github.ts";
+import { clone, createRepository } from "./github.ts";
 import { readManifest, writeManifest } from "./manifest.ts";
 import { alreadyWorkspace, Registry } from "./registry.ts";
 
@@ -14,11 +14,6 @@ export const workspaceDirectory = Effect.fn("workspaceDirectory")(function* (rep
   return path.join(yield* ClonesDirectory, repository);
 });
 
-const resolveRepository = (choice: CreateWorkspace["repository"]) =>
-  choice._tag === "Existing"
-    ? Effect.succeed(choice.nameWithOwner)
-    : login.pipe(Effect.map((owner) => `${owner}/${choice.name}`));
-
 export const createWorkspace = Effect.fn("createWorkspace")(function* ({
   title,
   repository: choice,
@@ -26,9 +21,10 @@ export const createWorkspace = Effect.fn("createWorkspace")(function* ({
   const registry = yield* Registry;
   const fs = yield* FileSystem.FileSystem;
 
-  const repository = yield* resolveRepository(choice);
+  const repository =
+    choice._tag === "Existing" ? choice.nameWithOwner : `${choice.owner}/${choice.name}`;
   if (yield* registry.has(repository)) return yield* alreadyWorkspace(repository);
-  if (choice._tag === "New") yield* createRepository(choice.name);
+  if (choice._tag === "New") yield* createRepository(repository);
 
   const directory = yield* workspaceDirectory(repository);
 

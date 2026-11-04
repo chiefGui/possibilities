@@ -9,5 +9,10 @@ export const Repository = Schema.Struct({
 });
 
 export const RepositoriesApi = RpcGroup.make(
-  Rpc.make("repositories", { success: Schema.Array(Repository), error: CommandFailed }),
+  Rpc.make("owners", { success: Schema.Array(Schema.String), error: CommandFailed }),
+  Rpc.make("repositories", {
+    payload: { owner: Schema.String },
+    success: Schema.Array(Repository),
+    error: CommandFailed,
+  }),
 );

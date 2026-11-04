@@ -52,7 +52,7 @@ export function ProjectForm({
 
       <Field.Root name="codebase">
         <Field.Label>Codebase</Field.Label>
-        <RepositoryPicker selected={codebase} onSelect={setCodebase} />
+        <RepositoryPicker value={codebase} onValueChange={setCodebase} />
       </Field.Root>
 
       {create.error && <Form.Error>{create.error.message}</Form.Error>}

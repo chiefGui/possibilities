@@ -38,16 +38,26 @@ const decodeRepositories = Schema.decodeUnknownEffect(
   Schema.fromJsonString(Schema.Array(Repository)),
 );
 
-export const repositories = run("gh", [
-  "repo",
-  "list",
-  "--limit",
-  "200",
-  "--json",
-  "nameWithOwner,isPrivate",
-]).pipe(Effect.flatMap((json) => Effect.orDie(decodeRepositories(json))));
+export const owners = Effect.all(
+  [login, run("gh", ["api", "user/orgs", "--paginate", "--jq", ".[].login"])],
+  { concurrency: "unbounded" },
+).pipe(
+  Effect.map(([user, orgs]) => [
+    user,
+    ...orgs
+      .split("\n")
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b)),
+  ]),
+);
 
-export const createRepository = (name: string) => run("gh", ["repo", "create", name, "--private"]);
+export const repositories = (owner: string) =>
+  run("gh", ["repo", "list", owner, "--limit", "1000", "--json", "nameWithOwner,isPrivate"]).pipe(
+    Effect.flatMap((json) => Effect.orDie(decodeRepositories(json))),
+  );
+
+export const createRepository = (nameWithOwner: string) =>
+  run("gh", ["repo", "create", nameWithOwner, "--private"]);
 
 export const clone = (nameWithOwner: string, path: string) =>
   run("gh", ["repo", "clone", nameWithOwner, path]);

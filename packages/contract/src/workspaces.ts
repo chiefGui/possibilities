@@ -11,7 +11,7 @@ export const Workspace = Schema.Struct({
 export type Workspace = typeof Workspace.Type;
 
 export const RepositoryChoice = Schema.TaggedUnion({
-  New: { name: Schema.String },
+  New: { owner: Schema.String, name: Schema.String },
   Existing: { nameWithOwner: Schema.String },
 });
 export type RepositoryChoice = typeof RepositoryChoice.Type;

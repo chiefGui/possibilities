@@ -25,6 +25,7 @@ const styles = stylex.create({
   root: {
     display: "flex",
     alignItems: "center",
+    gap: space[2],
     width: "100%",
     height: size.md,
     paddingInline: space[3],
@@ -57,6 +58,5 @@ const styles = stylex.create({
     flexShrink: 0,
     whiteSpace: "nowrap",
     color: text.subtle,
-    marginInlineStart: { default: 0, ":is(input ~ *)": space[2] },
   },
 });
