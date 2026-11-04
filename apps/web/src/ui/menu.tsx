@@ -47,6 +47,7 @@ const styles = stylex.create({
     boxShadow: shadow.overlay,
     fontFamily: font.sans,
     outlineStyle: "none",
+    WebkitAppRegion: "no-drag",
   },
   item: {
     backgroundColor: { default: "transparent", ":is([data-highlighted])": background.hovered },
