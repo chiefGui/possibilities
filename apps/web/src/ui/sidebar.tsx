@@ -38,6 +38,7 @@ const styles = stylex.create({
     width: 240,
     flexShrink: 0,
     padding: space[2],
+    paddingTop: size.titlebar,
   },
   section: {
     display: "flex",
@@ -56,6 +57,7 @@ const styles = stylex.create({
     color: text.default,
     textDecoration: "none",
     userSelect: "none",
+    WebkitAppRegion: "no-drag",
     backgroundColor: {
       default: "transparent",
       ":hover": background.hovered,

@@ -36,8 +36,9 @@ const styles = stylex.create({
     borderStyle: "solid",
     borderColor: border.default,
     borderRadius: radius.md,
-    backgroundColor: surface.raised,
+    backgroundColor: surface.default,
     overflow: "hidden",
+    WebkitAppRegion: "no-drag",
   },
   header: {
     display: "flex",

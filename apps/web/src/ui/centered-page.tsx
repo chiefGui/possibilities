@@ -29,6 +29,7 @@ const styles = stylex.create({
     gap: space[6],
     width: "100%",
     maxWidth: 420,
+    WebkitAppRegion: "no-drag",
   },
   title: {
     margin: 0,
