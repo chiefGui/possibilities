@@ -1,0 +1,40 @@
+{
+  "name": "possibilities",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "vp run web#dev",
+    "dev:desktop": "vp run --parallel --filter web --filter desktop dev",
+    "build": "vp run -r build",
+    "start:desktop": "vp run -r build && vp run desktop#start",
+    "typecheck": "vp run -r typecheck",
+    "check": "vp check",
+    "ready": "vp check && vp run -r typecheck && vp run -r build"
+  },
+  "devDependencies": {
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "overrides": {
+    "vite": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "bun",
+      "version": "1.4.4",
+      "onFail": "download"
+    }
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "catalog": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.5.0",
+    "vite-plus": "1.5.0"
+  }
+}
