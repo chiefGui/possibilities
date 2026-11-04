@@ -1,0 +1,22 @@
+appId: com.chiefgui.possibilities
+artifactName: ${productName}-${version}-${os}-${arch}.${ext}
+directories:
+  output: release
+files:
+  - dist/**
+extraResources:
+  - from: ../web/dist
+    to: web/dist
+mac:
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+  identity: "-"
+  hardenedRuntime: false
+win:
+  target:
+    - target: nsis
+      arch: x64
+publish: null

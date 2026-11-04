@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      desktop-created: ${{ steps.release.outputs['apps/desktop--release_created'] }}
+      desktop-tag: ${{ steps.release.outputs['apps/desktop--tag_name'] }}
+    steps:
+      - uses: googleapis/release-please-action@v5.0.0
+        id: release
+
+  desktop:
+    needs: release-please
+    if: needs.release-please.outputs.desktop-created == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: "24"
+          cache: true
+      - run: vp run desktop#package
+      - name: Upload installers
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.release-please.outputs.desktop-tag }}
+        run: |
+          shopt -s nullglob
+          gh release upload "$TAG" apps/desktop/release/*.dmg apps/desktop/release/*.exe --clobber

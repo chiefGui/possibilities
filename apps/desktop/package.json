@@ -11,6 +11,7 @@
   "devDependencies": {
     "@types/node": "^26.6.6",
     "electron": "^45.2.2",
+    "electron-builder": "^26.18.0",
     "tsrs": "^0.21.0-ts7.1.0-beta",
     "vite-plus": "catalog:"
   },
