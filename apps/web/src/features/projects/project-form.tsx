@@ -46,7 +46,7 @@ export function ProjectForm({
       <Field.Root name="title">
         <Field.Label>Title</Field.Label>
         <Input.Root>
-          <Input.Control autoFocus value={title} placeholder="Gameplay" onValueChange={setTitle} />
+          <Input.Control autoFocus value={title} placeholder="Website" onValueChange={setTitle} />
         </Input.Root>
       </Field.Root>
 
