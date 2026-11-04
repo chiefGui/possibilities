@@ -37,15 +37,13 @@ export const createWorkspace = Effect.fn("createWorkspace")(function* ({
     yield* fs.remove(directory, { recursive: true, force: true }).pipe(Effect.orDie);
     yield* clone(repository, directory);
 
-    const existing = yield* fs.readFileString(manifestPath).pipe(
+    const id = yield* fs.readFileString(manifestPath).pipe(
       Effect.flatMap((toml) => Effect.try(() => parse(toml))),
       Effect.flatMap(decodeManifest),
-      Effect.option,
+      Effect.map((existing) => existing.id),
+      Effect.orElseSucceed(() => crypto.randomUUID()),
     );
-    const manifest = Manifest.make({
-      id: existing._tag === "Some" ? existing.value.id : crypto.randomUUID(),
-      title,
-    });
+    const manifest = Manifest.make({ id, title });
     yield* fs.writeFileString(manifestPath, stringify(manifest)).pipe(Effect.orDie);
 
     yield* git(directory, "add", manifestFile);

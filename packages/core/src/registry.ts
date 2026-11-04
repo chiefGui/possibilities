@@ -1,40 +1,31 @@
 import { Workspace, WorkspaceExists, WorkspaceNotFound } from "@possibilities/contract";
-import { Context, Effect, Layer, Option, Schema } from "effect";
-import { SqlClient, SqlSchema } from "effect/sql";
+import { Context, Effect, Layer, Schema } from "effect";
+import { SqlClient } from "effect/sql";
 
 import { migrations } from "./migrations.ts";
 
 export const alreadyWorkspace = (repository: string) =>
   Effect.fail(new WorkspaceExists({ message: `${repository} is already a workspace` }));
 
+const decodeWorkspaces = Schema.decodeUnknownEffect(Schema.Array(Workspace));
+
 export class Registry extends Context.Service<Registry>()("Registry", {
   make: Effect.gen(function* () {
     const sql = yield* SqlClient.SqlClient;
 
-    const selectAll = SqlSchema.findAll({
-      Request: Schema.Void,
-      Result: Workspace,
-      execute: () => sql`SELECT id, title, repository FROM workspaces ORDER BY opened_at DESC`,
-    });
-
-    const touch = SqlSchema.findOneOption({
-      Request: Schema.String,
-      Result: Workspace,
-      execute: (id) =>
-        sql`UPDATE workspaces SET opened_at = ${Date.now()} WHERE id = ${id} RETURNING id, title, repository`,
-    });
-
-    const list = selectAll(undefined).pipe(Effect.orDie);
+    const list = sql`SELECT id, title, repository FROM workspaces ORDER BY opened_at DESC`.pipe(
+      Effect.flatMap(decodeWorkspaces),
+      Effect.orDie,
+    );
 
     const open = (id: string) =>
-      touch(id).pipe(
+      sql`UPDATE workspaces SET opened_at = ${Date.now()} WHERE id = ${id} RETURNING id, title, repository`.pipe(
+        Effect.flatMap(decodeWorkspaces),
         Effect.orDie,
-        Effect.flatMap(
-          Option.match({
-            onNone: () =>
-              Effect.fail(new WorkspaceNotFound({ message: `No workspace with id ${id}` })),
-            onSome: Effect.succeed,
-          }),
+        Effect.flatMap(([workspace]) =>
+          workspace
+            ? Effect.succeed(workspace)
+            : Effect.fail(new WorkspaceNotFound({ message: `No workspace with id ${id}` })),
         ),
       );
 
