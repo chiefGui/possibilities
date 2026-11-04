@@ -28,8 +28,10 @@ function createWindow() {
     width: 960,
     height: 640,
     show: false,
-    titleBarStyle: "hiddenInset",
-    trafficLightPosition: { x: 16, y: 16 },
+    ...(process.platform === "darwin" && {
+      titleBarStyle: "hiddenInset",
+      trafficLightPosition: { x: 16, y: 16 },
+    }),
     backgroundColor: canvasColor(),
     webPreferences: {
       preload: join(__dirname, "preload.cjs"),

@@ -2,8 +2,9 @@ import { Accordion } from "@base-ui/react/accordion";
 import * as stylex from "@stylexjs/stylex";
 import { ChevronRight } from "lucide-react";
 
-import { background, border, icon, surface, text } from "@/theme/colors.stylex";
-import { fontSize, motion, radius, size, space } from "@/theme/tokens.stylex";
+import { background, border, icon, surface } from "@/theme/colors.stylex";
+import { motion, radius, size, space } from "@/theme/tokens.stylex";
+import { row } from "@/ui/row";
 
 export function Root(props: Omit<Accordion.Root.Props, "className" | "style">) {
   return <Accordion.Root {...props} {...stylex.props(styles.root)} />;
@@ -19,7 +20,7 @@ export function Trigger({
 }: Omit<Accordion.Trigger.Props, "className" | "style">) {
   return (
     <Accordion.Header {...stylex.props(styles.header)}>
-      <Accordion.Trigger {...props} {...stylex.props(styles.trigger)}>
+      <Accordion.Trigger {...props} {...stylex.props(row.base, styles.trigger)}>
         {children}
         <ChevronRight aria-hidden {...stylex.props(styles.chevron)} />
       </Accordion.Trigger>
@@ -52,19 +53,10 @@ const styles = stylex.create({
     padding: space[1],
   },
   trigger: {
-    display: "flex",
-    alignItems: "center",
     gap: space[3],
     width: "100%",
     height: size.lg,
-    paddingInline: space[2],
-    borderWidth: 0,
-    borderRadius: radius.sm,
-    fontFamily: "inherit",
-    fontSize: fontSize.md,
-    color: text.default,
     backgroundColor: { default: "transparent", ":hover": background.hovered },
-    outlineStyle: "none",
   },
   chevron: {
     width: size.icon,

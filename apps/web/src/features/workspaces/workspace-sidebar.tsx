@@ -8,7 +8,9 @@ import * as Sidebar from "@/ui/sidebar";
 export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
   return (
     <Sidebar.Root>
-      <WorkspaceSwitcher workspace={workspace} />
+      <Sidebar.Header>
+        <WorkspaceSwitcher workspace={workspace} />
+      </Sidebar.Header>
       <Sidebar.Section>
         <Sidebar.Item
           to="/workspaces/$workspaceId"

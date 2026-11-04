@@ -40,7 +40,7 @@ export const size = stylex.defineVars({
   md: "32px",
   lg: "36px",
   row: "44px",
-  titlebar: "44px",
+  trafficLights: "76px",
 });
 
 export const motion = stylex.defineVars({

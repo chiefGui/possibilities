@@ -2,9 +2,10 @@ import { Menu } from "@base-ui/react/menu";
 import * as stylex from "@stylexjs/stylex";
 import { Check as CheckIcon } from "lucide-react";
 
-import { background, border, surface, text } from "@/theme/colors.stylex";
-import { font, fontSize, radius, shadow, size, space } from "@/theme/tokens.stylex";
+import { background, border, surface } from "@/theme/colors.stylex";
+import { font, radius, shadow, space } from "@/theme/tokens.stylex";
 import { Icon } from "@/ui/icon";
+import { row } from "@/ui/row";
 
 export const Root = Menu.Root;
 
@@ -21,7 +22,7 @@ export function Popup(props: Omit<Menu.Popup.Props, "className" | "style">) {
 }
 
 export function LinkItem(props: Omit<Menu.LinkItem.Props, "className" | "style">) {
-  return <Menu.LinkItem closeOnClick {...props} {...stylex.props(styles.item)} />;
+  return <Menu.LinkItem closeOnClick {...props} {...stylex.props(row.base, styles.item)} />;
 }
 
 export function Check() {
@@ -48,18 +49,7 @@ const styles = stylex.create({
     outlineStyle: "none",
   },
   item: {
-    display: "flex",
-    alignItems: "center",
-    gap: space[2],
-    height: size.sm,
-    paddingInline: space[2],
-    borderRadius: radius.sm,
-    fontSize: fontSize.md,
-    color: text.default,
-    textDecoration: "none",
-    userSelect: "none",
     backgroundColor: { default: "transparent", ":is([data-highlighted])": background.hovered },
-    outlineStyle: "none",
   },
   check: {
     marginInlineStart: "auto",

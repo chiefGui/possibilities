@@ -2,8 +2,9 @@ import * as stylex from "@stylexjs/stylex";
 import { createLink, type LinkComponent } from "@tanstack/react-router";
 import type { ComponentProps } from "react";
 
-import { background, border, text } from "@/theme/colors.stylex";
-import { fontSize, radius, ring, size, space } from "@/theme/tokens.stylex";
+import { background, border } from "@/theme/colors.stylex";
+import { ring, size, space } from "@/theme/tokens.stylex";
+import { row } from "@/ui/row";
 
 type Props<T extends "nav" | "div" | "a" | "button"> = Omit<
   ComponentProps<T>,
@@ -14,12 +15,16 @@ export function Root(props: Props<"nav">) {
   return <nav {...props} {...stylex.props(styles.root)} />;
 }
 
+export function Header(props: Props<"div">) {
+  return <div {...props} {...stylex.props(styles.header)} />;
+}
+
 export function Section(props: Props<"div">) {
   return <div {...props} {...stylex.props(styles.section)} />;
 }
 
 function Anchor(props: Props<"a">) {
-  return <a {...props} {...stylex.props(styles.row)} />;
+  return <a {...props} {...stylex.props(row.base, styles.row)} />;
 }
 
 const ItemLink = createLink(Anchor);
@@ -27,7 +32,7 @@ const ItemLink = createLink(Anchor);
 export const Item: LinkComponent<typeof Anchor> = (props) => <ItemLink {...props} />;
 
 export function Button(props: Props<"button">) {
-  return <button type="button" {...props} {...stylex.props(styles.row, styles.button)} />;
+  return <button type="button" {...props} {...stylex.props(row.base, styles.row)} />;
 }
 
 const styles = stylex.create({
@@ -38,7 +43,13 @@ const styles = stylex.create({
     width: 240,
     flexShrink: 0,
     padding: space[2],
-    paddingTop: size.titlebar,
+  },
+  header: {
+    display: "flex",
+    paddingInlineStart: {
+      default: 0,
+      ":is([data-platform=darwin] *)": `calc(${size.trafficLights} - ${space[2]})`,
+    },
   },
   section: {
     display: "flex",
@@ -46,17 +57,6 @@ const styles = stylex.create({
     gap: space[0.5],
   },
   row: {
-    display: "flex",
-    alignItems: "center",
-    gap: space[2],
-    minWidth: 0,
-    height: size.sm,
-    paddingInline: space[2],
-    borderRadius: radius.sm,
-    fontSize: fontSize.md,
-    color: text.default,
-    textDecoration: "none",
-    userSelect: "none",
     WebkitAppRegion: "no-drag",
     backgroundColor: {
       default: "transparent",
@@ -67,11 +67,5 @@ const styles = stylex.create({
     outlineWidth: ring.width,
     outlineColor: border.focused,
     outlineOffset: ring.offset,
-  },
-  button: {
-    alignSelf: "flex-start",
-    maxWidth: "100%",
-    borderWidth: 0,
-    fontFamily: "inherit",
   },
 });
