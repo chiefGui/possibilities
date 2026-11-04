@@ -13,10 +13,11 @@ const styles = stylex.create({
   root: {
     display: "flex",
     minHeight: "100vh",
-    backgroundColor: surface.default,
+    backgroundColor: surface.sunken,
     color: text.default,
     fontFamily: font.sans,
     fontSize: fontSize.md,
+    WebkitAppRegion: "drag",
   },
 });
 

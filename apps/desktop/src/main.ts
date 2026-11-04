@@ -13,7 +13,7 @@ const { DESKTOP_RENDERER_URL, DESKTOP_USER_DATA_DIR, DESKTOP_TITLE_SUFFIX } = pr
 
 if (DESKTOP_USER_DATA_DIR) app.setPath("userData", DESKTOP_USER_DATA_DIR);
 
-const canvas = { light: "#fdfdfd", dark: "#0a0a0a" };
+const canvas = { light: "#f6f7f9", dark: "#0f0f11" };
 
 function canvasColor() {
   return nativeTheme.shouldUseDarkColors ? canvas.dark : canvas.light;
@@ -28,6 +28,10 @@ function createWindow() {
     width: 960,
     height: 640,
     show: false,
+    ...(process.platform === "darwin" && {
+      titleBarStyle: "hiddenInset",
+      trafficLightPosition: { x: 16, y: 16 },
+    }),
     backgroundColor: canvasColor(),
     webPreferences: {
       preload: join(__dirname, "preload.cjs"),
