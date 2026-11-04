@@ -1,75 +1,52 @@
-import { Workspace, WorkspaceNotFound } from "@possibilities/contract";
-import { Context, Effect, FileSystem, Layer, Path, Schema, Semaphore, Struct } from "effect";
+import { Workspace, WorkspaceExists, WorkspaceNotFound } from "@possibilities/contract";
+import { Context, Effect, Layer, Schema } from "effect";
+import { SqlClient } from "effect/sql";
 
-const Entry = Schema.Struct({ ...Workspace.fields, openedAt: Schema.Number });
-type Entry = typeof Entry.Type;
+import { migrations } from "./migrations.ts";
 
-const RegistryFile = Schema.fromJsonString(Schema.Array(Entry));
-const decode = Schema.decodeUnknownEffect(RegistryFile);
-const encode = Schema.encodeEffect(RegistryFile);
+export const alreadyWorkspace = (repository: string) =>
+  Effect.fail(new WorkspaceExists({ message: `${repository} is already a workspace` }));
 
-const toWorkspace = (entry: Entry): Workspace => Struct.omit(entry, ["openedAt"]);
+const decodeWorkspaces = Schema.decodeUnknownEffect(Schema.Array(Workspace));
 
 export class Registry extends Context.Service<Registry>()("Registry", {
-  make: (directory: string) =>
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-      const path = yield* Path.Path;
-      const file = path.join(directory, "workspaces.json");
-      const lock = yield* Semaphore.make(1);
+  make: Effect.gen(function* () {
+    const sql = yield* SqlClient.SqlClient;
 
-      const read = Effect.gen(function* () {
-        if (!(yield* fs.exists(file))) return [];
-        return yield* decode(yield* fs.readFileString(file));
-      }).pipe(Effect.orDie);
+    const list = sql`SELECT id, title, repository FROM workspaces ORDER BY opened_at DESC`.pipe(
+      Effect.flatMap(decodeWorkspaces),
+      Effect.orDie,
+    );
 
-      const write = (entries: ReadonlyArray<Entry>) =>
-        encode(entries).pipe(
-          Effect.flatMap((json) => fs.writeFileString(file, json)),
-          Effect.orDie,
-        );
-
-      const list = read.pipe(
-        Effect.map((entries) =>
-          entries.toSorted((a, b) => b.openedAt - a.openedAt).map(toWorkspace),
+    const open = (id: string) =>
+      sql`UPDATE workspaces SET opened_at = ${Date.now()} WHERE id = ${id} RETURNING id, title, repository`.pipe(
+        Effect.flatMap(decodeWorkspaces),
+        Effect.orDie,
+        Effect.flatMap(([workspace]) =>
+          workspace
+            ? Effect.succeed(workspace)
+            : Effect.fail(new WorkspaceNotFound({ message: `No workspace with id ${id}` })),
         ),
       );
 
-      const open = (id: string) =>
-        lock.withPermit(
-          Effect.gen(function* () {
-            const entries = yield* read;
-            const entry = entries.find((entry) => entry.id === id);
-            if (!entry) {
-              return yield* new WorkspaceNotFound({ message: `No workspace with id ${id}` });
-            }
-            yield* write(
-              entries.map((other) =>
-                other === entry ? { ...entry, openedAt: Date.now() } : other,
-              ),
-            );
-            return toWorkspace(entry);
-          }),
-        );
+    const has = (repository: string) =>
+      sql`SELECT 1 FROM workspaces WHERE repository = ${repository}`.pipe(
+        Effect.map((rows) => rows.length > 0),
+        Effect.orDie,
+      );
 
-      const has = (repository: string) =>
-        read.pipe(
-          Effect.map((entries) => entries.some((entry) => entry.repository === repository)),
-        );
+    const add = (workspace: Workspace) =>
+      sql`INSERT INTO workspaces ${sql.insert({ ...workspace, opened_at: Date.now() })}`.pipe(
+        Effect.catchTag("SqlError", (error) =>
+          error.reason._tag === "UniqueViolation"
+            ? alreadyWorkspace(workspace.repository)
+            : Effect.die(error),
+        ),
+        Effect.asVoid,
+      );
 
-      const add = (workspace: Workspace) =>
-        lock.withPermit(
-          read.pipe(
-            Effect.flatMap((entries) =>
-              write([...entries, { ...workspace, openedAt: Date.now() }]),
-            ),
-          ),
-        );
-
-      const directoryOf = (repository: string) => path.join(directory, "workspaces", repository);
-
-      return { list, open, has, add, directoryOf };
-    }),
+    return { list, open, has, add };
+  }),
 }) {
-  static readonly layer = (directory: string) => Layer.effect(this, this.make(directory));
+  static readonly layer = Layer.effect(this, this.make).pipe(Layer.provide(migrations));
 }

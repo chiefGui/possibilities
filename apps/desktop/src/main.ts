@@ -1,4 +1,5 @@
 import { NodeServices } from "@effect/platform-node";
+import { SqliteClient } from "@effect/sql-sqlite-node";
 import { Api } from "@possibilities/contract";
 import * as Core from "@possibilities/core";
 import { Effect, Fiber, Layer } from "effect";
@@ -51,11 +52,16 @@ function createWindow() {
   }
 }
 
+const userData = app.getPath("userData");
+
 const server = Effect.runFork(
   Layer.launch(
     RpcServer.layer(Api).pipe(
-      Layer.provide([Core.layer(app.getPath("userData")), ipcProtocol]),
-      Layer.provide(NodeServices.layer),
+      Layer.provide([Core.layer(join(userData, "workspaces")), ipcProtocol]),
+      Layer.provide([
+        NodeServices.layer,
+        SqliteClient.layer({ filename: join(userData, "possibilities.db") }),
+      ]),
     ),
   ),
 );

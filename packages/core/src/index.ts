@@ -3,7 +3,7 @@ import { Effect, Layer } from "effect";
 
 import { environment, repositories } from "./github.ts";
 import { Registry } from "./registry.ts";
-import { createWorkspace } from "./workspaces.ts";
+import { ClonesDirectory, createWorkspace } from "./workspaces.ts";
 
 const handlers = Api.toLayer(
   Effect.gen(function* () {
@@ -18,4 +18,5 @@ const handlers = Api.toLayer(
   }),
 );
 
-export const layer = (directory: string) => handlers.pipe(Layer.provide(Registry.layer(directory)));
+export const layer = (clonesDirectory: string) =>
+  handlers.pipe(Layer.provide([Registry.layer, Layer.succeed(ClonesDirectory, clonesDirectory)]));
