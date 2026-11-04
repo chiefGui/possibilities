@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { EnvironmentChecks } from "@/features/environment/environment-checks";
-import { isReady } from "@/features/environment/steps";
 import { environmentQuery } from "@/features/environment/queries";
+import { isReady } from "@/features/environment/steps";
 import { WorkspaceForm } from "@/features/workspaces/workspace-form";
 import { border, fg } from "@/theme/colors.stylex";
 import { space } from "@/theme/tokens.stylex";
+import { Actions } from "@/ui/actions";
 import { Button } from "@/ui/button";
 import { CenteredPage } from "@/ui/centered-page";
 
@@ -35,13 +36,13 @@ function Onboarding() {
       {current === "setup" ? (
         <>
           <EnvironmentChecks environment={environment.data} />
-          <div {...stylex.props(styles.actions)}>
+          <Actions>
             <Button
               variant="ghost"
               disabled={environment.isFetching}
               onClick={() => void environment.refetch()}
             >
-              {environment.isFetching ? "Checking…" : "Check again"}
+              Check again
             </Button>
             <Button
               disabled={!ready}
@@ -49,7 +50,7 @@ function Onboarding() {
             >
               Continue
             </Button>
-          </div>
+          </Actions>
         </>
       ) : (
         <WorkspaceForm cancel={{ label: "Back", onClick: () => void navigate({ search: {} }) }} />
@@ -82,10 +83,5 @@ const styles = stylex.create({
   },
   reached: {
     backgroundColor: fg.default,
-  },
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end",
-    gap: space[2],
   },
 });

@@ -35,10 +35,6 @@ export function FormError({ children }: { children: ReactNode }) {
   );
 }
 
-export function FormActions({ children }: { children: ReactNode }) {
-  return <div {...stylex.props(styles.actions)}>{children}</div>;
-}
-
 const styles = stylex.create({
   form: {
     display: "flex",
@@ -59,10 +55,5 @@ const styles = stylex.create({
     margin: 0,
     fontSize: text.sm,
     color: status.danger,
-  },
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end",
-    gap: space[2],
   },
 });

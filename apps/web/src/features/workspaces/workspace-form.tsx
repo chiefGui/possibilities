@@ -12,7 +12,8 @@ import { call } from "@/rpc";
 import { bg, fg } from "@/theme/colors.stylex";
 import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
 import { Button } from "@/ui/button";
-import { Field, Form, FormActions, FormError } from "@/ui/form";
+import { Actions } from "@/ui/actions";
+import { Field, Form, FormError } from "@/ui/form";
 import { Input } from "@/ui/input";
 
 type Source = "New" | "Existing";
@@ -98,7 +99,7 @@ export function WorkspaceForm({ cancel }: WorkspaceFormProps) {
 
       {create.error && !repositoryError && <FormError>{create.error.message}</FormError>}
 
-      <FormActions>
+      <Actions>
         {cancel && (
           <Button type="button" variant="ghost" onClick={cancel.onClick}>
             {cancel.label}
@@ -107,7 +108,7 @@ export function WorkspaceForm({ cancel }: WorkspaceFormProps) {
         <Button type="submit" disabled={!title.trim() || !choice || create.isPending}>
           {create.isPending ? "Creating…" : "Create workspace"}
         </Button>
-      </FormActions>
+      </Actions>
     </Form>
   );
 }

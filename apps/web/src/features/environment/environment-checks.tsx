@@ -3,15 +3,15 @@ import type { Environment } from "@possibilities/contract";
 import * as stylex from "@stylexjs/stylex";
 import { ChevronRight } from "lucide-react";
 
+import { isDone, steps } from "@/features/environment/steps";
 import { bg, border, fg, status } from "@/theme/colors.stylex";
 import { font, motion, radius, size, space, text, weight } from "@/theme/tokens.stylex";
 import { StatusIcon } from "@/ui/status-icon";
 
-import { isDone, stepsOf } from "@/features/environment/steps";
-
 export function EnvironmentChecks({ environment }: { environment: Environment | undefined }) {
-  const steps = environment ? stepsOf(environment) : [];
-  const failing = steps.filter((step) => !isDone(step)).map((step) => step.title);
+  const failing = environment
+    ? steps.filter((step) => !isDone(step, environment)).map((step) => step.title)
+    : [];
   return (
     <Accordion.Root
       key={failing.join()}
@@ -23,30 +23,36 @@ export function EnvironmentChecks({ environment }: { environment: Environment | 
         <Accordion.Item key={step.title} value={step.title} {...stylex.props(styles.step)}>
           <Accordion.Header {...stylex.props(styles.header)}>
             <Accordion.Trigger {...stylex.props(styles.trigger)}>
-              <StatusIcon ok={isDone(step)} />
+              <StatusIcon ok={environment !== undefined && isDone(step, environment)} />
               <span {...stylex.props(styles.stepTitle)}>{step.title}</span>
-              {step.value && <span {...stylex.props(styles.value)}>{step.value}</span>}
+              {environment && step.value && (
+                <span {...stylex.props(styles.value)}>{step.value(environment)}</span>
+              )}
               <ChevronRight aria-hidden {...stylex.props(styles.chevron)} />
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel {...stylex.props(styles.panel)}>
             <ul {...stylex.props(styles.checks)}>
-              {step.checks.map((check) => (
-                <li key={check.label} {...stylex.props(styles.check)}>
-                  <div {...stylex.props(styles.checkLine)}>
-                    <span {...stylex.props(styles.dotCell)}>
-                      <span {...stylex.props(styles.dot, check.ok && styles.dotOk)} />
-                    </span>
-                    <span>{check.label}</span>
-                  </div>
-                  {!check.ok &&
-                    check.fix.map((command) => (
-                      <code key={command} {...stylex.props(styles.fix)}>
-                        {command}
-                      </code>
-                    ))}
-                </li>
-              ))}
+              {step.checks.map((check) => {
+                const passes = environment !== undefined && check.passes(environment);
+                return (
+                  <li key={check.label} {...stylex.props(styles.check)}>
+                    <div {...stylex.props(styles.checkLine)}>
+                      <span {...stylex.props(styles.dotCell)}>
+                        <span {...stylex.props(styles.dot, passes && styles.dotOk)} />
+                      </span>
+                      <span>{check.label}</span>
+                    </div>
+                    {environment &&
+                      !passes &&
+                      check.fix.map((command) => (
+                        <code key={command} {...stylex.props(styles.fix)}>
+                          {command}
+                        </code>
+                      ))}
+                  </li>
+                );
+              })}
             </ul>
           </Accordion.Panel>
         </Accordion.Item>
@@ -65,7 +71,6 @@ const styles = stylex.create({
     borderRadius: radius.md,
     backgroundColor: bg.surface,
     overflow: "hidden",
-    minHeight: size.row,
   },
   step: {
     borderTopWidth: { default: 1, ":first-child": 0 },
