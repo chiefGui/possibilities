@@ -1,8 +1,8 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
 
-import { accent, bg, border, fg } from "@/theme/colors.stylex";
-import { opacity, radius, ring, size, space, text, weight } from "@/theme/tokens.stylex";
+import { background, border, text } from "@/theme/colors.stylex";
+import { fontSize, opacity, radius, ring, size, space, weight } from "@/theme/tokens.stylex";
 
 type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   variant?: keyof typeof variants;
@@ -25,25 +25,25 @@ const styles = stylex.create({
     borderWidth: 0,
     borderRadius: radius.md,
     fontFamily: "inherit",
-    fontSize: text.md,
+    fontSize: fontSize.md,
     fontWeight: weight.medium,
     whiteSpace: "nowrap",
     userSelect: "none",
     opacity: { default: null, ":disabled": opacity.disabled },
     outlineStyle: { default: "none", ":focus-visible": "solid" },
     outlineWidth: ring.width,
-    outlineColor: border.focus,
+    outlineColor: border.focused,
     outlineOffset: ring.offset,
   },
 });
 
 const variants = stylex.create({
   primary: {
-    backgroundColor: { default: accent.solid, ":hover": accent.solidHover },
-    color: fg.onAccent,
+    backgroundColor: { default: background.brand, ":hover": background.brandHovered },
+    color: text.inverse,
   },
   ghost: {
-    backgroundColor: { default: "transparent", ":hover": bg.hover },
-    color: fg.default,
+    backgroundColor: { default: "transparent", ":hover": background.hovered },
+    color: text.default,
   },
 });

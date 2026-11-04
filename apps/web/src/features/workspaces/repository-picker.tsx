@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { repositoriesQuery } from "@/features/workspaces/queries";
-import { bg, border, fg, status } from "@/theme/colors.stylex";
-import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
+import { background, border, text } from "@/theme/colors.stylex";
+import { fontSize, radius, size, space, weight } from "@/theme/tokens.stylex";
 import * as Input from "@/ui/input";
 
 type RepositoryPickerProps = {
@@ -83,28 +83,28 @@ const styles = stylex.create({
     borderWidth: 0,
     borderRadius: radius.sm,
     fontFamily: "inherit",
-    fontSize: text.md,
+    fontSize: fontSize.md,
     textAlign: "start",
-    color: fg.default,
+    color: text.default,
     backgroundColor: {
       default: "transparent",
-      ":hover": bg.hover,
-      ":is([aria-pressed=true])": bg.hover,
+      ":hover": background.hovered,
+      ":is([aria-pressed=true])": background.selected,
     },
     fontWeight: { default: null, ":is([aria-pressed=true])": weight.medium },
   },
   badge: {
-    fontSize: text.xs,
-    color: fg.muted,
+    fontSize: fontSize.xs,
+    color: text.subtle,
   },
   empty: {
     display: "flex",
     alignItems: "center",
     height: size.sm,
     paddingInline: space[2],
-    color: fg.muted,
+    color: text.subtle,
   },
   error: {
-    color: status.danger,
+    color: text.danger,
   },
 });

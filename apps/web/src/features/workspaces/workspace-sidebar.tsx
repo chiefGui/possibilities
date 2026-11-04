@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 
 import { workspacesQuery } from "@/features/workspaces/queries";
-import { bg, border, fg } from "@/theme/colors.stylex";
-import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
+import { background, border, surface, text } from "@/theme/colors.stylex";
+import { fontSize, radius, size, space, weight } from "@/theme/tokens.stylex";
 
 export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
   const others = (useQuery(workspacesQuery).data ?? []).filter(
@@ -50,7 +50,7 @@ const styles = stylex.create({
     borderRightWidth: 1,
     borderRightStyle: "solid",
     borderRightColor: border.default,
-    backgroundColor: bg.surface,
+    backgroundColor: surface.raised,
   },
   current: {
     display: "flex",
@@ -70,9 +70,9 @@ const styles = stylex.create({
   sectionTitle: {
     paddingBlock: space[1],
     paddingInline: space[2],
-    fontSize: text.sm,
+    fontSize: fontSize.sm,
     fontWeight: weight.medium,
-    color: fg.muted,
+    color: text.subtle,
   },
   item: {
     display: "flex",
@@ -80,11 +80,11 @@ const styles = stylex.create({
     height: size.sm,
     paddingInline: space[2],
     borderRadius: radius.sm,
-    color: fg.default,
+    color: text.default,
     textDecoration: "none",
-    backgroundColor: { default: "transparent", ":hover": bg.hover },
+    backgroundColor: { default: "transparent", ":hover": background.hovered },
   },
   muted: {
-    color: fg.muted,
+    color: text.subtle,
   },
 });

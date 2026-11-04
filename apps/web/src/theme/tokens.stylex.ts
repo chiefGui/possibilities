@@ -15,7 +15,7 @@ export const radius = stylex.defineVars({
   md: "8px",
 });
 
-export const text = stylex.defineVars({
+export const fontSize = stylex.defineVars({
   xs: "11px",
   sm: "12px",
   md: "13px",
@@ -47,7 +47,7 @@ export const motion = stylex.defineVars({
 });
 
 export const shadow = stylex.defineVars({
-  sm: "0 1px 2px oklch(0 0 0 / 8%)",
+  raised: "0 1px 2px oklch(0 0 0 / 8%)",
 });
 
 export const ring = stylex.defineVars({
