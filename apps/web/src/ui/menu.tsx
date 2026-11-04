@@ -13,7 +13,7 @@ export const Trigger = Menu.Trigger;
 export function Popup(props: Omit<Menu.Popup.Props, "className" | "style">) {
   return (
     <Menu.Portal>
-      <Menu.Positioner side="bottom" align="start" sideOffset={4}>
+      <Menu.Positioner align="start" sideOffset={4}>
         <Menu.Popup {...props} {...stylex.props(styles.popup)} />
       </Menu.Positioner>
     </Menu.Portal>
