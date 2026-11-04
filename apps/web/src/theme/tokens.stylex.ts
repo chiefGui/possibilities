@@ -24,6 +24,7 @@ export const fontSize = stylex.defineVars({
 });
 
 export const weight = stylex.defineVars({
+  regular: "400",
   medium: "500",
   semibold: "600",
 });
