@@ -3,6 +3,7 @@
 ## Code
 
 - No comments or docstrings. Needing one means the design or naming is wrong; fix that instead.
+- Only `rpc.ts` imports `@possibilities/scenarios`, dev-only.
 
 ## Verification
 

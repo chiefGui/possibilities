@@ -43,6 +43,7 @@
         "react-dom": "^19.3.1",
       },
       "devDependencies": {
+        "@possibilities/scenarios": "workspace:*",
         "@stylexjs/unplugin": "^0.19.1",
         "@tanstack/router-plugin": "^1.168.48",
         "@types/node": "^26.6.6",
@@ -74,6 +75,17 @@
       },
       "devDependencies": {
         "@types/node": "^26.6.6",
+        "tsrs": "^0.21.0-ts7.1.0-beta",
+      },
+    },
+    "packages/scenarios": {
+      "name": "@possibilities/scenarios",
+      "version": "0.0.0",
+      "dependencies": {
+        "@possibilities/contract": "workspace:*",
+        "effect": "^4.1.2",
+      },
+      "devDependencies": {
         "tsrs": "^0.21.0-ts7.1.0-beta",
       },
     },
@@ -297,6 +309,8 @@
     "@possibilities/core": ["@possibilities/core@workspace:packages/core"],
 
     "@possibilities/desktop": ["@possibilities/desktop@workspace:apps/desktop"],
+
+    "@possibilities/scenarios": ["@possibilities/scenarios@workspace:packages/scenarios"],
 
     "@possibilities/web": ["@possibilities/web@workspace:apps/web"],
 
