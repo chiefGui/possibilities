@@ -4,21 +4,21 @@ import { call } from "./rpc";
 
 export const environmentQuery = queryOptions({
   queryKey: ["environment"],
-  queryFn: () => call("environment"),
+  queryFn: () => call((api) => api.environment()),
 });
 
 export const repositoriesQuery = queryOptions({
   queryKey: ["repositories"],
-  queryFn: () => call("repositories"),
+  queryFn: () => call((api) => api.repositories()),
 });
 
 export const workspacesQuery = queryOptions({
   queryKey: ["workspaces"],
-  queryFn: () => call("workspaces"),
+  queryFn: () => call((api) => api.workspaces()),
 });
 
 export const workspaceQuery = (id: string) =>
   queryOptions({
     queryKey: ["workspaces", id],
-    queryFn: () => call("openWorkspace", id),
+    queryFn: () => call((api) => api.openWorkspace({ id })),
   });

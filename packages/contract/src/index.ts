@@ -1,4 +1,5 @@
 import { Schema } from "effect";
+import { Rpc, RpcGroup } from "effect/rpc";
 
 export const Workspace = Schema.Struct({
   id: Schema.String,
@@ -47,32 +48,18 @@ export class WorkspaceExists extends Schema.TaggedError<WorkspaceExists>()("Work
   message: Schema.String,
 }) {}
 
-const procedure = <I extends Schema.Top, O extends Schema.Top, E extends Schema.Top>(
-  input: I,
-  output: O,
-  error: E,
-) => ({ input, output, error });
-
-export const procedures = {
-  environment: procedure(Schema.Void, Environment, Schema.Never),
-  repositories: procedure(Schema.Void, Schema.Array(Repository), CommandFailed),
-  workspaces: procedure(Schema.Void, Schema.Array(Workspace), Schema.Never),
-  openWorkspace: procedure(Schema.String, Workspace, WorkspaceNotFound),
-  createWorkspace: procedure(
-    CreateWorkspace,
-    Workspace,
-    Schema.Union([CommandFailed, WorkspaceExists]),
-  ),
-};
-
-export type Procedures = typeof procedures;
-export type ProcedureName = keyof Procedures;
-export type Input<K extends ProcedureName> = Procedures[K]["input"]["Type"];
-export type Output<K extends ProcedureName> = Procedures[K]["output"]["Type"];
-export type Failure<K extends ProcedureName> = Procedures[K]["error"]["Type"];
-
-export const isProcedureName = (name: unknown): name is ProcedureName =>
-  typeof name === "string" && Object.hasOwn(procedures, name);
-
-export const result = (name: ProcedureName) =>
-  Schema.toCodecJson(Schema.Exit(procedures[name].output, procedures[name].error, Schema.Defect()));
+export const Api = RpcGroup.make(
+  Rpc.make("environment", { success: Environment }),
+  Rpc.make("repositories", { success: Schema.Array(Repository), error: CommandFailed }),
+  Rpc.make("workspaces", { success: Schema.Array(Workspace) }),
+  Rpc.make("openWorkspace", {
+    payload: { id: Schema.String },
+    success: Workspace,
+    error: WorkspaceNotFound,
+  }),
+  Rpc.make("createWorkspace", {
+    payload: CreateWorkspace,
+    success: Workspace,
+    error: Schema.Union([CommandFailed, WorkspaceExists]),
+  }),
+);

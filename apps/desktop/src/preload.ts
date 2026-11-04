@@ -1,6 +1,11 @@
 import { channel } from "@possibilities/contract/channel";
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, type IpcRendererEvent, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("desktop", {
-  invoke: (name: string, input: unknown) => ipcRenderer.invoke(channel, name, input),
+  send: (message: unknown) => ipcRenderer.send(channel, message),
+  subscribe: (listener: (message: unknown) => void) => {
+    const forward = (_event: IpcRendererEvent, message: unknown) => listener(message);
+    ipcRenderer.on(channel, forward);
+    return () => ipcRenderer.off(channel, forward);
+  },
 });

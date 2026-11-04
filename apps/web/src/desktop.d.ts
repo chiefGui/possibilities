@@ -1,5 +1,6 @@
 interface Window {
   desktop?: {
-    invoke(name: string, input: unknown): Promise<unknown>;
+    send(message: unknown): void;
+    subscribe(listener: (message: unknown) => void): () => void;
   };
 }

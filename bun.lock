@@ -15,6 +15,7 @@
       "dependencies": {
         "@effect/platform-node": "^4.1.2",
         "@possibilities/contract": "workspace:*",
+        "@possibilities/core": "workspace:*",
         "effect": "^4.1.2",
       },
       "devDependencies": {
@@ -58,6 +59,18 @@
         "effect": "^4.1.2",
       },
       "devDependencies": {
+        "tsrs": "^0.21.0-ts7.1.0-beta",
+      },
+    },
+    "packages/core": {
+      "name": "@possibilities/core",
+      "version": "0.0.0",
+      "dependencies": {
+        "@possibilities/contract": "workspace:*",
+        "effect": "^4.1.2",
+      },
+      "devDependencies": {
+        "@types/node": "^26.6.6",
         "tsrs": "^0.21.0-ts7.1.0-beta",
       },
     },
@@ -245,6 +258,8 @@
     "@polka/url": ["@polka/url@1.0.0-next.29", "", {}, "sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww=="],
 
     "@possibilities/contract": ["@possibilities/contract@workspace:packages/contract"],
+
+    "@possibilities/core": ["@possibilities/core@workspace:packages/core"],
 
     "@possibilities/desktop": ["@possibilities/desktop@workspace:apps/desktop"],
 

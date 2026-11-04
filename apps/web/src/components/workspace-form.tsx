@@ -37,7 +37,7 @@ export function WorkspaceForm({ cancel }: WorkspaceFormProps) {
 
   const create = useMutation({
     mutationFn: (repository: RepositoryChoice) =>
-      call("createWorkspace", { title: title.trim(), repository }),
+      call((api) => api.createWorkspace({ title: title.trim(), repository })),
     onSuccess: async (workspace) => {
       await queryClient.invalidateQueries({ queryKey: workspacesQuery.queryKey });
       await navigate({ to: "/workspaces/$workspaceId", params: { workspaceId: workspace.id } });
