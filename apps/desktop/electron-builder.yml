@@ -1,11 +1,9 @@
 appId: com.chiefgui.possibilities
-productName: Possibilities
 artifactName: ${productName}-${version}-${os}-${arch}.${ext}
 directories:
   output: release
 files:
   - dist/**
-  - package.json
 extraResources:
   - from: ../web/dist
     to: web/dist
