@@ -4,10 +4,10 @@ import {
   ProjectNotFound,
   type RenameProject,
 } from "@possibilities/contract";
-import { Effect } from "effect";
+import { Effect, Semaphore } from "effect";
 
 import { git } from "./github.ts";
-import { type Manifest, readManifest, writeManifest } from "./manifest.ts";
+import { readManifest, writeManifest } from "./manifest.ts";
 import { Registry } from "./registry.ts";
 import { workspaceDirectory } from "./workspaces.ts";
 
@@ -23,12 +23,14 @@ export const listProjects = Effect.fn("listProjects")(function* (workspaceId: st
   return manifest.projects;
 });
 
-type Change = { projects: Manifest["projects"]; project: Project };
+const writes = Semaphore.makeUnsafe(1);
+
+type Change = { projects: ReadonlyArray<Project>; project: Project };
 
 const updateProjects = Effect.fn("updateProjects")(function* <E>(
   workspaceId: string,
   message: string,
-  change: (projects: Manifest["projects"]) => Effect.Effect<Change, E>,
+  change: (projects: ReadonlyArray<Project>) => Effect.Effect<Change, E>,
 ) {
   const directory = yield* directoryOf(workspaceId);
   return yield* Effect.gen(function* () {
@@ -39,6 +41,7 @@ const updateProjects = Effect.fn("updateProjects")(function* <E>(
     return project;
   }).pipe(
     Effect.onError(() => git(directory, "reset", "--hard", "@{upstream}").pipe(Effect.ignore)),
+    writes.withPermits(1),
   );
 });
 

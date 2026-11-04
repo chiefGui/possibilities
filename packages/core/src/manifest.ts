@@ -6,12 +6,11 @@ import { git } from "./github.ts";
 
 const manifestFile = "workspace.toml";
 
-export const Manifest = Schema.Struct({
+const Manifest = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
   projects: Schema.Array(Project).pipe(Schema.withDecodingDefaultKey(Effect.succeed([]))),
 });
-export type Manifest = typeof Manifest.Type;
 
 const decodeManifest = Schema.decodeUnknownEffect(Manifest);
 
