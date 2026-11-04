@@ -3,28 +3,28 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { colors } from "@/theme/tokens.stylex";
 
 export const Route = createFileRoute("/")({
   component: Home,
 });
 
 const styles = stylex.create({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 16,
-    minHeight: "100vh",
-  },
   title: {
+    margin: 0,
     fontSize: 40,
     fontWeight: 600,
     letterSpacing: "-0.02em",
   },
-  meta: {
+  link: {
+    fontSize: 14,
+    color: "inherit",
+    textUnderlineOffset: 4,
+  },
+  runtime: {
+    margin: 0,
     fontSize: 13,
-    opacity: 0.6,
+    color: colors.mutedForeground,
   },
 });
 
@@ -35,13 +35,13 @@ function Home() {
     : "Browser";
 
   return (
-    <main {...stylex.props(styles.root)}>
+    <>
       <h1 {...stylex.props(styles.title)}>Hello, World</h1>
       <Button onClick={() => setCount((c) => c + 1)}>Clicked {count} times</Button>
-      <Link to="/about" className="text-sm underline underline-offset-4">
+      <Link to="/about" {...stylex.props(styles.link)}>
         About
       </Link>
-      <p {...stylex.props(styles.meta)}>{runtime}</p>
-    </main>
+      <p {...stylex.props(styles.runtime)}>{runtime}</p>
+    </>
   );
 }

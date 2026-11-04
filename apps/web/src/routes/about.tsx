@@ -6,23 +6,25 @@ export const Route = createFileRoute("/about")({
 });
 
 const styles = stylex.create({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 16,
-    minHeight: "100vh",
+  title: {
+    margin: 0,
+    fontSize: 24,
+    fontWeight: 600,
+  },
+  link: {
+    fontSize: 14,
+    color: "inherit",
+    textUnderlineOffset: 4,
   },
 });
 
 function About() {
   return (
-    <main {...stylex.props(styles.root)}>
-      <h1 className="text-2xl font-semibold">About</h1>
-      <Link to="/" className="text-sm underline underline-offset-4">
+    <>
+      <h1 {...stylex.props(styles.title)}>About</h1>
+      <Link to="/" {...stylex.props(styles.link)}>
         Home
       </Link>
-    </main>
+    </>
   );
 }

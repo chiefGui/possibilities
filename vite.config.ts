@@ -15,7 +15,7 @@ export default defineConfig({
     },
     overrides: [
       {
-        files: ["apps/web/src/components/ui/**", "apps/web/src/routes/**"],
+        files: ["apps/web/src/routes/**"],
         rules: { "react/only-export-components": "off" },
       },
     ],
