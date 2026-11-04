@@ -44,15 +44,12 @@ class ApiClient extends Context.Service<ApiClient, Client>()("ApiClient") {
   static readonly layer = Layer.effect(this, RpcClient.make(Api)).pipe(Layer.provide(ipcProtocol));
 }
 
-const selectedScenario = () => {
-  const name =
-    new URLSearchParams(location.search).get("scenario") ?? sessionStorage.getItem("scenario");
-  if (name) sessionStorage.setItem("scenario", name);
-  return name ?? "ready";
-};
-
 const scenarioClient = () => {
-  const name = selectedScenario();
+  const name =
+    new URLSearchParams(location.search).get("scenario") ??
+    sessionStorage.getItem("scenario") ??
+    "ready";
+  sessionStorage.setItem("scenario", name);
   return Layer.unwrap(
     Effect.promise(() => import("@possibilities/scenarios")).pipe(
       Effect.map((scenarios) =>

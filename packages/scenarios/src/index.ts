@@ -29,7 +29,7 @@ const ready: Scenario = {
 
 const fresh: Scenario = { ...ready, workspaces: [] };
 
-export const scenarios: Record<string, Scenario> = {
+const scenarios: Record<string, Scenario> = {
   ready,
   fresh,
   bare: {

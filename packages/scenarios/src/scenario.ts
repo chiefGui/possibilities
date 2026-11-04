@@ -1,6 +1,6 @@
 import {
   Api,
-  type CommandFailed,
+  CommandFailed,
   type Environment,
   type Repository,
   Workspace,
@@ -57,10 +57,12 @@ export const handlers = (scenario: Scenario) =>
         createWorkspace: ({ title, repository: choice }) =>
           respond(
             Effect.gen(function* () {
+              const owner = scenario.environment.githubLogin;
+              if (choice._tag === "New" && !owner) {
+                return yield* new CommandFailed({ message: "gh: not logged in" });
+              }
               const repository =
-                choice._tag === "Existing"
-                  ? choice.nameWithOwner
-                  : `${scenario.environment.githubLogin}/${choice.name}`;
+                choice._tag === "Existing" ? choice.nameWithOwner : `${owner}/${choice.name}`;
               const existing = yield* Ref.get(workspaces);
               if (existing.some((workspace) => workspace.repository === repository)) {
                 return yield* new WorkspaceExists({
