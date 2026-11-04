@@ -1,11 +1,10 @@
-import { Accordion } from "@base-ui/react/accordion";
 import type { Environment } from "@possibilities/contract";
 import * as stylex from "@stylexjs/stylex";
-import { ChevronRight } from "lucide-react";
 
 import { isDone, steps } from "@/features/environment/steps";
-import { bg, border, fg, status } from "@/theme/colors.stylex";
-import { font, motion, radius, size, space, text, weight } from "@/theme/tokens.stylex";
+import { fg, status } from "@/theme/colors.stylex";
+import { font, size, space, text, weight } from "@/theme/tokens.stylex";
+import * as Accordion from "@/ui/accordion";
 import { StatusIcon } from "@/ui/status-icon";
 
 export function EnvironmentChecks({ environment }: { environment: Environment | undefined }) {
@@ -13,25 +12,17 @@ export function EnvironmentChecks({ environment }: { environment: Environment | 
     ? steps.filter((step) => !isDone(step, environment)).map((step) => step.title)
     : [];
   return (
-    <Accordion.Root
-      key={failing.join()}
-      multiple
-      defaultValue={failing}
-      {...stylex.props(styles.steps)}
-    >
+    <Accordion.Root key={failing.join()} multiple defaultValue={failing}>
       {steps.map((step) => (
-        <Accordion.Item key={step.title} value={step.title} {...stylex.props(styles.step)}>
-          <Accordion.Header {...stylex.props(styles.header)}>
-            <Accordion.Trigger {...stylex.props(styles.trigger)}>
-              <StatusIcon ok={environment !== undefined && isDone(step, environment)} />
-              <span {...stylex.props(styles.stepTitle)}>{step.title}</span>
-              {environment && step.value && (
-                <span {...stylex.props(styles.value)}>{step.value(environment)}</span>
-              )}
-              <ChevronRight aria-hidden {...stylex.props(styles.chevron)} />
-            </Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Panel {...stylex.props(styles.panel)}>
+        <Accordion.Item key={step.title} value={step.title}>
+          <Accordion.Trigger>
+            <StatusIcon ok={environment !== undefined && isDone(step, environment)} />
+            <span {...stylex.props(styles.stepTitle)}>{step.title}</span>
+            {environment && step.value && (
+              <span {...stylex.props(styles.value)}>{step.value(environment)}</span>
+            )}
+          </Accordion.Trigger>
+          <Accordion.Panel>
             <ul {...stylex.props(styles.checks)}>
               {step.checks.map((check) => {
                 const passes = environment !== undefined && check.passes(environment);
@@ -62,40 +53,6 @@ export function EnvironmentChecks({ environment }: { environment: Environment | 
 }
 
 const styles = stylex.create({
-  steps: {
-    display: "flex",
-    flexDirection: "column",
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: border.default,
-    borderRadius: radius.md,
-    backgroundColor: bg.surface,
-    overflow: "hidden",
-  },
-  step: {
-    borderTopWidth: { default: 1, ":first-child": 0 },
-    borderTopStyle: "solid",
-    borderTopColor: border.default,
-  },
-  header: {
-    margin: 0,
-    padding: space[1],
-  },
-  trigger: {
-    display: "flex",
-    alignItems: "center",
-    gap: space[3],
-    width: "100%",
-    height: size.lg,
-    paddingInline: space[2],
-    borderWidth: 0,
-    borderRadius: radius.sm,
-    fontFamily: "inherit",
-    fontSize: text.md,
-    color: fg.default,
-    backgroundColor: { default: "transparent", ":hover": bg.hover },
-    outlineStyle: "none",
-  },
   stepTitle: {
     flex: 1,
     fontWeight: weight.medium,
@@ -103,32 +60,6 @@ const styles = stylex.create({
   },
   value: {
     color: fg.muted,
-  },
-  chevron: {
-    width: size.icon,
-    height: size.icon,
-    flexShrink: 0,
-    color: fg.muted,
-    opacity: {
-      default: 0,
-      ":is(:hover > *)": 1,
-      ":is(:focus-visible > *)": 1,
-      ":is([data-panel-open] > *)": 1,
-    },
-    transform: { default: "rotate(0deg)", ":is([data-panel-open] > *)": "rotate(90deg)" },
-    transitionProperty: "transform",
-    transitionDuration: motion.fast,
-    transitionTimingFunction: motion.easing,
-  },
-  panel: {
-    overflow: "hidden",
-    height: {
-      default: "var(--accordion-panel-height)",
-      ":is([data-starting-style], [data-ending-style])": 0,
-    },
-    transitionProperty: "height",
-    transitionDuration: motion.fast,
-    transitionTimingFunction: motion.easing,
   },
   checks: {
     display: "flex",

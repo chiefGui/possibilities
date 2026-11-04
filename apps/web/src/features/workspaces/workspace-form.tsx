@@ -1,20 +1,18 @@
-import { Tabs } from "@base-ui/react/tabs";
-import * as stylex from "@stylexjs/stylex";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { type RepositoryChoice, WorkspaceExists } from "@possibilities/contract";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 
 import { environmentQuery } from "@/features/environment/queries";
 import { workspacesQuery } from "@/features/workspaces/queries";
 import { RepositoryPicker } from "@/features/workspaces/repository-picker";
 import { call } from "@/rpc";
-import { bg, fg } from "@/theme/colors.stylex";
-import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
-import { Button } from "@/ui/button";
 import { Actions } from "@/ui/actions";
-import { Field, Form, FormError } from "@/ui/form";
-import { Input } from "@/ui/input";
+import { Button } from "@/ui/button";
+import * as Field from "@/ui/field";
+import * as Form from "@/ui/form";
+import * as Input from "@/ui/input";
+import * as Tabs from "@/ui/tabs";
 
 type Source = "New" | "Existing";
 
@@ -24,11 +22,7 @@ const slugify = (title: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-type WorkspaceFormProps = {
-  cancel?: { label: string; onClick: () => void };
-};
-
-export function WorkspaceForm({ cancel }: WorkspaceFormProps) {
+export function WorkspaceForm({ children }: { children?: ReactNode }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
@@ -63,77 +57,57 @@ export function WorkspaceForm({ cancel }: WorkspaceFormProps) {
   const repositoryError = create.error instanceof WorkspaceExists ? create.error : null;
 
   return (
-    <Form
+    <Form.Root
       errors={repositoryError ? { repository: repositoryError.message } : {}}
       onFormSubmit={() => {
         if (title.trim() && choice) create.mutate(choice);
       }}
     >
-      <Field name="title" label="Title">
-        <Input autoFocus value={title} placeholder="Acme" onValueChange={edit(setTitle)} />
-      </Field>
+      <Field.Root name="title">
+        <Field.Label>Title</Field.Label>
+        <Input.Root>
+          <Input.Control
+            autoFocus
+            value={title}
+            placeholder="Acme"
+            onValueChange={edit(setTitle)}
+          />
+        </Input.Root>
+      </Field.Root>
 
-      <Field name="repository" label="Repository">
+      <Field.Root name="repository">
+        <Field.Label>Repository</Field.Label>
         <Tabs.Root value={source} onValueChange={edit(setSource)}>
-          <Tabs.List {...stylex.props(styles.tabs)}>
-            {(["New", "Existing"] as const).map((value) => (
-              <Tabs.Tab key={value} value={value} {...stylex.props(styles.tab)}>
-                {value}
-              </Tabs.Tab>
-            ))}
+          <Tabs.List>
+            <Tabs.Tab value="New">New</Tabs.Tab>
+            <Tabs.Tab value="Existing">Existing</Tabs.Tab>
           </Tabs.List>
-          <Tabs.Panel value="New" {...stylex.props(styles.panel)}>
-            <Input
-              value={repositoryName}
-              placeholder="acme"
-              start={login && `${login}/`}
-              end="Private"
-              onValueChange={edit(setName)}
-            />
+          <Tabs.Panel value="New">
+            <Input.Root>
+              {login && <Input.Addon>{login}/</Input.Addon>}
+              <Input.Control
+                value={repositoryName}
+                placeholder="acme"
+                onValueChange={edit(setName)}
+              />
+              <Input.Addon>Private</Input.Addon>
+            </Input.Root>
           </Tabs.Panel>
-          <Tabs.Panel value="Existing" {...stylex.props(styles.panel)}>
+          <Tabs.Panel value="Existing">
             <RepositoryPicker selected={selected} onSelect={edit(setSelected)} />
           </Tabs.Panel>
         </Tabs.Root>
-      </Field>
+        <Field.Error />
+      </Field.Root>
 
-      {create.error && !repositoryError && <FormError>{create.error.message}</FormError>}
+      {create.error && !repositoryError && <Form.Error>{create.error.message}</Form.Error>}
 
       <Actions>
-        {cancel && (
-          <Button type="button" variant="ghost" onClick={cancel.onClick}>
-            {cancel.label}
-          </Button>
-        )}
+        {children}
         <Button type="submit" disabled={!title.trim() || !choice || create.isPending}>
           {create.isPending ? "Creating…" : "Create workspace"}
         </Button>
       </Actions>
-    </Form>
+    </Form.Root>
   );
 }
-
-const styles = stylex.create({
-  panel: {
-    marginTop: space[2],
-  },
-  tabs: {
-    display: "flex",
-    gap: space[0.5],
-    padding: space[0.5],
-    borderRadius: radius.md,
-    backgroundColor: bg.hover,
-  },
-  tab: {
-    flex: 1,
-    height: size.line,
-    borderWidth: 0,
-    borderRadius: radius.sm,
-    fontFamily: "inherit",
-    fontSize: text.sm,
-    fontWeight: weight.medium,
-    color: { default: fg.muted, ":is([data-active])": fg.default },
-    backgroundColor: { default: "transparent", ":is([data-active])": bg.canvas },
-    boxShadow: { default: "none", ":is([data-active])": "0 1px 2px oklch(0 0 0 / 8%)" },
-  },
-});

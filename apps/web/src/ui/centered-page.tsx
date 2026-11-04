@@ -1,24 +1,18 @@
 import * as stylex from "@stylexjs/stylex";
-import type { ReactNode } from "react";
+import type { ComponentProps } from "react";
 
 import { space, text, weight } from "@/theme/tokens.stylex";
 
-type CenteredPageProps = {
-  title: string;
-  above?: ReactNode;
-  children: ReactNode;
-};
-
-export function CenteredPage({ title, above, children }: CenteredPageProps) {
+export function Root({ children }: Pick<ComponentProps<"div">, "children">) {
   return (
     <div {...stylex.props(styles.page)}>
-      <div {...stylex.props(styles.column)}>
-        {above}
-        <h1 {...stylex.props(styles.title)}>{title}</h1>
-        {children}
-      </div>
+      <div {...stylex.props(styles.column)}>{children}</div>
     </div>
   );
+}
+
+export function Title(props: Omit<ComponentProps<"h1">, "className" | "style">) {
+  return <h1 {...props} {...stylex.props(styles.title)} />;
 }
 
 const styles = stylex.create({

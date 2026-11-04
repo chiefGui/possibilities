@@ -10,7 +10,7 @@ import { border, fg } from "@/theme/colors.stylex";
 import { space } from "@/theme/tokens.stylex";
 import { Actions } from "@/ui/actions";
 import { Button } from "@/ui/button";
-import { CenteredPage } from "@/ui/centered-page";
+import * as CenteredPage from "@/ui/centered-page";
 
 const stages = ["setup", "workspace"] as const;
 type Stage = (typeof stages)[number];
@@ -29,10 +29,11 @@ function Onboarding() {
   const current: Stage = stage === "workspace" && ready ? "workspace" : "setup";
 
   return (
-    <CenteredPage
-      title={current === "setup" ? "Setup" : "Create a workspace"}
-      above={<Progress current={current} />}
-    >
+    <CenteredPage.Root>
+      <Progress current={current} />
+      <CenteredPage.Title>
+        {current === "setup" ? "Setup" : "Create a workspace"}
+      </CenteredPage.Title>
       {current === "setup" ? (
         <>
           <EnvironmentChecks environment={environment.data} />
@@ -53,9 +54,13 @@ function Onboarding() {
           </Actions>
         </>
       ) : (
-        <WorkspaceForm cancel={{ label: "Back", onClick: () => void navigate({ search: {} }) }} />
+        <WorkspaceForm>
+          <Button type="button" variant="ghost" onClick={() => void navigate({ search: {} })}>
+            Back
+          </Button>
+        </WorkspaceForm>
       )}
-    </CenteredPage>
+    </CenteredPage.Root>
   );
 }
 

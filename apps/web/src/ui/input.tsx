@@ -1,31 +1,28 @@
-import { Input as BaseInput } from "@base-ui/react/input";
+import { Input } from "@base-ui/react/input";
 import * as stylex from "@stylexjs/stylex";
-import type { ReactNode } from "react";
+import type { ComponentProps } from "react";
 
 import { bg, border, fg, status } from "@/theme/colors.stylex";
 import { radius, size, space, text } from "@/theme/tokens.stylex";
 
-type InputProps = Omit<BaseInput.Props, "className" | "style"> & {
-  start?: ReactNode;
-  end?: ReactNode;
+type RootProps = Omit<ComponentProps<"div">, "className" | "style"> & {
   xstyle?: stylex.StyleXStyles;
 };
 
-export function Input({ start, end, xstyle, ...props }: InputProps) {
-  if (!start && !end) {
-    return <BaseInput {...props} {...stylex.props(styles.box, styles.input, xstyle)} />;
-  }
-  return (
-    <div {...stylex.props(styles.box, xstyle)}>
-      {start && <span {...stylex.props(styles.adornment)}>{start}</span>}
-      <BaseInput {...props} {...stylex.props(styles.input, styles.bare)} />
-      {end && <span {...stylex.props(styles.adornment, styles.end)}>{end}</span>}
-    </div>
-  );
+export function Root({ xstyle, ...props }: RootProps) {
+  return <div {...props} {...stylex.props(styles.root, xstyle)} />;
+}
+
+export function Control(props: Omit<Input.Props, "className" | "style">) {
+  return <Input {...props} {...stylex.props(styles.control)} />;
+}
+
+export function Addon(props: Omit<ComponentProps<"span">, "className" | "style">) {
+  return <span {...props} {...stylex.props(styles.addon)} />;
 }
 
 const styles = stylex.create({
-  box: {
+  root: {
     display: "flex",
     alignItems: "center",
     width: "100%",
@@ -35,36 +32,31 @@ const styles = stylex.create({
     borderStyle: "solid",
     borderColor: {
       default: border.default,
-      ":focus-within:not([data-invalid], :has([data-invalid]))": border.focus,
-      ":is([data-invalid], :has([data-invalid]))": status.danger,
+      ":focus-within:not(:has([data-invalid]))": border.focus,
+      ":has([data-invalid])": status.danger,
     },
     borderRadius: radius.md,
     backgroundColor: bg.canvas,
     color: fg.default,
-    fontFamily: "inherit",
     fontSize: text.md,
   },
-  input: {
-    outlineStyle: "none",
-    "::placeholder": { color: fg.muted },
-  },
-  bare: {
+  control: {
     flex: 1,
     minWidth: 0,
     height: "100%",
     padding: 0,
     borderWidth: 0,
+    outlineStyle: "none",
     backgroundColor: "transparent",
     color: "inherit",
     fontFamily: "inherit",
     fontSize: "inherit",
+    "::placeholder": { color: fg.muted },
   },
-  adornment: {
+  addon: {
     flexShrink: 0,
     whiteSpace: "nowrap",
     color: fg.muted,
-  },
-  end: {
-    paddingInlineStart: space[2],
+    marginInlineStart: { default: 0, ":is(input ~ *)": space[2] },
   },
 });

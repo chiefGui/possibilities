@@ -5,7 +5,7 @@ import { useState } from "react";
 import { repositoriesQuery } from "@/features/workspaces/queries";
 import { bg, border, fg, status } from "@/theme/colors.stylex";
 import { radius, size, space, text, weight } from "@/theme/tokens.stylex";
-import { Input } from "@/ui/input";
+import * as Input from "@/ui/input";
 
 type RepositoryPickerProps = {
   selected: string | null;
@@ -21,12 +21,9 @@ export function RepositoryPicker({ selected, onSelect }: RepositoryPickerProps) 
 
   return (
     <div {...stylex.props(styles.picker)}>
-      <Input
-        value={filter}
-        placeholder="Filter repositories"
-        onValueChange={setFilter}
-        xstyle={styles.filter}
-      />
+      <Input.Root xstyle={styles.filter}>
+        <Input.Control value={filter} placeholder="Filter repositories" onValueChange={setFilter} />
+      </Input.Root>
       <ul {...stylex.props(styles.repositories)}>
         {repositories.isPending && <li {...stylex.props(styles.empty)}>Loading…</li>}
         {repositories.error && (

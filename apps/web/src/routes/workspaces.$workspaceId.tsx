@@ -5,7 +5,7 @@ import { workspaceQuery, workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceSidebar } from "@/features/workspaces/workspace-sidebar";
 import { border, fg } from "@/theme/colors.stylex";
 import { size, space, weight } from "@/theme/tokens.stylex";
-import { CenteredPage } from "@/ui/centered-page";
+import * as CenteredPage from "@/ui/centered-page";
 
 export const Route = createFileRoute("/workspaces/$workspaceId")({
   loader: async ({ context, params }) => {
@@ -18,12 +18,13 @@ export const Route = createFileRoute("/workspaces/$workspaceId")({
   },
   component: WorkspacePage,
   errorComponent: ({ error }) => (
-    <CenteredPage title="Workspace unavailable">
+    <CenteredPage.Root>
+      <CenteredPage.Title>Workspace unavailable</CenteredPage.Title>
       <p {...stylex.props(styles.muted, styles.message)}>
         {error instanceof Error ? error.message : String(error)}
       </p>
       <Link to="/">Back</Link>
-    </CenteredPage>
+    </CenteredPage.Root>
   ),
 });
 
