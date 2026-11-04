@@ -1,9 +1,17 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain, nativeTheme } from "electron";
 import { join } from "node:path";
 
 const { DESKTOP_RENDERER_URL, DESKTOP_USER_DATA_DIR, DESKTOP_TITLE_SUFFIX } = process.env;
 
 if (DESKTOP_USER_DATA_DIR) app.setPath("userData", DESKTOP_USER_DATA_DIR);
+
+const themeSources = new Set<string>(["system", "light", "dark"]);
+
+ipcMain.on("color-scheme", (_event, scheme: unknown) => {
+  if (typeof scheme === "string" && themeSources.has(scheme)) {
+    nativeTheme.themeSource = scheme as typeof nativeTheme.themeSource;
+  }
+});
 
 function createWindow() {
   const win = new BrowserWindow({

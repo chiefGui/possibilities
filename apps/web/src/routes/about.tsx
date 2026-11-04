@@ -1,6 +1,8 @@
 import * as stylex from "@stylexjs/stylex";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
+import { text, weight } from "@/theme/tokens.stylex";
+
 export const Route = createFileRoute("/about")({
   component: About,
 });
@@ -8,11 +10,11 @@ export const Route = createFileRoute("/about")({
 const styles = stylex.create({
   title: {
     margin: 0,
-    fontSize: 24,
-    fontWeight: 600,
+    fontSize: text.xl,
+    fontWeight: weight.semibold,
   },
   link: {
-    fontSize: 14,
+    fontSize: text.md,
     color: "inherit",
     textUnderlineOffset: 4,
   },

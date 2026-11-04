@@ -23,6 +23,11 @@
   "overrides": {
     "vite": "catalog:"
   },
+  "browserslist": [
+    "chrome >= 123",
+    "safari >= 17.5",
+    "firefox >= 120"
+  ],
   "devEngines": {
     "packageManager": {
       "name": "bun",

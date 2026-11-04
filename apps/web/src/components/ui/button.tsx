@@ -1,7 +1,8 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
 
-import { colors, radii } from "@/theme/tokens.stylex";
+import { accent, bg, border, fg } from "@/theme/colors.stylex";
+import { motion, radius, space, text, weight } from "@/theme/tokens.stylex";
 
 type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   variant?: keyof typeof variants;
@@ -20,47 +21,47 @@ const styles = stylex.create({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: 6,
+    gap: space[2],
     flexShrink: 0,
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: "transparent",
-    borderRadius: radii.md,
+    borderRadius: radius.md,
     fontFamily: "inherit",
-    fontSize: 14,
-    fontWeight: 500,
+    fontSize: text.md,
+    fontWeight: weight.medium,
     whiteSpace: "nowrap",
     userSelect: "none",
     cursor: { default: "pointer", ":disabled": "not-allowed" },
     opacity: { default: 1, ":disabled": 0.5 },
     outlineStyle: { default: "none", ":focus-visible": "solid" },
     outlineWidth: 3,
-    outlineColor: colors.ring,
+    outlineColor: border.focus,
     outlineOffset: 1,
     transform: { default: null, ":active": "translateY(1px)" },
     transitionProperty: "background-color, border-color, transform",
-    transitionDuration: "150ms",
+    transitionDuration: motion.fast,
   },
 });
 
 const variants = stylex.create({
   primary: {
-    backgroundColor: { default: colors.primary, ":hover": colors.primaryHover },
-    color: colors.primaryForeground,
+    backgroundColor: { default: accent.solid, ":hover": accent.solidHover },
+    color: fg.onAccent,
   },
   outline: {
-    backgroundColor: { default: colors.background, ":hover": colors.muted },
-    borderColor: colors.border,
-    color: colors.foreground,
+    backgroundColor: { default: bg.canvas, ":hover": bg.hover },
+    borderColor: border.default,
+    color: fg.default,
   },
   ghost: {
-    backgroundColor: { default: "transparent", ":hover": colors.muted },
-    color: colors.foreground,
+    backgroundColor: { default: "transparent", ":hover": bg.hover },
+    color: fg.default,
   },
 });
 
 const sizes = stylex.create({
-  sm: { height: 28, paddingInline: 10, fontSize: 13, borderRadius: radii.sm },
-  md: { height: 32, paddingInline: 10 },
-  lg: { height: 36, paddingInline: 12 },
+  sm: { height: 28, paddingInline: space[3], fontSize: text.sm, borderRadius: radius.sm },
+  md: { height: 32, paddingInline: space[3] },
+  lg: { height: 36, paddingInline: space[4] },
 });

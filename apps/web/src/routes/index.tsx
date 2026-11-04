@@ -3,7 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { colors } from "@/theme/tokens.stylex";
+import { fg } from "@/theme/colors.stylex";
+import { text, weight } from "@/theme/tokens.stylex";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -12,19 +13,19 @@ export const Route = createFileRoute("/")({
 const styles = stylex.create({
   title: {
     margin: 0,
-    fontSize: 40,
-    fontWeight: 600,
+    fontSize: text.display,
+    fontWeight: weight.semibold,
     letterSpacing: "-0.02em",
   },
   link: {
-    fontSize: 14,
+    fontSize: text.md,
     color: "inherit",
     textUnderlineOffset: 4,
   },
   runtime: {
     margin: 0,
-    fontSize: 13,
-    color: colors.mutedForeground,
+    fontSize: text.sm,
+    color: fg.muted,
   },
 });
 
