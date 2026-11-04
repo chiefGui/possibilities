@@ -34,7 +34,6 @@ const styles = stylex.create({
     outlineWidth: 3,
     outlineColor: border.focus,
     outlineOffset: 1,
-    transform: { default: null, ":active": "translateY(1px)" },
   },
 });
 
