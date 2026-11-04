@@ -2,6 +2,7 @@ import { Api } from "@possibilities/contract";
 import { Effect, Layer } from "effect";
 
 import { environment, repositories } from "./github.ts";
+import { createProject, listProjects, renameProject } from "./projects.ts";
 import { Registry } from "./registry.ts";
 import { ClonesDirectory, createWorkspace } from "./workspaces.ts";
 
@@ -14,6 +15,9 @@ const handlers = Api.toLayer(
       workspaces: () => registry.list,
       openWorkspace: ({ id }) => registry.open(id),
       createWorkspace: (payload) => createWorkspace(payload),
+      projects: ({ workspaceId }) => listProjects(workspaceId),
+      createProject: (payload) => createProject(payload),
+      renameProject: (payload) => renameProject(payload),
     });
   }),
 );
