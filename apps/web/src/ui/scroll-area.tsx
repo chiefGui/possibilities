@@ -2,7 +2,7 @@ import { ScrollArea } from "@base-ui/react/scroll-area";
 import * as stylex from "@stylexjs/stylex";
 
 import { background } from "@/theme/colors.stylex";
-import { space } from "@/theme/tokens.stylex";
+import { radius, space } from "@/theme/tokens.stylex";
 
 const fade = (edge: "start" | "end") =>
   `min(${space[6]}, var(--scroll-area-overflow-y-${edge}, 0px))`;
@@ -47,7 +47,7 @@ const styles = stylex.create({
   },
   thumb: {
     width: "100%",
-    borderRadius: space[1],
+    borderRadius: radius.xs,
     backgroundColor: background.neutralBold,
   },
 });

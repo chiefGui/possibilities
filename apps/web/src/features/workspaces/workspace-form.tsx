@@ -30,7 +30,7 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
   const [source, setSource] = useState<Source>("New");
   const [selectedOwner, setSelectedOwner] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selectedRepository, setSelectedRepository] = useState<string | null>(null);
 
   const owner = useOwner(selectedOwner);
   const repositoryName = name ?? slugify(title);
@@ -53,7 +53,7 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
 
   const choices: Record<Source, RepositoryChoice | null> = {
     New: owner && repositoryName ? { _tag: "New", owner, name: repositoryName } : null,
-    Existing: selected ? { _tag: "Existing", nameWithOwner: selected } : null,
+    Existing: selectedRepository ? { _tag: "Existing", nameWithOwner: selectedRepository } : null,
   };
   const choice = choices[source];
 
@@ -95,7 +95,10 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
             </OwnerScope>
           </Tabs.Panel>
           <Tabs.Panel value="Existing">
-            <RepositoryPicker value={selected} onValueChange={edit(setSelected)} />
+            <RepositoryPicker
+              value={selectedRepository}
+              onValueChange={edit(setSelectedRepository)}
+            />
           </Tabs.Panel>
         </Tabs.Root>
       </Field.Group>
