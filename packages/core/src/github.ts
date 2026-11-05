@@ -13,6 +13,18 @@ const ghCredentials = [
 export const git = (cwd: string, ...args: ReadonlyArray<string>) =>
   run("git", [...ghCredentials, ...args], cwd);
 
+export const commit = Effect.fn("commit")(function* (
+  cwd: string,
+  message: string,
+  paths: ReadonlyArray<string>,
+) {
+  yield* git(cwd, "add", "--", ...paths);
+  if (yield* git(cwd, "diff", "--cached", "--name-only")) {
+    yield* git(cwd, "commit", "-m", message);
+    yield* git(cwd, "push", "-u", "origin", "HEAD");
+  }
+});
+
 export const login = run("gh", ["api", "user", "--jq", ".login"]);
 
 export const environment = Effect.gen(function* () {
