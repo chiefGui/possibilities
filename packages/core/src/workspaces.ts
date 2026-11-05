@@ -1,8 +1,8 @@
 import { type CreateWorkspace, Workspace } from "@possibilities/contract";
 import { Context, Effect, FileSystem, Path } from "effect";
 
-import { clone, createRepository } from "./github.ts";
-import { readManifest, writeManifest } from "./manifest.ts";
+import { clone, commit, createRepository } from "./github.ts";
+import { manifestFile, readManifest, writeManifest } from "./manifest.ts";
 import { alreadyWorkspace, Registry } from "./registry.ts";
 
 export class ClonesDirectory extends Context.Service<ClonesDirectory, string>()(
@@ -36,7 +36,8 @@ export const createWorkspace = Effect.fn("createWorkspace")(function* ({
       Effect.map(({ document, manifest }) => ({ ...document, id: manifest.id })),
       Effect.orElseSucceed(() => ({ id: crypto.randomUUID() })),
     );
-    yield* writeManifest(directory, { ...document, title }, "Create workspace");
+    yield* writeManifest(directory, { ...document, title });
+    yield* commit(directory, "Create workspace", [manifestFile]);
 
     const workspace = Workspace.make({ id: document.id, title, repository });
     yield* registry.add(workspace);
