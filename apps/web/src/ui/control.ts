@@ -16,7 +16,8 @@ export const control = stylex.create({
     borderStyle: "solid",
     borderColor: {
       default: border.default,
-      ":focus-within:not(:has([data-invalid]))": border.focused,
+      ":hover:not(:focus-within, [data-popup-open], :has([data-invalid]))": border.hovered,
+      ":is(:focus-within, [data-popup-open]):not(:has([data-invalid]))": border.focused,
       ":has([data-invalid])": border.danger,
     },
     borderRadius: radius.md,

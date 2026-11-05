@@ -52,6 +52,7 @@ export const icon = stylex.defineVars({
 
 export const border = stylex.defineVars({
   default: mode(wash(inks.light, 12), wash(inks.dark, 8)),
+  hovered: mode(wash(inks.light, 24), wash(inks.dark, 16)),
   focused: indigo,
   danger: red,
 });
