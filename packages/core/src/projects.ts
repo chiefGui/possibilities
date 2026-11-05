@@ -7,11 +7,17 @@ import {
 import { Effect, FileSystem, Path, Semaphore, Struct } from "effect";
 
 import { commit, git } from "./github.ts";
-import { manifestFile, type ProjectEntry, readManifest, writeManifest } from "./manifest.ts";
+import {
+  appDirectory,
+  manifestFile,
+  type ProjectEntry,
+  readManifest,
+  writeManifest,
+} from "./manifest.ts";
 import { Registry } from "./registry.ts";
 import { workspaceDirectory } from "./workspaces.ts";
 
-const projectsDirectory = ".possibilities/projects";
+const projectsDirectory = `${appDirectory}/projects`;
 const keepFile = ".keep";
 
 const projectPath = (directory: string) => `${projectsDirectory}/${directory}`;
@@ -42,7 +48,7 @@ const availableDirectory = Effect.fn("availableDirectory")(function* (
   const path = yield* Path.Path;
   const entries = yield* fs
     .readDirectory(path.join(root, projectsDirectory))
-    .pipe(Effect.orElseSucceed((): ReadonlyArray<string> => []));
+    .pipe(Effect.orElseSucceed(() => []));
   const taken = new Set(
     entries.filter((entry) => entry !== current).map((entry) => entry.toLowerCase()),
   );
