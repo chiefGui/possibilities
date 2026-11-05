@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 
 import { background, border, surface, text } from "@/theme/colors.stylex";
-import { font, fontSize, radius, shadow, size, space } from "@/theme/tokens.stylex";
+import { font, fontSize, motion, radius, shadow, size, space } from "@/theme/tokens.stylex";
 
 export const popup = stylex.create({
   root: {
@@ -17,6 +17,15 @@ export const popup = stylex.create({
     fontFamily: font.sans,
     outlineStyle: "none",
     WebkitAppRegion: "no-drag",
+    transformOrigin: "var(--transform-origin)",
+    opacity: { default: 1, ":is([data-starting-style], [data-ending-style])": 0 },
+    transform: {
+      default: "none",
+      ":is([data-starting-style], [data-ending-style])": "scale(0.96)",
+    },
+    transitionProperty: "opacity, transform",
+    transitionDuration: motion.fast,
+    transitionTimingFunction: motion.easing,
   },
   content: {
     display: "flex",

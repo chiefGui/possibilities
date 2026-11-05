@@ -48,7 +48,7 @@ export const size = stylex.defineVars({
 });
 
 export const motion = stylex.defineVars({
-  fast: "100ms",
+  fast: { default: "100ms", "@media (prefers-reduced-motion: reduce)": "0ms" },
   easing: "cubic-bezier(0.2, 0, 0, 1)",
 });
 
