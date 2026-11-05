@@ -33,6 +33,7 @@ export const background = stylex.defineVars({
   neutral: wash(ink, 6),
   hovered: wash(ink, 5),
   selected: wash(ink, 8),
+  neutralBold: wash(ink, 24),
   brand: indigo,
   brandHovered: `color-mix(in oklch, ${indigo} 88%, white)`,
 });

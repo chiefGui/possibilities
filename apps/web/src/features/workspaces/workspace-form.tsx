@@ -4,7 +4,7 @@ import { type RepositoryChoice, WorkspaceExists } from "@possibilities/contract"
 import { type ReactNode, useState } from "react";
 
 import { workspacesQuery } from "@/features/workspaces/queries";
-import { OwnerPicker } from "@/features/repositories/owner-picker";
+import { OwnerScope } from "@/features/repositories/owner-scope";
 import { useOwner } from "@/features/repositories/queries";
 import { RepositoryPicker } from "@/features/repositories/repository-picker";
 import { call } from "@/rpc";
@@ -85,16 +85,16 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
             <Tabs.Tab value="Existing">Existing</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="New">
-            <Input.Root>
-              <OwnerPicker value={owner} onValueChange={edit(setSelectedOwner)} />
-              <Input.Addon>/</Input.Addon>
-              <Input.Control
-                value={repositoryName}
-                placeholder="acme"
-                onValueChange={edit(setName)}
-              />
-              <Input.Addon>Private</Input.Addon>
-            </Input.Root>
+            <OwnerScope value={owner} onValueChange={edit(setSelectedOwner)}>
+              <Input.Root>
+                <Input.Control
+                  value={repositoryName}
+                  placeholder="acme"
+                  onValueChange={edit(setName)}
+                />
+                <Input.Addon>Private</Input.Addon>
+              </Input.Root>
+            </OwnerScope>
           </Tabs.Panel>
           <Tabs.Panel value="Existing">
             <RepositoryPicker value={selected} onValueChange={edit(setSelected)} />

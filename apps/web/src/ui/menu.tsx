@@ -14,7 +14,7 @@ export function Popup(props: Omit<Menu.Popup.Props, "className" | "style">) {
   return (
     <Menu.Portal>
       <Menu.Positioner align="start" sideOffset={4}>
-        <Menu.Popup {...props} {...stylex.props(popup.root)} />
+        <Menu.Popup {...props} {...stylex.props(popup.root, popup.content)} />
       </Menu.Positioner>
     </Menu.Portal>
   );

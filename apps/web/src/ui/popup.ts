@@ -8,7 +8,6 @@ export const popup = stylex.create({
     display: "flex",
     flexDirection: "column",
     minWidth: size.popup,
-    padding: space[1.5],
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: border.default,
@@ -18,6 +17,11 @@ export const popup = stylex.create({
     fontFamily: font.sans,
     outlineStyle: "none",
     WebkitAppRegion: "no-drag",
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    padding: space[1.5],
   },
   item: {
     flexShrink: 0,
@@ -37,9 +41,6 @@ export const popup = stylex.create({
   search: {
     flexShrink: 0,
     height: size.lg,
-    marginTop: `calc(-1 * ${space[1.5]})`,
-    marginInline: `calc(-1 * ${space[1.5]})`,
-    marginBottom: space[1.5],
     paddingInline: `calc(${space[1.5]} + ${space[2]})`,
     borderWidth: 0,
     borderBottomWidth: 1,

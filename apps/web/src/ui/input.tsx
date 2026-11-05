@@ -2,15 +2,11 @@ import { Input } from "@base-ui/react/input";
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { border, surface, text } from "@/theme/colors.stylex";
-import { fontSize, radius, size, space } from "@/theme/tokens.stylex";
+import { text } from "@/theme/colors.stylex";
+import { control } from "@/ui/control";
 
-type RootProps = Omit<ComponentProps<"div">, "className" | "style"> & {
-  xstyle?: stylex.StyleXStyles;
-};
-
-export function Root({ xstyle, ...props }: RootProps) {
-  return <div {...props} {...stylex.props(styles.root, xstyle)} />;
+export function Root(props: Omit<ComponentProps<"div">, "className" | "style">) {
+  return <div {...props} {...stylex.props(control.base)} />;
 }
 
 export function Control(props: Omit<Input.Props, "className" | "style">) {
@@ -22,25 +18,6 @@ export function Addon(props: Omit<ComponentProps<"span">, "className" | "style">
 }
 
 const styles = stylex.create({
-  root: {
-    display: "flex",
-    alignItems: "center",
-    gap: space[2],
-    width: "100%",
-    height: size.md,
-    paddingInline: space[3],
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: {
-      default: border.default,
-      ":focus-within:not(:has([data-invalid]))": border.focused,
-      ":has([data-invalid])": border.danger,
-    },
-    borderRadius: radius.md,
-    backgroundColor: surface.default,
-    color: text.default,
-    fontSize: fontSize.md,
-  },
   control: {
     flex: 1,
     minWidth: 0,

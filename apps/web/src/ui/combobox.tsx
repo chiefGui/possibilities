@@ -1,36 +1,29 @@
 import { Combobox } from "@base-ui/react/combobox";
 import * as stylex from "@stylexjs/stylex";
-import { Check, ChevronDown, X } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 
-import { background, text } from "@/theme/colors.stylex";
-import { radius, size, space } from "@/theme/tokens.stylex";
+import { text } from "@/theme/colors.stylex";
+import { size, space } from "@/theme/tokens.stylex";
+import { control } from "@/ui/control";
 import { Icon } from "@/ui/icon";
-import * as Input from "@/ui/input";
 import { popup } from "@/ui/popup";
 import { row } from "@/ui/row";
+import * as ScrollArea from "@/ui/scroll-area";
 
 export const Root: typeof Combobox.Root = (props) => <Combobox.Root autoHighlight {...props} />;
 
-export function InputGroup(props: Omit<Combobox.InputGroup.Props, "className" | "style">) {
-  return <Combobox.InputGroup {...props} render={<Input.Root />} />;
-}
+type TriggerProps = Omit<Combobox.Trigger.Props, "className" | "style" | "children"> & {
+  placeholder?: string;
+};
 
-export function Control(props: Omit<Combobox.Input.Props, "className" | "style">) {
-  return <Combobox.Input {...props} render={<Input.Control />} />;
-}
-
-export function Clear(props: Omit<Combobox.Clear.Props, "className" | "style" | "children">) {
+export function Trigger({ placeholder, ...props }: TriggerProps) {
   return (
-    <Combobox.Clear {...props} {...stylex.props(styles.clear)}>
-      <Icon icon={X} />
-    </Combobox.Clear>
-  );
-}
-
-export function Trigger(props: Omit<Combobox.Trigger.Props, "className" | "style" | "children">) {
-  return (
-    <Combobox.Trigger {...props} {...stylex.props(row.base, styles.trigger)}>
-      <Combobox.Value />
+    <Combobox.Trigger {...props} {...stylex.props(control.base, styles.trigger)}>
+      <span {...stylex.props(styles.value)}>
+        <Combobox.Value
+          placeholder={<span {...stylex.props(styles.placeholder)}>{placeholder}</span>}
+        />
+      </span>
       <Icon icon={ChevronDown} />
     </Combobox.Trigger>
   );
@@ -51,7 +44,14 @@ export function Search(props: Omit<Combobox.Input.Props, "className" | "style">)
 }
 
 export function List(props: Omit<Combobox.List.Props, "className" | "style">) {
-  return <Combobox.List {...props} {...stylex.props(styles.list)} />;
+  return (
+    <ScrollArea.Root>
+      <ScrollArea.Viewport>
+        <Combobox.List {...props} {...stylex.props(popup.content)} />
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar />
+    </ScrollArea.Root>
+  );
 }
 
 export function Item({ children, ...props }: Omit<Combobox.Item.Props, "className" | "style">) {
@@ -68,41 +68,29 @@ export function Empty(props: Omit<Combobox.Empty.Props, "className" | "style">) 
 }
 
 const styles = stylex.create({
-  clear: {
-    display: "grid",
-    placeItems: "center",
-    flexShrink: 0,
-    width: size.line,
-    height: size.line,
-    marginInlineEnd: `calc(-1 * ${space[2]})`,
-    padding: 0,
-    borderWidth: 0,
-    borderRadius: radius.sm,
-    backgroundColor: { default: "transparent", ":hover": background.hovered },
-  },
   trigger: {
-    flexShrink: 0,
-    gap: space[1],
-    height: size.line,
-    marginInline: `calc(-1 * ${space[2]})`,
-    fontSize: "inherit",
-    backgroundColor: {
-      default: "transparent",
-      ":hover": background.hovered,
-      ":is([data-popup-open])": background.hovered,
-    },
+    justifyContent: "space-between",
+    textAlign: "start",
+  },
+  value: {
+    minWidth: 0,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+  placeholder: {
+    color: text.subtle,
   },
   popup: {
+    display: "flex",
+    flexDirection: "column",
     minWidth: `max(${size.popup}, var(--anchor-width))`,
     maxHeight: `min(var(--available-height), calc(10 * ${size.md}))`,
     overflow: "hidden",
   },
-  list: {
-    minHeight: 0,
-    overflowY: "auto",
-  },
   empty: {
     height: size.md,
+    margin: space[1.5],
     color: text.subtle,
     display: { default: "flex", ":empty": "none" },
   },
