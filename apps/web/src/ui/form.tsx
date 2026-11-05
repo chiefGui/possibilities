@@ -4,12 +4,13 @@ import type { ComponentProps } from "react";
 
 import { text } from "@/theme/colors.stylex";
 import { fontSize, space } from "@/theme/tokens.stylex";
+import type { Unstyled } from "@/ui/props";
 
-export function Root(props: Omit<BaseForm.Props, "className" | "style">) {
+export function Root(props: Unstyled<BaseForm.Props>) {
   return <BaseForm {...props} {...stylex.props(styles.root)} />;
 }
 
-export function Error(props: Omit<ComponentProps<"p">, "className" | "style">) {
+export function Error(props: Unstyled<ComponentProps<"p">>) {
   return <p role="alert" {...props} {...stylex.props(styles.error)} />;
 }
 

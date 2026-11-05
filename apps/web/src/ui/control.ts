@@ -28,4 +28,16 @@ export const control = stylex.create({
     fontSize: fontSize.md,
     outlineStyle: "none",
   },
+  input: {
+    minWidth: 0,
+    padding: 0,
+    borderWidth: 0,
+    backgroundColor: "transparent",
+    color: "inherit",
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    fontWeight: "inherit",
+    outlineStyle: "none",
+    "::placeholder": { color: text.subtle },
+  },
 });

@@ -44,6 +44,8 @@ export const size = stylex.defineVars({
   lg: "36px",
   row: "44px",
   trafficLights: "76px",
+  sidebar: "240px",
+  column: "420px",
   popup: "220px",
 });
 

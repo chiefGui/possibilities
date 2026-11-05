@@ -3,20 +3,20 @@ import * as stylex from "@stylexjs/stylex";
 
 import { background, surface, text } from "@/theme/colors.stylex";
 import { fontSize, radius, shadow, size, space, weight } from "@/theme/tokens.stylex";
+import type { Unstyled } from "@/ui/props";
+import { states } from "@/ui/states";
 
-export function Root(props: Omit<Tabs.Root.Props, "className" | "style">) {
-  return <Tabs.Root {...props} />;
-}
+export const Root = Tabs.Root;
 
-export function List(props: Omit<Tabs.List.Props, "className" | "style">) {
+export function List(props: Unstyled<Tabs.List.Props>) {
   return <Tabs.List {...props} {...stylex.props(styles.list)} />;
 }
 
-export function Tab(props: Omit<Tabs.Tab.Props, "className" | "style">) {
-  return <Tabs.Tab {...props} {...stylex.props(styles.tab)} />;
+export function Tab(props: Unstyled<Tabs.Tab.Props>) {
+  return <Tabs.Tab {...props} {...stylex.props(states.ring, styles.tab)} />;
 }
 
-export function Panel(props: Omit<Tabs.Panel.Props, "className" | "style">) {
+export function Panel(props: Unstyled<Tabs.Panel.Props>) {
   return <Tabs.Panel {...props} {...stylex.props(styles.panel)} />;
 }
 

@@ -2,33 +2,36 @@ import { Accordion } from "@base-ui/react/accordion";
 import * as stylex from "@stylexjs/stylex";
 import { ChevronRight } from "lucide-react";
 
-import { background, border, icon, surface } from "@/theme/colors.stylex";
+import { border, surface } from "@/theme/colors.stylex";
 import { motion, radius, size, space } from "@/theme/tokens.stylex";
+import { Icon } from "@/ui/icon";
+import type { Unstyled } from "@/ui/props";
 import { row } from "@/ui/row";
+import { states } from "@/ui/states";
 
-export function Root(props: Omit<Accordion.Root.Props, "className" | "style">) {
+export function Root(props: Unstyled<Accordion.Root.Props>) {
   return <Accordion.Root {...props} {...stylex.props(styles.root)} />;
 }
 
-export function Item(props: Omit<Accordion.Item.Props, "className" | "style">) {
+export function Item(props: Unstyled<Accordion.Item.Props>) {
   return <Accordion.Item {...props} {...stylex.props(styles.item)} />;
 }
 
-export function Trigger({
-  children,
-  ...props
-}: Omit<Accordion.Trigger.Props, "className" | "style">) {
+export function Trigger({ children, ...props }: Unstyled<Accordion.Trigger.Props>) {
   return (
     <Accordion.Header {...stylex.props(styles.header)}>
-      <Accordion.Trigger {...props} {...stylex.props(row.base, styles.trigger)}>
+      <Accordion.Trigger
+        {...props}
+        {...stylex.props(row.base, states.hover, states.ring, styles.trigger)}
+      >
         {children}
-        <ChevronRight aria-hidden {...stylex.props(styles.chevron)} />
+        <Icon icon={ChevronRight} xstyle={styles.chevron} />
       </Accordion.Trigger>
     </Accordion.Header>
   );
 }
 
-export function Panel(props: Omit<Accordion.Panel.Props, "className" | "style">) {
+export function Panel(props: Unstyled<Accordion.Panel.Props>) {
   return <Accordion.Panel {...props} {...stylex.props(styles.panel)} />;
 }
 
@@ -56,13 +59,8 @@ const styles = stylex.create({
     gap: space[3],
     width: "100%",
     height: size.lg,
-    backgroundColor: { default: "transparent", ":hover": background.hovered },
   },
   chevron: {
-    width: size.icon,
-    height: size.icon,
-    flexShrink: 0,
-    color: icon.subtle,
     opacity: {
       default: 0,
       ":is(:hover > *)": 1,

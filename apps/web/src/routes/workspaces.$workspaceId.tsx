@@ -20,6 +20,7 @@ export const Route = createFileRoute("/workspaces/$workspaceId")({
     });
     return workspace;
   },
+  shouldReload: ({ cause }) => cause === "enter",
   component: WorkspaceLayout,
   errorComponent: ({ error }) => (
     <CenteredPage.Root>

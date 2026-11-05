@@ -4,32 +4,24 @@ import type { ComponentProps } from "react";
 
 import { text } from "@/theme/colors.stylex";
 import { control } from "@/ui/control";
+import type { Unstyled } from "@/ui/props";
 
-export function Root(props: Omit<ComponentProps<"div">, "className" | "style">) {
+export function Root(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(control.base)} />;
 }
 
-export function Control(props: Omit<Input.Props, "className" | "style">) {
-  return <Input {...props} {...stylex.props(styles.control)} />;
+export function Control(props: Unstyled<Input.Props>) {
+  return <Input {...props} {...stylex.props(control.input, styles.control)} />;
 }
 
-export function Addon(props: Omit<ComponentProps<"span">, "className" | "style">) {
+export function Addon(props: Unstyled<ComponentProps<"span">>) {
   return <span {...props} {...stylex.props(styles.addon)} />;
 }
 
 const styles = stylex.create({
   control: {
     flex: 1,
-    minWidth: 0,
     height: "100%",
-    padding: 0,
-    borderWidth: 0,
-    outlineStyle: "none",
-    backgroundColor: "transparent",
-    color: "inherit",
-    fontFamily: "inherit",
-    fontSize: "inherit",
-    "::placeholder": { color: text.subtle },
   },
   addon: {
     flexShrink: 0,

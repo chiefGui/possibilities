@@ -15,10 +15,10 @@ const handlers = Api.toLayer(
       repositories: ({ owner }) => repositories(owner),
       workspaces: () => registry.list,
       openWorkspace: ({ id }) => registry.open(id),
-      createWorkspace: (payload) => createWorkspace(payload),
+      createWorkspace,
       projects: ({ workspaceId }) => listProjects(workspaceId),
-      createProject: (payload) => createProject(payload),
-      renameProject: (payload) => renameProject(payload),
+      createProject,
+      renameProject,
     });
   }),
 );

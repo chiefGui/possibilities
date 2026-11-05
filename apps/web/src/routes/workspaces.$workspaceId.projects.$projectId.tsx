@@ -9,8 +9,6 @@ import { weight } from "@/theme/tokens.stylex";
 import * as Shell from "@/ui/shell";
 
 export const Route = createFileRoute("/workspaces/$workspaceId/projects/$projectId")({
-  loader: ({ context, params }) =>
-    context.queryClient.ensureQueryData(projectsQuery(params.workspaceId)),
   component: ProjectPage,
 });
 

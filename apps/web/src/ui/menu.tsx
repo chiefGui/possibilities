@@ -4,13 +4,14 @@ import { Check as CheckIcon } from "lucide-react";
 
 import { Icon } from "@/ui/icon";
 import { popup, returnFocus } from "@/ui/popup";
+import type { Unstyled } from "@/ui/props";
 import { row } from "@/ui/row";
 
 export const Root = Menu.Root;
 
 export const Trigger = Menu.Trigger;
 
-export function Popup(props: Omit<Menu.Popup.Props, "className" | "style">) {
+export function Popup(props: Unstyled<Menu.Popup.Props>) {
   return (
     <Menu.Portal>
       <Menu.Positioner align="start" sideOffset={4}>
@@ -24,7 +25,7 @@ export function Popup(props: Omit<Menu.Popup.Props, "className" | "style">) {
   );
 }
 
-export function LinkItem(props: Omit<Menu.LinkItem.Props, "className" | "style">) {
+export function LinkItem(props: Unstyled<Menu.LinkItem.Props>) {
   return <Menu.LinkItem closeOnClick {...props} {...stylex.props(row.base, popup.item)} />;
 }
 

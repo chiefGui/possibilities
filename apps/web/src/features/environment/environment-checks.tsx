@@ -2,10 +2,11 @@ import type { Environment } from "@possibilities/contract";
 import * as stylex from "@stylexjs/stylex";
 
 import { isDone, steps } from "@/features/environment/steps";
-import { icon, text } from "@/theme/colors.stylex";
+import { icon, text as color } from "@/theme/colors.stylex";
 import { font, fontSize, size, space, weight } from "@/theme/tokens.stylex";
 import * as Accordion from "@/ui/accordion";
 import { StatusIcon } from "@/ui/status-icon";
+import { text } from "@/ui/text";
 
 export function EnvironmentChecks({ environment }: { environment: Environment | undefined }) {
   const failing = environment
@@ -37,7 +38,7 @@ export function EnvironmentChecks({ environment }: { environment: Environment | 
                     {environment &&
                       !passes &&
                       check.fix.map((command) => (
-                        <code key={command} {...stylex.props(styles.fix)}>
+                        <code key={command} {...stylex.props(text.truncate, styles.fix)}>
                           {command}
                         </code>
                       ))}
@@ -59,7 +60,7 @@ const styles = stylex.create({
     textAlign: "start",
   },
   value: {
-    color: text.subtle,
+    color: color.subtle,
   },
   checks: {
     display: "flex",
@@ -78,7 +79,7 @@ const styles = stylex.create({
     alignItems: "center",
     gap: space[3],
     height: size.line,
-    color: text.subtle,
+    color: color.subtle,
   },
   dotCell: {
     display: "flex",
@@ -88,8 +89,8 @@ const styles = stylex.create({
     flexShrink: 0,
   },
   dot: {
-    width: "6px",
-    height: "6px",
+    width: space[1.5],
+    height: space[1.5],
     borderRadius: "50%",
     backgroundColor: icon.subtle,
   },
@@ -97,14 +98,11 @@ const styles = stylex.create({
     backgroundColor: icon.success,
   },
   fix: {
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
     lineHeight: size.line,
     paddingInlineStart: `calc(${size.icon} + ${space[3]})`,
     fontFamily: font.mono,
     fontSize: fontSize.sm,
-    color: text.subtle,
+    color: color.subtle,
     userSelect: "text",
   },
 });

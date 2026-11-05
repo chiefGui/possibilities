@@ -3,21 +3,20 @@ import * as stylex from "@stylexjs/stylex";
 
 import { background } from "@/theme/colors.stylex";
 import { radius, space } from "@/theme/tokens.stylex";
+import type { Unstyled } from "@/ui/props";
 
 const fade = (edge: "start" | "end") =>
   `min(${space[6]}, var(--scroll-area-overflow-y-${edge}, 0px))`;
 
-export function Root(props: Omit<ScrollArea.Root.Props, "className" | "style">) {
+export function Root(props: Unstyled<ScrollArea.Root.Props>) {
   return <ScrollArea.Root {...props} {...stylex.props(styles.root)} />;
 }
 
-export function Viewport(props: Omit<ScrollArea.Viewport.Props, "className" | "style">) {
+export function Viewport(props: Unstyled<ScrollArea.Viewport.Props>) {
   return <ScrollArea.Viewport {...props} {...stylex.props(styles.viewport)} />;
 }
 
-export function Scrollbar(
-  props: Omit<ScrollArea.Scrollbar.Props, "className" | "style" | "children">,
-) {
+export function Scrollbar(props: Omit<Unstyled<ScrollArea.Scrollbar.Props>, "children">) {
   return (
     <ScrollArea.Scrollbar {...props} {...stylex.props(styles.scrollbar)}>
       <ScrollArea.Thumb {...stylex.props(styles.thumb)} />

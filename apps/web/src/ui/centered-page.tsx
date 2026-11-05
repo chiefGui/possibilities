@@ -1,7 +1,8 @@
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { fontSize, space, weight } from "@/theme/tokens.stylex";
+import { fontSize, size, space, weight } from "@/theme/tokens.stylex";
+import type { Unstyled } from "@/ui/props";
 
 export function Root({ children }: Pick<ComponentProps<"div">, "children">) {
   return (
@@ -11,7 +12,7 @@ export function Root({ children }: Pick<ComponentProps<"div">, "children">) {
   );
 }
 
-export function Title(props: Omit<ComponentProps<"h1">, "className" | "style">) {
+export function Title(props: Unstyled<ComponentProps<"h1">>) {
   return <h1 {...props} {...stylex.props(styles.title)} />;
 }
 
@@ -28,7 +29,7 @@ const styles = stylex.create({
     flexDirection: "column",
     gap: space[6],
     width: "100%",
-    maxWidth: 420,
+    maxWidth: size.column,
     WebkitAppRegion: "no-drag",
   },
   title: {

@@ -3,10 +3,12 @@ import type { ComponentProps } from "react";
 
 import { background } from "@/theme/colors.stylex";
 import { radius, size, space } from "@/theme/tokens.stylex";
+import { control } from "@/ui/control";
+import type { Unstyled } from "@/ui/props";
 
 type EditableTextProps = Omit<
-  ComponentProps<"input">,
-  "className" | "style" | "value" | "defaultValue" | "onBlur" | "onKeyDown"
+  Unstyled<ComponentProps<"input">>,
+  "value" | "defaultValue" | "onBlur" | "onKeyDown"
 > & {
   defaultValue: string;
   onCommit: (value: string) => void;
@@ -26,7 +28,7 @@ export function EditableText({ defaultValue, onCommit, ...props }: EditableTextP
         if (!value) event.currentTarget.value = defaultValue;
         else if (value !== defaultValue) onCommit(value);
       }}
-      {...stylex.props(styles.input)}
+      {...stylex.props(control.input, styles.input)}
     />
   );
 }
@@ -34,21 +36,14 @@ export function EditableText({ defaultValue, onCommit, ...props }: EditableTextP
 const styles = stylex.create({
   input: {
     fieldSizing: "content",
-    minWidth: 0,
     height: size.sm,
     marginInline: `calc(-1 * ${space[2]})`,
     paddingInline: space[2],
-    borderWidth: 0,
     borderRadius: radius.sm,
     backgroundColor: {
       default: "transparent",
       ":hover": background.hovered,
       ":focus": background.hovered,
     },
-    color: "inherit",
-    fontFamily: "inherit",
-    fontSize: "inherit",
-    fontWeight: "inherit",
-    outlineStyle: "none",
   },
 });

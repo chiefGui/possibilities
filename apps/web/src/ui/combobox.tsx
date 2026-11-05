@@ -2,24 +2,26 @@ import { Combobox } from "@base-ui/react/combobox";
 import * as stylex from "@stylexjs/stylex";
 import { Check, ChevronDown } from "lucide-react";
 
-import { text } from "@/theme/colors.stylex";
+import { text as color } from "@/theme/colors.stylex";
 import { size, space } from "@/theme/tokens.stylex";
 import { control } from "@/ui/control";
 import { Icon } from "@/ui/icon";
 import { popup, returnFocus } from "@/ui/popup";
+import type { Unstyled } from "@/ui/props";
 import { row } from "@/ui/row";
 import * as ScrollArea from "@/ui/scroll-area";
+import { text } from "@/ui/text";
 
 export const Root: typeof Combobox.Root = (props) => <Combobox.Root autoHighlight {...props} />;
 
-type TriggerProps = Omit<Combobox.Trigger.Props, "className" | "style" | "children"> & {
+type TriggerProps = Omit<Unstyled<Combobox.Trigger.Props>, "children"> & {
   placeholder?: string;
 };
 
 export function Trigger({ placeholder, ...props }: TriggerProps) {
   return (
     <Combobox.Trigger {...props} {...stylex.props(control.base, styles.trigger)}>
-      <span {...stylex.props(styles.value)}>
+      <span {...stylex.props(text.truncate)}>
         <Combobox.Value
           placeholder={<span {...stylex.props(styles.placeholder)}>{placeholder}</span>}
         />
@@ -29,7 +31,7 @@ export function Trigger({ placeholder, ...props }: TriggerProps) {
   );
 }
 
-export function Popup(props: Omit<Combobox.Popup.Props, "className" | "style">) {
+export function Popup(props: Unstyled<Combobox.Popup.Props>) {
   return (
     <Combobox.Portal>
       <Combobox.Positioner align="start" sideOffset={4}>
@@ -43,22 +45,22 @@ export function Popup(props: Omit<Combobox.Popup.Props, "className" | "style">) 
   );
 }
 
-export function Search(props: Omit<Combobox.Input.Props, "className" | "style">) {
-  return <Combobox.Input {...props} {...stylex.props(popup.search)} />;
+export function Search(props: Unstyled<Combobox.Input.Props>) {
+  return <Combobox.Input {...props} {...stylex.props(control.input, popup.search)} />;
 }
 
-export function List(props: Omit<Combobox.List.Props, "className" | "style">) {
+export function List(props: Unstyled<Combobox.List.Props>) {
   return (
     <ScrollArea.Root>
       <ScrollArea.Viewport>
-        <Combobox.List {...props} {...stylex.props(popup.content, styles.list)} />
+        <Combobox.List {...props} {...stylex.props(popup.content, styles.collapsible)} />
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar />
     </ScrollArea.Root>
   );
 }
 
-export function Item({ children, ...props }: Omit<Combobox.Item.Props, "className" | "style">) {
+export function Item({ children, ...props }: Unstyled<Combobox.Item.Props>) {
   return (
     <Combobox.Item {...props} {...stylex.props(row.base, popup.item)}>
       {children}
@@ -67,8 +69,13 @@ export function Item({ children, ...props }: Omit<Combobox.Item.Props, "classNam
   );
 }
 
-export function Empty(props: Omit<Combobox.Empty.Props, "className" | "style">) {
-  return <Combobox.Empty {...props} {...stylex.props(row.base, styles.empty)} />;
+export function Empty(props: Unstyled<Combobox.Empty.Props>) {
+  return (
+    <Combobox.Empty
+      {...props}
+      {...stylex.props(row.base, popup.item, styles.empty, styles.collapsible)}
+    />
+  );
 }
 
 const styles = stylex.create({
@@ -76,29 +83,19 @@ const styles = stylex.create({
     justifyContent: "space-between",
     textAlign: "start",
   },
-  value: {
-    minWidth: 0,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-  },
   placeholder: {
-    color: text.subtle,
+    color: color.subtle,
   },
   popup: {
-    display: "flex",
-    flexDirection: "column",
     minWidth: `max(${size.popup}, var(--anchor-width))`,
     maxHeight: `min(var(--available-height), calc(10 * ${size.md}))`,
     overflow: "hidden",
   },
-  list: {
-    display: { default: "flex", ":empty": "none" },
-  },
   empty: {
-    height: size.md,
     margin: space[1.5],
-    color: text.subtle,
+    color: color.subtle,
+  },
+  collapsible: {
     display: { default: "flex", ":empty": "none" },
   },
 });
