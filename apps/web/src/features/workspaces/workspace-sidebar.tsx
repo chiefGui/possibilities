@@ -1,6 +1,5 @@
 import type { Workspace } from "@possibilities/contract";
 import { useQuery } from "@tanstack/react-query";
-import { Add01Icon, Home01Icon, PackageIcon } from "@hugeicons-pro/core-stroke-rounded";
 
 import { projectsQuery } from "@/features/projects/queries";
 import { WorkspaceSwitcher } from "@/features/workspaces/workspace-switcher";
@@ -22,7 +21,7 @@ export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
           params={{ workspaceId }}
           activeOptions={{ exact: true }}
         >
-          <Icon icon={Home01Icon} />
+          <Icon name="home" />
           Home
         </Sidebar.Item>
       </Sidebar.Section>
@@ -34,7 +33,7 @@ export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
             params={{ workspaceId }}
             aria-label="New project"
           >
-            <Icon icon={Add01Icon} />
+            <Icon name="add" />
           </Sidebar.Action>
         </Sidebar.SectionHeader>
         {projects.map((project) => (
@@ -43,7 +42,7 @@ export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
             to="/workspaces/$workspaceId/projects/$projectId"
             params={{ workspaceId, projectId: project.id }}
           >
-            <Icon icon={PackageIcon} />
+            <Icon name="project" />
             {project.title}
           </Sidebar.Item>
         ))}

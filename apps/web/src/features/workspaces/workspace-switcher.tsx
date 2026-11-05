@@ -2,7 +2,6 @@ import type { Workspace } from "@possibilities/contract";
 import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Add01Icon, ArrowDown01Icon } from "@hugeicons-pro/core-stroke-rounded";
 
 import { workspacesQuery } from "@/features/workspaces/queries";
 import { background, text as color } from "@/theme/colors.stylex";
@@ -20,7 +19,7 @@ export function WorkspaceSwitcher({ workspace }: { workspace: Workspace }) {
       <Menu.Trigger render={<Sidebar.Button />}>
         <Avatar title={workspace.title} />
         <span {...stylex.props(text.truncate, styles.title)}>{workspace.title}</span>
-        <Icon icon={ArrowDown01Icon} />
+        <Icon name="dropdown" />
       </Menu.Trigger>
       <Menu.Popup>
         {workspaces.map((other) => (
@@ -41,7 +40,7 @@ export function WorkspaceSwitcher({ workspace }: { workspace: Workspace }) {
         ))}
         <Menu.Separator />
         <Menu.LinkItem render={<Link to="/workspaces/new" />}>
-          <Icon icon={Add01Icon} />
+          <Icon name="add" />
           New workspace
         </Menu.LinkItem>
       </Menu.Popup>

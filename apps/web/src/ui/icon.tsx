@@ -1,11 +1,34 @@
-import * as stylex from "@stylexjs/stylex";
+import {
+  Add01Icon,
+  ArrowDown01Icon,
+  ArrowRight01Icon,
+  CheckmarkCircle01Icon,
+  CircleDashedIcon,
+  Home01Icon,
+  PackageIcon,
+  Tick01Icon,
+} from "@hugeicons-pro/core-stroke-rounded";
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
+import * as stylex from "@stylexjs/stylex";
 
 import { icon } from "@/theme/colors.stylex";
 import { size } from "@/theme/tokens.stylex";
 
-export function Icon({ icon, xstyle }: { icon: IconSvgElement; xstyle?: stylex.StyleXStyles }) {
-  return <HugeiconsIcon icon={icon} aria-hidden {...stylex.props(styles.icon, xstyle)} />;
+const glyphs = {
+  add: Add01Icon,
+  home: Home01Icon,
+  project: PackageIcon,
+  selected: Tick01Icon,
+  success: CheckmarkCircle01Icon,
+  pending: CircleDashedIcon,
+  dropdown: ArrowDown01Icon,
+  expand: ArrowRight01Icon,
+} satisfies Record<string, IconSvgElement>;
+
+export type IconName = keyof typeof glyphs;
+
+export function Icon({ name, xstyle }: { name: IconName; xstyle?: stylex.StyleXStyles }) {
+  return <HugeiconsIcon icon={glyphs[name]} aria-hidden {...stylex.props(styles.icon, xstyle)} />;
 }
 
 const styles = stylex.create({

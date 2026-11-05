@@ -1,6 +1,5 @@
 import { Accordion } from "@base-ui/react/accordion";
 import * as stylex from "@stylexjs/stylex";
-import { ArrowRight01Icon } from "@hugeicons-pro/core-stroke-rounded";
 
 import { border, surface } from "@/theme/colors.stylex";
 import { motion, radius, size, space } from "@/theme/tokens.stylex";
@@ -25,7 +24,7 @@ export function Trigger({ children, ...props }: Unstyled<Accordion.Trigger.Props
         {...stylex.props(row.base, states.hover, states.ring, styles.trigger)}
       >
         {children}
-        <Icon icon={ArrowRight01Icon} xstyle={styles.chevron} />
+        <Icon name="expand" xstyle={styles.chevron} />
       </Accordion.Trigger>
     </Accordion.Header>
   );
