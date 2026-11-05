@@ -8,7 +8,7 @@ import {
   PackageIcon,
   Tick01Icon,
 } from "@hugeicons-pro/core-stroke-rounded";
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
+import { HugeiconsIcon } from "@hugeicons/react";
 import * as stylex from "@stylexjs/stylex";
 
 import { icon } from "@/theme/colors.stylex";
@@ -23,9 +23,9 @@ const glyphs = {
   pending: CircleDashedIcon,
   dropdown: ArrowDown01Icon,
   expand: ArrowRight01Icon,
-} satisfies Record<string, IconSvgElement>;
+};
 
-export type IconName = keyof typeof glyphs;
+type IconName = keyof typeof glyphs;
 
 export function Icon({ name, xstyle }: { name: IconName; xstyle?: stylex.StyleXStyles }) {
   return <HugeiconsIcon icon={glyphs[name]} aria-hidden {...stylex.props(styles.icon, xstyle)} />;
