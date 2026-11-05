@@ -4,7 +4,7 @@ import { Effect, Layer } from "effect";
 import { environment, owners, repositories } from "./github.ts";
 import { createProject, listProjects, renameProject } from "./projects.ts";
 import { Registry } from "./registry.ts";
-import { ClonesDirectory, createWorkspace } from "./workspaces.ts";
+import { ClonesDirectory, createWorkspace, openWorkspace, syncWorkspace } from "./workspaces.ts";
 
 const handlers = Api.toLayer(
   Effect.gen(function* () {
@@ -14,7 +14,8 @@ const handlers = Api.toLayer(
       owners: () => owners,
       repositories: ({ owner }) => repositories(owner),
       workspaces: () => registry.list,
-      openWorkspace: ({ id }) => registry.open(id),
+      openWorkspace: ({ id }) => openWorkspace(id),
+      syncWorkspace: ({ id }) => syncWorkspace(id),
       createWorkspace,
       projects: ({ workspaceId }) => listProjects(workspaceId),
       createProject,

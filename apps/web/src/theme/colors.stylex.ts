@@ -48,6 +48,7 @@ export const text = stylex.defineVars({
 export const icon = stylex.defineVars({
   subtle: slate[11],
   success: green,
+  danger: red,
 });
 
 export const border = stylex.defineVars({

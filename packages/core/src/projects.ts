@@ -4,25 +4,18 @@ import {
   ProjectNotFound,
   type RenameProject,
 } from "@possibilities/contract";
-import { Effect, FileSystem, Path, Semaphore, Struct } from "effect";
+import { Effect, FileSystem, Path, Struct } from "effect";
 
 import { commit, git } from "./github.ts";
 import { manifestFile, type ProjectEntry, readManifest, writeManifest } from "./manifest.ts";
-import { Registry } from "./registry.ts";
-import { workspaceDirectory } from "./workspaces.ts";
+import { gitLock, workspaceRoot } from "./workspaces.ts";
 
 const keepFile = ".keep";
-
-const rootOf = Effect.fn("rootOf")(function* (workspaceId: string) {
-  const registry = yield* Registry;
-  const workspace = yield* registry.get(workspaceId);
-  return yield* workspaceDirectory(workspace.repository);
-});
 
 const toProject = (entry: ProjectEntry): Project => Struct.omit(entry, ["directory"]);
 
 export const listProjects = Effect.fn("listProjects")(function* (workspaceId: string) {
-  const root = yield* rootOf(workspaceId);
+  const root = yield* workspaceRoot(workspaceId);
   const { manifest } = yield* readManifest(root).pipe(Effect.orDie);
   return manifest.projects.map(toProject);
 });
@@ -55,8 +48,6 @@ const move = Effect.fn("move")(function* (root: string, from: string, to: string
   yield* git(root, "mv", "--", through, to);
 });
 
-const writes = Semaphore.makeUnsafe(1);
-
 type Change = { projects: ReadonlyArray<ProjectEntry>; project: ProjectEntry };
 
 const updateProjects = Effect.fn("updateProjects")(function* <E, R>(
@@ -64,7 +55,7 @@ const updateProjects = Effect.fn("updateProjects")(function* <E, R>(
   message: string,
   change: (root: string, projects: ReadonlyArray<ProjectEntry>) => Effect.Effect<Change, E, R>,
 ) {
-  const root = yield* rootOf(workspaceId);
+  const root = yield* workspaceRoot(workspaceId);
   return yield* Effect.gen(function* () {
     yield* git(root, "pull", "--ff-only");
     const { document, manifest } = yield* readManifest(root).pipe(Effect.orDie);
@@ -74,7 +65,7 @@ const updateProjects = Effect.fn("updateProjects")(function* <E, R>(
     return toProject(project);
   }).pipe(
     Effect.onError(() => git(root, "reset", "--hard", "@{upstream}").pipe(Effect.ignore)),
-    writes.withPermits(1),
+    gitLock.withPermits(1),
   );
 });
 
