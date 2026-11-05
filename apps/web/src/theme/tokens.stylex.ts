@@ -3,6 +3,7 @@ import * as stylex from "@stylexjs/stylex";
 export const space = stylex.defineVars({
   0.5: "2px",
   1: "4px",
+  1.5: "6px",
   2: "8px",
   3: "12px",
   4: "16px",
@@ -14,6 +15,7 @@ export const radius = stylex.defineVars({
   xs: "4px",
   sm: "6px",
   md: "8px",
+  lg: "12px",
 });
 
 export const fontSize = stylex.defineVars({

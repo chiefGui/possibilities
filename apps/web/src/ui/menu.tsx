@@ -2,8 +2,6 @@ import { Menu } from "@base-ui/react/menu";
 import * as stylex from "@stylexjs/stylex";
 import { Check as CheckIcon } from "lucide-react";
 
-import { border } from "@/theme/colors.stylex";
-import { space } from "@/theme/tokens.stylex";
 import { Icon } from "@/ui/icon";
 import { popup } from "@/ui/popup";
 import { row } from "@/ui/row";
@@ -31,17 +29,11 @@ export function Check() {
 }
 
 export function Separator() {
-  return <Menu.Separator {...stylex.props(styles.separator)} />;
+  return <Menu.Separator {...stylex.props(popup.separator)} />;
 }
 
 const styles = stylex.create({
   current: {
     visibility: { default: "hidden", ":is([aria-current=page] > *)": "visible" },
-  },
-  separator: {
-    height: 1,
-    marginBlock: space[1],
-    marginInline: `calc(-1 * ${space[1]})`,
-    backgroundColor: border.default,
   },
 });

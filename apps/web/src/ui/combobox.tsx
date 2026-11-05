@@ -2,14 +2,14 @@ import { Combobox } from "@base-ui/react/combobox";
 import * as stylex from "@stylexjs/stylex";
 import { Check, ChevronDown, X } from "lucide-react";
 
-import { background, border, text } from "@/theme/colors.stylex";
-import { fontSize, radius, size, space } from "@/theme/tokens.stylex";
+import { background, text } from "@/theme/colors.stylex";
+import { radius, size, space } from "@/theme/tokens.stylex";
 import { Icon } from "@/ui/icon";
 import * as Input from "@/ui/input";
 import { popup } from "@/ui/popup";
 import { row } from "@/ui/row";
 
-export const Root = Combobox.Root;
+export const Root: typeof Combobox.Root = (props) => <Combobox.Root autoHighlight {...props} />;
 
 export function InputGroup(props: Omit<Combobox.InputGroup.Props, "className" | "style">) {
   return <Combobox.InputGroup {...props} render={<Input.Root />} />;
@@ -47,7 +47,7 @@ export function Popup(props: Omit<Combobox.Popup.Props, "className" | "style">) 
 }
 
 export function Search(props: Omit<Combobox.Input.Props, "className" | "style">) {
-  return <Combobox.Input {...props} {...stylex.props(styles.search)} />;
+  return <Combobox.Input {...props} {...stylex.props(popup.search)} />;
 }
 
 export function List(props: Omit<Combobox.List.Props, "className" | "style">) {
@@ -94,32 +94,15 @@ const styles = stylex.create({
   },
   popup: {
     minWidth: `max(${size.popup}, var(--anchor-width))`,
-    maxHeight: `min(var(--available-height), calc(9 * ${size.sm} + 2 * ${space[1]}))`,
+    maxHeight: `min(var(--available-height), calc(10 * ${size.md}))`,
     overflow: "hidden",
-  },
-  search: {
-    flexShrink: 0,
-    height: size.md,
-    marginTop: `calc(-1 * ${space[1]})`,
-    marginInline: `calc(-1 * ${space[1]})`,
-    marginBottom: space[1],
-    paddingInline: space[3],
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderStyle: "solid",
-    borderColor: border.default,
-    backgroundColor: "transparent",
-    color: text.default,
-    fontFamily: "inherit",
-    fontSize: fontSize.md,
-    outlineStyle: "none",
-    "::placeholder": { color: text.subtle },
   },
   list: {
     minHeight: 0,
     overflowY: "auto",
   },
   empty: {
+    height: size.md,
     color: text.subtle,
     display: { default: "flex", ":empty": "none" },
   },
