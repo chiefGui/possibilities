@@ -3,7 +3,7 @@ import * as stylex from "@stylexjs/stylex";
 import { Check as CheckIcon } from "lucide-react";
 
 import { Icon } from "@/ui/icon";
-import { popup } from "@/ui/popup";
+import { popup, returnFocus } from "@/ui/popup";
 import { row } from "@/ui/row";
 
 export const Root = Menu.Root;
@@ -14,7 +14,11 @@ export function Popup(props: Omit<Menu.Popup.Props, "className" | "style">) {
   return (
     <Menu.Portal>
       <Menu.Positioner align="start" sideOffset={4}>
-        <Menu.Popup {...props} {...stylex.props(popup.root, popup.content)} />
+        <Menu.Popup
+          finalFocus={returnFocus}
+          {...props}
+          {...stylex.props(popup.root, popup.content)}
+        />
       </Menu.Positioner>
     </Menu.Portal>
   );

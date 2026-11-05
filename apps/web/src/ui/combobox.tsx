@@ -6,7 +6,7 @@ import { text } from "@/theme/colors.stylex";
 import { size, space } from "@/theme/tokens.stylex";
 import { control } from "@/ui/control";
 import { Icon } from "@/ui/icon";
-import { popup } from "@/ui/popup";
+import { popup, returnFocus } from "@/ui/popup";
 import { row } from "@/ui/row";
 import * as ScrollArea from "@/ui/scroll-area";
 
@@ -33,7 +33,11 @@ export function Popup(props: Omit<Combobox.Popup.Props, "className" | "style">) 
   return (
     <Combobox.Portal>
       <Combobox.Positioner align="start" sideOffset={4}>
-        <Combobox.Popup {...props} {...stylex.props(popup.root, styles.popup)} />
+        <Combobox.Popup
+          finalFocus={returnFocus}
+          {...props}
+          {...stylex.props(popup.root, styles.popup)}
+        />
       </Combobox.Positioner>
     </Combobox.Portal>
   );
@@ -47,7 +51,7 @@ export function List(props: Omit<Combobox.List.Props, "className" | "style">) {
   return (
     <ScrollArea.Root>
       <ScrollArea.Viewport>
-        <Combobox.List {...props} {...stylex.props(popup.content)} />
+        <Combobox.List {...props} {...stylex.props(popup.content, styles.list)} />
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar />
     </ScrollArea.Root>
@@ -87,6 +91,9 @@ const styles = stylex.create({
     minWidth: `max(${size.popup}, var(--anchor-width))`,
     maxHeight: `min(var(--available-height), calc(10 * ${size.md}))`,
     overflow: "hidden",
+  },
+  list: {
+    display: { default: "flex", ":empty": "none" },
   },
   empty: {
     height: size.md,
