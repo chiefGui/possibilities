@@ -1,6 +1,5 @@
 import { Combobox } from "@base-ui/react/combobox";
 import * as stylex from "@stylexjs/stylex";
-import { Check, ChevronDown } from "lucide-react";
 
 import { text as color } from "@/theme/colors.stylex";
 import { size, space } from "@/theme/tokens.stylex";
@@ -26,7 +25,7 @@ export function Trigger({ placeholder, ...props }: TriggerProps) {
           placeholder={<span {...stylex.props(styles.placeholder)}>{placeholder}</span>}
         />
       </span>
-      <Icon icon={ChevronDown} />
+      <Icon name="dropdown" />
     </Combobox.Trigger>
   );
 }
@@ -64,7 +63,7 @@ export function Item({ children, ...props }: Unstyled<Combobox.Item.Props>) {
   return (
     <Combobox.Item {...props} {...stylex.props(row.base, popup.item)}>
       {children}
-      <Combobox.ItemIndicator render={<Icon icon={Check} xstyle={popup.indicator} />} />
+      <Combobox.ItemIndicator render={<Icon name="selected" xstyle={popup.indicator} />} />
     </Combobox.Item>
   );
 }

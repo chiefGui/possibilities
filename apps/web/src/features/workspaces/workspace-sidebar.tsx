@@ -1,6 +1,5 @@
 import type { Workspace } from "@possibilities/contract";
 import { useQuery } from "@tanstack/react-query";
-import { Box, House, Plus } from "lucide-react";
 
 import { projectsQuery } from "@/features/projects/queries";
 import { WorkspaceSwitcher } from "@/features/workspaces/workspace-switcher";
@@ -22,7 +21,7 @@ export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
           params={{ workspaceId }}
           activeOptions={{ exact: true }}
         >
-          <Icon icon={House} />
+          <Icon name="home" />
           Home
         </Sidebar.Item>
       </Sidebar.Section>
@@ -34,7 +33,7 @@ export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
             params={{ workspaceId }}
             aria-label="New project"
           >
-            <Icon icon={Plus} />
+            <Icon name="add" />
           </Sidebar.Action>
         </Sidebar.SectionHeader>
         {projects.map((project) => (
@@ -43,7 +42,7 @@ export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
             to="/workspaces/$workspaceId/projects/$projectId"
             params={{ workspaceId, projectId: project.id }}
           >
-            <Icon icon={Box} />
+            <Icon name="project" />
             {project.title}
           </Sidebar.Item>
         ))}

@@ -1,6 +1,5 @@
 import { Menu } from "@base-ui/react/menu";
 import * as stylex from "@stylexjs/stylex";
-import { Check as CheckIcon } from "lucide-react";
 
 import { Icon } from "@/ui/icon";
 import { popup, returnFocus } from "@/ui/popup";
@@ -30,7 +29,7 @@ export function LinkItem(props: Unstyled<Menu.LinkItem.Props>) {
 }
 
 export function Check() {
-  return <Icon icon={CheckIcon} xstyle={[popup.indicator, styles.current]} />;
+  return <Icon name="selected" xstyle={[popup.indicator, styles.current]} />;
 }
 
 export function Separator() {

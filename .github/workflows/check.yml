@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VP_GIT_HOOKS: "0"
+      HUGEICONS_LICENSE_KEY: ${{ secrets.HUGEICONS_LICENSE_KEY }}
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: voidzero-dev/setup-vp@v1.22.0
