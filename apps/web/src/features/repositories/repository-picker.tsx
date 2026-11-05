@@ -37,7 +37,7 @@ export function RepositoryPicker({ value, onValueChange, noneLabel }: Repository
       }}
     >
       <Combobox.Root
-        items={noneLabel ? [none, ...names] : names}
+        items={repositories.isSuccess ? (noneLabel ? [none, ...names] : names) : []}
         value={value ?? (noneLabel ? none : null)}
         onValueChange={(next: string | null) => onValueChange(next || null)}
         itemToStringLabel={labelOf}

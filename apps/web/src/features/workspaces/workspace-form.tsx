@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { type RepositoryChoice, WorkspaceExists } from "@possibilities/contract";
+import type { RepositoryChoice } from "@possibilities/contract";
 import { type ReactNode, useState } from "react";
 
 import { workspacesQuery } from "@/features/workspaces/queries";
@@ -56,11 +56,9 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
     Existing: selected ? { _tag: "Existing", nameWithOwner: selected } : null,
   };
   const choice = choices[source];
-  const repositoryError = create.error instanceof WorkspaceExists ? create.error : null;
 
   return (
     <Form.Root
-      errors={repositoryError ? { repository: repositoryError.message } : {}}
       onFormSubmit={() => {
         if (title.trim() && choice) create.mutate(choice);
       }}
@@ -77,8 +75,8 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
         </Input.Root>
       </Field.Root>
 
-      <Field.Root name="repository">
-        <Field.Label>Repository</Field.Label>
+      <Field.Group>
+        <Field.Legend>Repository</Field.Legend>
         <Tabs.Root value={source} onValueChange={edit(setSource)}>
           <Tabs.List>
             <Tabs.Tab value="New">New</Tabs.Tab>
@@ -100,10 +98,9 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
             <RepositoryPicker value={selected} onValueChange={edit(setSelected)} />
           </Tabs.Panel>
         </Tabs.Root>
-        <Field.Error />
-      </Field.Root>
+      </Field.Group>
 
-      {create.error && !repositoryError && <Form.Error>{create.error.message}</Form.Error>}
+      {create.error && <Form.Error>{create.error.message}</Form.Error>}
 
       <Actions>
         {children}

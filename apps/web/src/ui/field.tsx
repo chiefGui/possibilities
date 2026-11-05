@@ -1,4 +1,5 @@
 import { Field } from "@base-ui/react/field";
+import { Fieldset } from "@base-ui/react/fieldset";
 import * as stylex from "@stylexjs/stylex";
 
 import { text } from "@/theme/colors.stylex";
@@ -12,8 +13,12 @@ export function Label(props: Omit<Field.Label.Props, "className" | "style">) {
   return <Field.Label {...props} {...stylex.props(styles.label)} />;
 }
 
-export function Error(props: Omit<Field.Error.Props, "className" | "style">) {
-  return <Field.Error {...props} {...stylex.props(styles.error)} />;
+export function Group(props: Omit<Fieldset.Root.Props, "className" | "style">) {
+  return <Fieldset.Root {...props} {...stylex.props(styles.root, styles.group)} />;
+}
+
+export function Legend(props: Omit<Fieldset.Legend.Props, "className" | "style">) {
+  return <Fieldset.Legend {...props} {...stylex.props(styles.label)} />;
 }
 
 const styles = stylex.create({
@@ -22,14 +27,15 @@ const styles = stylex.create({
     flexDirection: "column",
     gap: space[2],
   },
+  group: {
+    minWidth: 0,
+    margin: 0,
+    padding: 0,
+    borderWidth: 0,
+  },
   label: {
     fontSize: fontSize.sm,
     fontWeight: weight.medium,
     color: text.subtle,
-  },
-  error: {
-    margin: 0,
-    fontSize: fontSize.sm,
-    color: text.danger,
   },
 });
