@@ -1,12 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 
+import { prefetchRepositories } from "@/features/repositories/queries";
 import { workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceForm } from "@/features/workspaces/workspace-form";
 import { Button } from "@/ui/button";
 import * as CenteredPage from "@/ui/centered-page";
 
 export const Route = createFileRoute("/workspaces/new")({
+  loader: ({ context }) => {
+    void prefetchRepositories(context.queryClient);
+  },
   component: NewWorkspace,
 });
 

@@ -1,10 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { type RepositoryChoice, WorkspaceExists } from "@possibilities/contract";
+import type { RepositoryChoice } from "@possibilities/contract";
 import { type ReactNode, useState } from "react";
 
-import { environmentQuery } from "@/features/environment/queries";
 import { workspacesQuery } from "@/features/workspaces/queries";
+import { OwnerScope } from "@/features/repositories/owner-scope";
+import { useOwner } from "@/features/repositories/queries";
 import { RepositoryPicker } from "@/features/repositories/repository-picker";
 import { call } from "@/rpc";
 import { Actions } from "@/ui/actions";
@@ -27,10 +28,11 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [source, setSource] = useState<Source>("New");
+  const [selectedOwner, setSelectedOwner] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selectedRepository, setSelectedRepository] = useState<string | null>(null);
 
-  const login = useQuery(environmentQuery).data?.githubLogin;
+  const owner = useOwner(selectedOwner);
   const repositoryName = name ?? slugify(title);
 
   const create = useMutation({
@@ -50,15 +52,13 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
     };
 
   const choices: Record<Source, RepositoryChoice | null> = {
-    New: repositoryName ? { _tag: "New", name: repositoryName } : null,
-    Existing: selected ? { _tag: "Existing", nameWithOwner: selected } : null,
+    New: owner && repositoryName ? { _tag: "New", owner, name: repositoryName } : null,
+    Existing: selectedRepository ? { _tag: "Existing", nameWithOwner: selectedRepository } : null,
   };
   const choice = choices[source];
-  const repositoryError = create.error instanceof WorkspaceExists ? create.error : null;
 
   return (
     <Form.Root
-      errors={repositoryError ? { repository: repositoryError.message } : {}}
       onFormSubmit={() => {
         if (title.trim() && choice) create.mutate(choice);
       }}
@@ -75,32 +75,35 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
         </Input.Root>
       </Field.Root>
 
-      <Field.Root name="repository">
-        <Field.Label>Repository</Field.Label>
+      <Field.Group>
+        <Field.Legend>Repository</Field.Legend>
         <Tabs.Root value={source} onValueChange={edit(setSource)}>
           <Tabs.List>
             <Tabs.Tab value="New">New</Tabs.Tab>
             <Tabs.Tab value="Existing">Existing</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="New">
-            <Input.Root>
-              {login && <Input.Addon>{login}/</Input.Addon>}
-              <Input.Control
-                value={repositoryName}
-                placeholder="acme"
-                onValueChange={edit(setName)}
-              />
-              <Input.Addon>Private</Input.Addon>
-            </Input.Root>
+            <OwnerScope value={owner} onValueChange={edit(setSelectedOwner)}>
+              <Input.Root>
+                <Input.Control
+                  value={repositoryName}
+                  placeholder="acme"
+                  onValueChange={edit(setName)}
+                />
+                <Input.Addon>Private</Input.Addon>
+              </Input.Root>
+            </OwnerScope>
           </Tabs.Panel>
           <Tabs.Panel value="Existing">
-            <RepositoryPicker selected={selected} onSelect={edit(setSelected)} />
+            <RepositoryPicker
+              value={selectedRepository}
+              onValueChange={edit(setSelectedRepository)}
+            />
           </Tabs.Panel>
         </Tabs.Root>
-        <Field.Error />
-      </Field.Root>
+      </Field.Group>
 
-      {create.error && !repositoryError && <Form.Error>{create.error.message}</Form.Error>}
+      {create.error && <Form.Error>{create.error.message}</Form.Error>}
 
       <Actions>
         {children}

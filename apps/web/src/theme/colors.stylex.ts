@@ -33,6 +33,7 @@ export const background = stylex.defineVars({
   neutral: wash(ink, 6),
   hovered: wash(ink, 5),
   selected: wash(ink, 8),
+  neutralBold: wash(ink, 24),
   brand: indigo,
   brandHovered: `color-mix(in oklch, ${indigo} 88%, white)`,
 });
@@ -51,6 +52,7 @@ export const icon = stylex.defineVars({
 
 export const border = stylex.defineVars({
   default: mode(wash(inks.light, 12), wash(inks.dark, 8)),
+  hovered: mode(wash(inks.light, 24), wash(inks.dark, 16)),
   focused: indigo,
   danger: red,
 });

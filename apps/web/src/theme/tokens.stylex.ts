@@ -3,6 +3,7 @@ import * as stylex from "@stylexjs/stylex";
 export const space = stylex.defineVars({
   0.5: "2px",
   1: "4px",
+  1.5: "6px",
   2: "8px",
   3: "12px",
   4: "16px",
@@ -14,6 +15,7 @@ export const radius = stylex.defineVars({
   xs: "4px",
   sm: "6px",
   md: "8px",
+  lg: "12px",
 });
 
 export const fontSize = stylex.defineVars({
@@ -42,10 +44,13 @@ export const size = stylex.defineVars({
   lg: "36px",
   row: "44px",
   trafficLights: "76px",
+  sidebar: "240px",
+  column: "420px",
+  popup: "220px",
 });
 
 export const motion = stylex.defineVars({
-  fast: "100ms",
+  fast: { default: "100ms", "@media (prefers-reduced-motion: reduce)": "0ms" },
   easing: "cubic-bezier(0.2, 0, 0, 1)",
 });
 

@@ -2,111 +2,72 @@ import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { repositoriesQuery } from "@/features/repositories/queries";
-import { background, border, text } from "@/theme/colors.stylex";
-import { fontSize, radius, size, space, weight } from "@/theme/tokens.stylex";
-import * as Input from "@/ui/input";
+import { OwnerScope } from "@/features/repositories/owner-scope";
+import { repositoriesQuery, useOwner } from "@/features/repositories/queries";
+import { text } from "@/theme/colors.stylex";
+import { fontSize } from "@/theme/tokens.stylex";
+import * as Combobox from "@/ui/combobox";
 
 type RepositoryPickerProps = {
-  selected: string | null;
-  onSelect: (nameWithOwner: string | null) => void;
+  value: string | null;
+  onValueChange: (nameWithOwner: string | null) => void;
+  noneLabel?: string;
 };
 
-export function RepositoryPicker({ selected, onSelect }: RepositoryPickerProps) {
-  const [filter, setFilter] = useState("");
-  const repositories = useQuery(repositoriesQuery);
-  const matches = (repositories.data ?? []).filter((repository) =>
-    repository.nameWithOwner.toLowerCase().includes(filter.toLowerCase()),
+const none = "";
+
+const nameOf = (nameWithOwner: string) => nameWithOwner.slice(nameWithOwner.indexOf("/") + 1);
+
+export function RepositoryPicker({ value, onValueChange, noneLabel }: RepositoryPickerProps) {
+  const [selectedOwner, setSelectedOwner] = useState<string | null>(null);
+  const owner = useOwner(selectedOwner);
+  const repositories = useQuery({ ...repositoriesQuery(owner ?? ""), enabled: owner !== null });
+  const privacy = new Map(
+    repositories.data?.map((repository) => [repository.nameWithOwner, repository.isPrivate]),
   );
+  const names = [...privacy.keys()];
+  const labelOf = (item: string) => (item === none ? (noneLabel ?? "") : nameOf(item));
 
   return (
-    <div {...stylex.props(styles.picker)}>
-      <Input.Root xstyle={styles.filter}>
-        <Input.Control value={filter} placeholder="Filter repositories" onValueChange={setFilter} />
-      </Input.Root>
-      <ul {...stylex.props(styles.repositories)}>
-        {repositories.isPending && <li {...stylex.props(styles.empty)}>Loading…</li>}
-        {repositories.error && (
-          <li {...stylex.props(styles.empty, styles.error)}>{repositories.error.message}</li>
-        )}
-        {repositories.isSuccess && matches.length === 0 && (
-          <li {...stylex.props(styles.empty)}>No repositories match</li>
-        )}
-        {matches.map((repository) => (
-          <li key={repository.nameWithOwner}>
-            <button
-              type="button"
-              aria-pressed={repository.nameWithOwner === selected}
-              onClick={() =>
-                onSelect(repository.nameWithOwner === selected ? null : repository.nameWithOwner)
-              }
-              {...stylex.props(styles.repository)}
-            >
-              <span>{repository.nameWithOwner}</span>
-              {repository.isPrivate && <span {...stylex.props(styles.badge)}>Private</span>}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <OwnerScope
+      value={owner}
+      onValueChange={(next) => {
+        setSelectedOwner(next);
+        onValueChange(null);
+      }}
+    >
+      <Combobox.Root
+        items={repositories.isSuccess ? (noneLabel ? [none, ...names] : names) : []}
+        value={value ?? (noneLabel ? none : null)}
+        onValueChange={(next: string | null) => onValueChange(next || null)}
+        itemToStringLabel={labelOf}
+      >
+        <Combobox.Trigger aria-label="Repository" placeholder="Repository" disabled={!owner} />
+        <Combobox.Popup>
+          <Combobox.Search placeholder="Search repositories" />
+          <Combobox.Empty>
+            {repositories.isPending
+              ? "Loading…"
+              : (repositories.error?.message ?? "No repositories match")}
+          </Combobox.Empty>
+          <Combobox.List>
+            {(item: string) => (
+              <Combobox.Item key={item} value={item}>
+                {labelOf(item)}
+                {privacy.get(item) && <span {...stylex.props(styles.badge)}>Private</span>}
+              </Combobox.Item>
+            )}
+          </Combobox.List>
+        </Combobox.Popup>
+      </Combobox.Root>
+    </OwnerScope>
   );
 }
 
 const styles = stylex.create({
-  picker: {
-    display: "flex",
-    flexDirection: "column",
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: border.default,
-    borderRadius: radius.md,
-    overflow: "hidden",
-  },
-  filter: {
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderRadius: 0,
-  },
-  repositories: {
-    margin: 0,
-    padding: space[1],
-    listStyle: "none",
-    maxHeight: `calc(7 * ${size.sm} + 2 * ${space[1]})`,
-    overflowY: "auto",
-  },
-  repository: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: space[2],
-    width: "100%",
-    height: size.sm,
-    paddingInline: space[2],
-    borderWidth: 0,
-    borderRadius: radius.sm,
-    fontFamily: "inherit",
-    fontSize: fontSize.md,
-    textAlign: "start",
-    color: text.default,
-    backgroundColor: {
-      default: "transparent",
-      ":hover": background.hovered,
-      ":is([aria-pressed=true])": background.selected,
-    },
-    fontWeight: { default: null, ":is([aria-pressed=true])": weight.medium },
-  },
   badge: {
+    marginInlineStart: "auto",
     fontSize: fontSize.xs,
     color: text.subtle,
-  },
-  empty: {
-    display: "flex",
-    alignItems: "center",
-    height: size.sm,
-    paddingInline: space[2],
-    color: text.subtle,
-  },
-  error: {
-    color: text.danger,
   },
 });

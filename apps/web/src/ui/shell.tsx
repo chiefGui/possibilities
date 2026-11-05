@@ -3,18 +3,17 @@ import type { ComponentProps } from "react";
 
 import { border, surface } from "@/theme/colors.stylex";
 import { radius, size, space, weight } from "@/theme/tokens.stylex";
+import type { Unstyled } from "@/ui/props";
 
-type Props<T extends "div" | "header"> = Omit<ComponentProps<T>, "className" | "style">;
-
-export function Root(props: Props<"div">) {
+export function Root(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(styles.root)} />;
 }
 
-export function Main(props: Props<"div">) {
+export function Main(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(styles.main)} />;
 }
 
-export function Header(props: Props<"header">) {
+export function Header(props: Unstyled<ComponentProps<"header">>) {
   return <header {...props} {...stylex.props(styles.header)} />;
 }
 

@@ -50,10 +50,10 @@ export function ProjectForm({
         </Input.Root>
       </Field.Root>
 
-      <Field.Root name="codebase">
-        <Field.Label>Codebase</Field.Label>
-        <RepositoryPicker selected={codebase} onSelect={setCodebase} />
-      </Field.Root>
+      <Field.Group>
+        <Field.Legend>Codebase</Field.Legend>
+        <RepositoryPicker value={codebase} onValueChange={setCodebase} noneLabel="No codebase" />
+      </Field.Group>
 
       {create.error && <Form.Error>{create.error.message}</Form.Error>}
 

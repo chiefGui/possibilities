@@ -1,7 +1,7 @@
 import { Api } from "@possibilities/contract";
 import { Effect, Layer } from "effect";
 
-import { environment, repositories } from "./github.ts";
+import { environment, owners, repositories } from "./github.ts";
 import { createProject, listProjects, renameProject } from "./projects.ts";
 import { Registry } from "./registry.ts";
 import { ClonesDirectory, createWorkspace } from "./workspaces.ts";
@@ -11,13 +11,14 @@ const handlers = Api.toLayer(
     const registry = yield* Registry;
     return Api.of({
       environment: () => environment,
-      repositories: () => repositories,
+      owners: () => owners,
+      repositories: ({ owner }) => repositories(owner),
       workspaces: () => registry.list,
       openWorkspace: ({ id }) => registry.open(id),
-      createWorkspace: (payload) => createWorkspace(payload),
+      createWorkspace,
       projects: ({ workspaceId }) => listProjects(workspaceId),
-      createProject: (payload) => createProject(payload),
-      renameProject: (payload) => renameProject(payload),
+      createProject,
+      renameProject,
     });
   }),
 );

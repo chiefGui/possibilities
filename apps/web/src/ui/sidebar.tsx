@@ -2,51 +2,47 @@ import * as stylex from "@stylexjs/stylex";
 import { createLink, type LinkComponent } from "@tanstack/react-router";
 import type { ComponentProps } from "react";
 
-import { background, border, icon, text } from "@/theme/colors.stylex";
-import { fontSize, radius, ring, size, space, weight } from "@/theme/tokens.stylex";
+import { background, icon } from "@/theme/colors.stylex";
+import { radius, size, space } from "@/theme/tokens.stylex";
+import type { Unstyled } from "@/ui/props";
 import { row } from "@/ui/row";
+import { states } from "@/ui/states";
+import { text } from "@/ui/text";
 
-type Props<T extends "nav" | "div" | "a" | "button"> = Omit<
-  ComponentProps<T>,
-  "className" | "style"
->;
-
-export function Root(props: Props<"nav">) {
+export function Root(props: Unstyled<ComponentProps<"nav">>) {
   return <nav {...props} {...stylex.props(styles.root)} />;
 }
 
-export function Header(props: Props<"div">) {
+export function Header(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(styles.header)} />;
 }
 
-export function Section(props: Props<"div">) {
+export function Section(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(styles.section)} />;
 }
 
-export function SectionHeader(props: Props<"div">) {
-  return <div {...props} {...stylex.props(styles.sectionHeader)} />;
+export function SectionHeader(props: Unstyled<ComponentProps<"div">>) {
+  return <div {...props} {...stylex.props(text.label, styles.sectionHeader)} />;
 }
 
-function ActionAnchor(props: Props<"a">) {
-  return <a {...props} {...stylex.props(styles.focusable, styles.action)} />;
+function ActionAnchor(props: Unstyled<ComponentProps<"a">>) {
+  return <a {...props} {...stylex.props(states.hover, states.ring, styles.action)} />;
 }
 
 const ActionLink = createLink(ActionAnchor);
 
 export const Action: LinkComponent<typeof ActionAnchor> = (props) => <ActionLink {...props} />;
 
-function Anchor(props: Props<"a">) {
-  return <a {...props} {...stylex.props(row.base, styles.focusable, styles.row)} />;
+function Anchor(props: Unstyled<ComponentProps<"a">>) {
+  return <a {...props} {...stylex.props(row.base, states.ring, styles.row)} />;
 }
 
 const ItemLink = createLink(Anchor);
 
 export const Item: LinkComponent<typeof Anchor> = (props) => <ItemLink {...props} />;
 
-export function Button(props: Props<"button">) {
-  return (
-    <button type="button" {...props} {...stylex.props(row.base, styles.focusable, styles.row)} />
-  );
+export function Button(props: Unstyled<ComponentProps<"button">>) {
+  return <button type="button" {...props} {...stylex.props(row.base, states.ring, styles.row)} />;
 }
 
 const styles = stylex.create({
@@ -54,7 +50,7 @@ const styles = stylex.create({
     display: "flex",
     flexDirection: "column",
     gap: space[4],
-    width: 240,
+    width: size.sidebar,
     flexShrink: 0,
     padding: space[2],
   },
@@ -76,18 +72,9 @@ const styles = stylex.create({
     justifyContent: "space-between",
     height: size.sm,
     paddingInline: space[2],
-    fontSize: fontSize.sm,
-    fontWeight: weight.medium,
-    color: text.subtle,
-  },
-  focusable: {
-    WebkitAppRegion: "no-drag",
-    outlineStyle: { default: "none", ":focus-visible": "solid" },
-    outlineWidth: ring.width,
-    outlineColor: border.focused,
-    outlineOffset: ring.offset,
   },
   row: {
+    WebkitAppRegion: "no-drag",
     backgroundColor: {
       default: "transparent",
       ":hover": background.hovered,
@@ -102,6 +89,6 @@ const styles = stylex.create({
     marginInlineEnd: `calc(-1 * ${space[1]})`,
     borderRadius: radius.sm,
     color: icon.subtle,
-    backgroundColor: { default: "transparent", ":hover": background.hovered },
+    WebkitAppRegion: "no-drag",
   },
 });

@@ -4,9 +4,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { projectsQuery } from "@/features/projects/queries";
 import { call } from "@/rpc";
-import { text } from "@/theme/colors.stylex";
+import { text as color } from "@/theme/colors.stylex";
 import { fontSize, weight } from "@/theme/tokens.stylex";
 import { EditableText } from "@/ui/editable-text";
+import { text } from "@/ui/text";
 
 export function ProjectTitle({ workspaceId, project }: { workspaceId: string; project: Project }) {
   const queryClient = useQueryClient();
@@ -38,7 +39,7 @@ export function ProjectTitle({ workspaceId, project }: { workspaceId: string; pr
         onCommit={(title) => rename.mutate(title)}
       />
       {rename.error && (
-        <span role="alert" {...stylex.props(styles.error)}>
+        <span role="alert" {...stylex.props(text.truncate, styles.error)}>
           {rename.error.message}
         </span>
       )}
@@ -48,12 +49,8 @@ export function ProjectTitle({ workspaceId, project }: { workspaceId: string; pr
 
 const styles = stylex.create({
   error: {
-    minWidth: 0,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
     fontSize: fontSize.sm,
     fontWeight: weight.regular,
-    color: text.danger,
+    color: color.danger,
   },
 });

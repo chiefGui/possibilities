@@ -1,16 +1,15 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
 
-import { background, border, text } from "@/theme/colors.stylex";
-import { fontSize, opacity, radius, ring, size, space, weight } from "@/theme/tokens.stylex";
+import { background, text } from "@/theme/colors.stylex";
+import { fontSize, opacity, radius, size, space, weight } from "@/theme/tokens.stylex";
+import type { Unstyled } from "@/ui/props";
+import { states } from "@/ui/states";
 
-type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
-  variant?: keyof typeof variants;
-  xstyle?: stylex.StyleXStyles;
-};
+type ButtonProps = Unstyled<BaseButton.Props> & { variant?: keyof typeof variants };
 
-export function Button({ variant = "primary", xstyle, ...props }: ButtonProps) {
-  return <BaseButton {...props} {...stylex.props(styles.base, variants[variant], xstyle)} />;
+export function Button({ variant = "primary", ...props }: ButtonProps) {
+  return <BaseButton {...props} {...stylex.props(styles.base, states.ring, variants[variant])} />;
 }
 
 const styles = stylex.create({
@@ -30,20 +29,20 @@ const styles = stylex.create({
     whiteSpace: "nowrap",
     userSelect: "none",
     opacity: { default: null, ":disabled": opacity.disabled },
-    outlineStyle: { default: "none", ":focus-visible": "solid" },
-    outlineWidth: ring.width,
-    outlineColor: border.focused,
-    outlineOffset: ring.offset,
   },
 });
 
-const variants = stylex.create({
+const tones = stylex.create({
   primary: {
     backgroundColor: { default: background.brand, ":hover": background.brandHovered },
     color: text.inverse,
   },
   ghost: {
-    backgroundColor: { default: "transparent", ":hover": background.hovered },
     color: text.default,
   },
 });
+
+const variants = {
+  primary: tones.primary,
+  ghost: [states.hover, tones.ghost],
+};

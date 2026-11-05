@@ -7,7 +7,7 @@ import { environmentQuery } from "@/features/environment/queries";
 import { isReady } from "@/features/environment/steps";
 import { WorkspaceForm } from "@/features/workspaces/workspace-form";
 import { background, border } from "@/theme/colors.stylex";
-import { space } from "@/theme/tokens.stylex";
+import { radius, space } from "@/theme/tokens.stylex";
 import { Actions } from "@/ui/actions";
 import { Button } from "@/ui/button";
 import * as CenteredPage from "@/ui/centered-page";
@@ -83,7 +83,7 @@ const styles = stylex.create({
   segment: {
     flex: 1,
     height: space[0.5],
-    borderRadius: space[0.5],
+    borderRadius: radius.xs,
     backgroundColor: border.default,
   },
   reached: {

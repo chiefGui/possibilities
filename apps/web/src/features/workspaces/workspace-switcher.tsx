@@ -5,11 +5,12 @@ import { Link } from "@tanstack/react-router";
 import { ChevronDown, Plus } from "lucide-react";
 
 import { workspacesQuery } from "@/features/workspaces/queries";
-import { background, text } from "@/theme/colors.stylex";
+import { background, text as color } from "@/theme/colors.stylex";
 import { fontSize, radius, size, weight } from "@/theme/tokens.stylex";
 import { Icon } from "@/ui/icon";
 import * as Menu from "@/ui/menu";
 import * as Sidebar from "@/ui/sidebar";
+import { text } from "@/ui/text";
 
 export function WorkspaceSwitcher({ workspace }: { workspace: Workspace }) {
   const workspaces = useQuery(workspacesQuery).data ?? [workspace];
@@ -18,7 +19,7 @@ export function WorkspaceSwitcher({ workspace }: { workspace: Workspace }) {
     <Menu.Root>
       <Menu.Trigger render={<Sidebar.Button />}>
         <Avatar title={workspace.title} />
-        <span {...stylex.props(styles.title)}>{workspace.title}</span>
+        <span {...stylex.props(text.truncate, styles.title)}>{workspace.title}</span>
         <Icon icon={ChevronDown} />
       </Menu.Trigger>
       <Menu.Popup>
@@ -58,9 +59,6 @@ function Avatar({ title }: { title: string }) {
 
 const styles = stylex.create({
   title: {
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
     fontWeight: weight.semibold,
   },
   avatar: {
@@ -72,7 +70,7 @@ const styles = stylex.create({
     borderRadius: radius.xs,
     fontSize: fontSize.xs,
     fontWeight: weight.semibold,
-    color: text.inverse,
+    color: color.inverse,
     backgroundColor: background.brand,
   },
 });

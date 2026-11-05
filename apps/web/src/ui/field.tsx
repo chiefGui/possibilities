@@ -1,19 +1,25 @@
 import { Field } from "@base-ui/react/field";
+import { Fieldset } from "@base-ui/react/fieldset";
 import * as stylex from "@stylexjs/stylex";
 
-import { text } from "@/theme/colors.stylex";
-import { fontSize, space, weight } from "@/theme/tokens.stylex";
+import { space } from "@/theme/tokens.stylex";
+import type { Unstyled } from "@/ui/props";
+import { text } from "@/ui/text";
 
-export function Root(props: Omit<Field.Root.Props, "className" | "style">) {
+export function Root(props: Unstyled<Field.Root.Props>) {
   return <Field.Root {...props} {...stylex.props(styles.root)} />;
 }
 
-export function Label(props: Omit<Field.Label.Props, "className" | "style">) {
-  return <Field.Label {...props} {...stylex.props(styles.label)} />;
+export function Label(props: Unstyled<Field.Label.Props>) {
+  return <Field.Label {...props} {...stylex.props(text.label)} />;
 }
 
-export function Error(props: Omit<Field.Error.Props, "className" | "style">) {
-  return <Field.Error {...props} {...stylex.props(styles.error)} />;
+export function Group(props: Unstyled<Fieldset.Root.Props>) {
+  return <Fieldset.Root {...props} {...stylex.props(styles.root, styles.group)} />;
+}
+
+export function Legend(props: Unstyled<Fieldset.Legend.Props>) {
+  return <Fieldset.Legend {...props} {...stylex.props(text.label)} />;
 }
 
 const styles = stylex.create({
@@ -22,14 +28,10 @@ const styles = stylex.create({
     flexDirection: "column",
     gap: space[2],
   },
-  label: {
-    fontSize: fontSize.sm,
-    fontWeight: weight.medium,
-    color: text.subtle,
-  },
-  error: {
+  group: {
+    minWidth: 0,
     margin: 0,
-    fontSize: fontSize.sm,
-    color: text.danger,
+    padding: 0,
+    borderWidth: 0,
   },
 });
