@@ -4,7 +4,7 @@ import { type RepositoryChoice, WorkspaceExists } from "@possibilities/contract"
 import { type ReactNode, useState } from "react";
 
 import { workspacesQuery } from "@/features/workspaces/queries";
-import { OwnerSelect } from "@/features/repositories/owner-select";
+import { OwnerPicker } from "@/features/repositories/owner-picker";
 import { useOwner } from "@/features/repositories/queries";
 import { RepositoryPicker } from "@/features/repositories/repository-picker";
 import { call } from "@/rpc";
@@ -86,7 +86,7 @@ export function WorkspaceForm({ children }: { children?: ReactNode }) {
           </Tabs.List>
           <Tabs.Panel value="New">
             <Input.Root>
-              <OwnerSelect value={owner} onValueChange={edit(setSelectedOwner)} />
+              <OwnerPicker value={owner} onValueChange={edit(setSelectedOwner)} />
               <Input.Addon>/</Input.Addon>
               <Input.Control
                 value={repositoryName}

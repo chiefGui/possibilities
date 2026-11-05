@@ -42,6 +42,7 @@ export const size = stylex.defineVars({
   lg: "36px",
   row: "44px",
   trafficLights: "76px",
+  popup: "220px",
 });
 
 export const motion = stylex.defineVars({

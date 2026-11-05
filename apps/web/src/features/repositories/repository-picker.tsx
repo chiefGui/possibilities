@@ -2,7 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { OwnerSelect } from "@/features/repositories/owner-select";
+import { OwnerPicker } from "@/features/repositories/owner-picker";
 import { repositoriesQuery, useOwner } from "@/features/repositories/queries";
 import { text } from "@/theme/colors.stylex";
 import { fontSize } from "@/theme/tokens.stylex";
@@ -32,7 +32,7 @@ export function RepositoryPicker({ value, onValueChange }: RepositoryPickerProps
       itemToStringLabel={nameOf}
     >
       <Combobox.InputGroup>
-        <OwnerSelect
+        <OwnerPicker
           value={owner}
           onValueChange={(next) => {
             setSelectedOwner(next);
