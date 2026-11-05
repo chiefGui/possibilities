@@ -27,7 +27,7 @@ export const listProjects = Effect.fn("listProjects")(function* (workspaceId: st
   return manifest.projects.map(toProject);
 });
 
-const folderName = (title: string) =>
+const directoryName = (title: string) =>
   title.replace(/[/\\:*?"<>|\p{Cc}]/gu, "-").replace(/^[\s.-]+|[\s.-]+$/g, "") || "Untitled";
 
 const availableDirectory = Effect.fn("availableDirectory")(function* (
@@ -40,7 +40,7 @@ const availableDirectory = Effect.fn("availableDirectory")(function* (
   const taken = new Set(
     entries.filter((entry) => entry !== current).map((entry) => entry.toLowerCase()),
   );
-  const base = folderName(title);
+  const base = directoryName(title);
   let candidate = base;
   for (let suffix = 2; taken.has(candidate.toLowerCase()); suffix++) {
     candidate = `${base} ${suffix}`;
