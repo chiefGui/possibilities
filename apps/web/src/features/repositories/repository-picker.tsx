@@ -2,14 +2,14 @@ import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { repositoriesQuery } from "@/features/workspaces/queries";
+import { repositoriesQuery } from "@/features/repositories/queries";
 import { background, border, text } from "@/theme/colors.stylex";
 import { fontSize, radius, size, space, weight } from "@/theme/tokens.stylex";
 import * as Input from "@/ui/input";
 
 type RepositoryPickerProps = {
   selected: string | null;
-  onSelect: (nameWithOwner: string) => void;
+  onSelect: (nameWithOwner: string | null) => void;
 };
 
 export function RepositoryPicker({ selected, onSelect }: RepositoryPickerProps) {
@@ -37,7 +37,9 @@ export function RepositoryPicker({ selected, onSelect }: RepositoryPickerProps) 
             <button
               type="button"
               aria-pressed={repository.nameWithOwner === selected}
-              onClick={() => onSelect(repository.nameWithOwner)}
+              onClick={() =>
+                onSelect(repository.nameWithOwner === selected ? null : repository.nameWithOwner)
+              }
               {...stylex.props(styles.repository)}
             >
               <span>{repository.nameWithOwner}</span>

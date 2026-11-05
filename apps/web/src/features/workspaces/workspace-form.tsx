@@ -5,7 +5,7 @@ import { type ReactNode, useState } from "react";
 
 import { environmentQuery } from "@/features/environment/queries";
 import { workspacesQuery } from "@/features/workspaces/queries";
-import { RepositoryPicker } from "@/features/workspaces/repository-picker";
+import { RepositoryPicker } from "@/features/repositories/repository-picker";
 import { call } from "@/rpc";
 import { Actions } from "@/ui/actions";
 import { Button } from "@/ui/button";

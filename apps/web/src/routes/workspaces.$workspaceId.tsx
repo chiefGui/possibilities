@@ -1,6 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
+import { projectsQuery } from "@/features/projects/queries";
 import { workspaceQuery, workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceSidebar } from "@/features/workspaces/workspace-sidebar";
 import { text } from "@/theme/colors.stylex";
@@ -9,7 +10,10 @@ import * as Shell from "@/ui/shell";
 
 export const Route = createFileRoute("/workspaces/$workspaceId")({
   loader: async ({ context, params }) => {
-    const workspace = await context.queryClient.query(workspaceQuery(params.workspaceId));
+    const [workspace] = await Promise.all([
+      context.queryClient.query(workspaceQuery(params.workspaceId)),
+      context.queryClient.prefetchQuery(projectsQuery(params.workspaceId)),
+    ]);
     await context.queryClient.invalidateQueries({
       queryKey: workspacesQuery.queryKey,
       exact: true,

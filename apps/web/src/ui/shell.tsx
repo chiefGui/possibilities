@@ -43,6 +43,7 @@ const styles = stylex.create({
   header: {
     display: "flex",
     alignItems: "center",
+    gap: space[3],
     flexShrink: 0,
     height: size.row,
     paddingInline: space[4],

@@ -18,15 +18,25 @@ export class Registry extends Context.Service<Registry>()("Registry", {
       Effect.orDie,
     );
 
+    const single =
+      (id: string) =>
+      <E, R>(rows: Effect.Effect<ReadonlyArray<unknown>, E, R>) =>
+        rows.pipe(
+          Effect.flatMap(decodeWorkspaces),
+          Effect.orDie,
+          Effect.flatMap(([workspace]) =>
+            workspace
+              ? Effect.succeed(workspace)
+              : Effect.fail(new WorkspaceNotFound({ message: `No workspace with id ${id}` })),
+          ),
+        );
+
+    const get = (id: string) =>
+      sql`SELECT id, title, repository FROM workspaces WHERE id = ${id}`.pipe(single(id));
+
     const open = (id: string) =>
       sql`UPDATE workspaces SET opened_at = ${Date.now()} WHERE id = ${id} RETURNING id, title, repository`.pipe(
-        Effect.flatMap(decodeWorkspaces),
-        Effect.orDie,
-        Effect.flatMap(([workspace]) =>
-          workspace
-            ? Effect.succeed(workspace)
-            : Effect.fail(new WorkspaceNotFound({ message: `No workspace with id ${id}` })),
-        ),
+        single(id),
       );
 
     const has = (repository: string) =>
@@ -45,7 +55,7 @@ export class Registry extends Context.Service<Registry>()("Registry", {
         Effect.asVoid,
       );
 
-    return { list, open, has, add };
+    return { list, get, open, has, add };
   }),
 }) {
   static readonly layer = Layer.effect(this, this.make).pipe(Layer.provide(migrations));

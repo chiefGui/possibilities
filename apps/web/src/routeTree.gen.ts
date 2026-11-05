@@ -14,6 +14,8 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as WorkspacesWorkspaceIdRouteImport } from './routes/workspaces.$workspaceId'
 import { Route as WorkspacesNewRouteImport } from './routes/workspaces.new'
 import { Route as WorkspacesWorkspaceIdIndexRouteImport } from './routes/workspaces.$workspaceId.index'
+import { Route as WorkspacesWorkspaceIdProjectsProjectIdRouteImport } from './routes/workspaces.$workspaceId.projects.$projectId'
+import { Route as WorkspacesWorkspaceIdProjectsNewRouteImport } from './routes/workspaces.$workspaceId.projects.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,6 +43,18 @@ const WorkspacesWorkspaceIdIndexRoute =
     path: '/',
     getParentRoute: () => WorkspacesWorkspaceIdRoute,
   } as any)
+const WorkspacesWorkspaceIdProjectsProjectIdRoute =
+  WorkspacesWorkspaceIdProjectsProjectIdRouteImport.update({
+    id: '/projects/$projectId',
+    path: '/projects/$projectId',
+    getParentRoute: () => WorkspacesWorkspaceIdRoute,
+  } as any)
+const WorkspacesWorkspaceIdProjectsNewRoute =
+  WorkspacesWorkspaceIdProjectsNewRouteImport.update({
+    id: '/projects/new',
+    path: '/projects/new',
+    getParentRoute: () => WorkspacesWorkspaceIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -48,12 +62,16 @@ export interface FileRoutesByFullPath {
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRouteWithChildren
   '/workspaces/new': typeof WorkspacesNewRoute
   '/workspaces/$workspaceId/': typeof WorkspacesWorkspaceIdIndexRoute
+  '/workspaces/$workspaceId/projects/$projectId': typeof WorkspacesWorkspaceIdProjectsProjectIdRoute
+  '/workspaces/$workspaceId/projects/new': typeof WorkspacesWorkspaceIdProjectsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
   '/workspaces/new': typeof WorkspacesNewRoute
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdIndexRoute
+  '/workspaces/$workspaceId/projects/$projectId': typeof WorkspacesWorkspaceIdProjectsProjectIdRoute
+  '/workspaces/$workspaceId/projects/new': typeof WorkspacesWorkspaceIdProjectsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +80,8 @@ export interface FileRoutesById {
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRouteWithChildren
   '/workspaces/new': typeof WorkspacesNewRoute
   '/workspaces/$workspaceId/': typeof WorkspacesWorkspaceIdIndexRoute
+  '/workspaces/$workspaceId/projects/$projectId': typeof WorkspacesWorkspaceIdProjectsProjectIdRoute
+  '/workspaces/$workspaceId/projects/new': typeof WorkspacesWorkspaceIdProjectsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,8 +91,16 @@ export interface FileRouteTypes {
     | '/workspaces/$workspaceId'
     | '/workspaces/new'
     | '/workspaces/$workspaceId/'
+    | '/workspaces/$workspaceId/projects/$projectId'
+    | '/workspaces/$workspaceId/projects/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/onboarding' | '/workspaces/new' | '/workspaces/$workspaceId'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/workspaces/new'
+    | '/workspaces/$workspaceId'
+    | '/workspaces/$workspaceId/projects/$projectId'
+    | '/workspaces/$workspaceId/projects/new'
   id:
     | '__root__'
     | '/'
@@ -80,6 +108,8 @@ export interface FileRouteTypes {
     | '/workspaces/$workspaceId'
     | '/workspaces/new'
     | '/workspaces/$workspaceId/'
+    | '/workspaces/$workspaceId/projects/$projectId'
+    | '/workspaces/$workspaceId/projects/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -126,15 +156,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkspacesWorkspaceIdIndexRouteImport
       parentRoute: typeof WorkspacesWorkspaceIdRoute
     }
+    '/workspaces/$workspaceId/projects/$projectId': {
+      id: '/workspaces/$workspaceId/projects/$projectId'
+      path: '/projects/$projectId'
+      fullPath: '/workspaces/$workspaceId/projects/$projectId'
+      preLoaderRoute: typeof WorkspacesWorkspaceIdProjectsProjectIdRouteImport
+      parentRoute: typeof WorkspacesWorkspaceIdRoute
+    }
+    '/workspaces/$workspaceId/projects/new': {
+      id: '/workspaces/$workspaceId/projects/new'
+      path: '/projects/new'
+      fullPath: '/workspaces/$workspaceId/projects/new'
+      preLoaderRoute: typeof WorkspacesWorkspaceIdProjectsNewRouteImport
+      parentRoute: typeof WorkspacesWorkspaceIdRoute
+    }
   }
 }
 
 interface WorkspacesWorkspaceIdRouteChildren {
   WorkspacesWorkspaceIdIndexRoute: typeof WorkspacesWorkspaceIdIndexRoute
+  WorkspacesWorkspaceIdProjectsProjectIdRoute: typeof WorkspacesWorkspaceIdProjectsProjectIdRoute
+  WorkspacesWorkspaceIdProjectsNewRoute: typeof WorkspacesWorkspaceIdProjectsNewRoute
 }
 
 const WorkspacesWorkspaceIdRouteChildren: WorkspacesWorkspaceIdRouteChildren = {
   WorkspacesWorkspaceIdIndexRoute: WorkspacesWorkspaceIdIndexRoute,
+  WorkspacesWorkspaceIdProjectsProjectIdRoute:
+    WorkspacesWorkspaceIdProjectsProjectIdRoute,
+  WorkspacesWorkspaceIdProjectsNewRoute: WorkspacesWorkspaceIdProjectsNewRoute,
 }
 
 const WorkspacesWorkspaceIdRouteWithChildren =
