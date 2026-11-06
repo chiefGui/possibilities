@@ -21,6 +21,10 @@ export function Section(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(styles.section)} />;
 }
 
+export function Footer(props: Unstyled<ComponentProps<"div">>) {
+  return <div {...props} {...stylex.props(styles.section, styles.footer)} />;
+}
+
 export function SectionHeader(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(text.label, styles.sectionHeader)} />;
 }
@@ -65,6 +69,9 @@ const styles = stylex.create({
     display: "flex",
     flexDirection: "column",
     gap: space[0.5],
+  },
+  footer: {
+    marginBlockStart: "auto",
   },
   sectionHeader: {
     display: "flex",

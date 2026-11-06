@@ -12,3 +12,14 @@ export const workspaceQuery = (id: string) =>
     queryKey: ["workspaces", id],
     queryFn: () => call((api) => api.openWorkspace({ id })),
   });
+
+export const syncQuery = (id: string) =>
+  queryOptions({
+    queryKey: ["sync", id],
+    queryFn: async ({ client }) => {
+      const changed = await call((api) => api.syncWorkspace({ id }));
+      if (changed) await client.invalidateQueries({ queryKey: ["workspaces", id] });
+      return changed;
+    },
+    retry: false,
+  });

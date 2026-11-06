@@ -4,6 +4,7 @@ import {
   ArrowRight01Icon,
   CheckmarkCircle01Icon,
   CircleDashedIcon,
+  CloudAlertIcon,
   Home01Icon,
   PackageIcon,
   Tick01Icon,
@@ -21,6 +22,7 @@ const glyphs = {
   selected: Tick01Icon,
   success: CheckmarkCircle01Icon,
   pending: CircleDashedIcon,
+  failed: CloudAlertIcon,
   dropdown: ArrowDown01Icon,
   expand: ArrowRight01Icon,
 };

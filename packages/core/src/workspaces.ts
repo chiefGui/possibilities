@@ -1,7 +1,7 @@
 import { type CreateWorkspace, Workspace } from "@possibilities/contract";
-import { Context, Effect, FileSystem, Path } from "effect";
+import { Context, Effect, FileSystem, Path, Semaphore } from "effect";
 
-import { clone, commit, createRepository } from "./github.ts";
+import { clone, commit, createRepository, git } from "./github.ts";
 import { manifestFile, readManifest, writeManifest } from "./manifest.ts";
 import { alreadyWorkspace, Registry } from "./registry.ts";
 
@@ -9,10 +9,35 @@ export class ClonesDirectory extends Context.Service<ClonesDirectory, string>()(
   "ClonesDirectory",
 ) {}
 
-export const workspaceDirectory = Effect.fn("workspaceDirectory")(function* (repository: string) {
+export const gitLock = Semaphore.makeUnsafe(1);
+
+const cloneRoot = Effect.fn("cloneRoot")(function* (repository: string) {
   const path = yield* Path.Path;
   return path.join(yield* ClonesDirectory, repository);
 });
+
+export const workspaceRoot = Effect.fn("workspaceRoot")(function* (id: string) {
+  const registry = yield* Registry;
+  const workspace = yield* registry.get(id);
+  return yield* cloneRoot(workspace.repository);
+});
+
+export const openWorkspace = Effect.fn("openWorkspace")(function* (id: string) {
+  const registry = yield* Registry;
+  const fs = yield* FileSystem.FileSystem;
+  const workspace = yield* registry.open(id);
+  const root = yield* cloneRoot(workspace.repository);
+  if (!(yield* fs.exists(root).pipe(Effect.orDie))) yield* clone(workspace.repository, root);
+  return workspace;
+}, gitLock.withPermits(1));
+
+export const syncWorkspace = Effect.fn("syncWorkspace")(function* (id: string) {
+  const root = yield* workspaceRoot(id);
+  const head = git(root, "rev-parse", "HEAD");
+  const before = yield* head;
+  yield* git(root, "pull", "--ff-only");
+  return (yield* head) !== before;
+}, gitLock.withPermits(1));
 
 export const createWorkspace = Effect.fn("createWorkspace")(function* ({
   title,
@@ -26,7 +51,7 @@ export const createWorkspace = Effect.fn("createWorkspace")(function* ({
   if (yield* registry.has(repository)) return yield* alreadyWorkspace(repository);
   if (choice._tag === "New") yield* createRepository(repository);
 
-  const root = yield* workspaceDirectory(repository);
+  const root = yield* cloneRoot(repository);
 
   return yield* Effect.gen(function* () {
     yield* fs.remove(root, { recursive: true, force: true }).pipe(Effect.orDie);
