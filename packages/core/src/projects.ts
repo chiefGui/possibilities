@@ -7,10 +7,19 @@ import {
 import { Effect, FileSystem, Path, Struct } from "effect";
 
 import { commit, git } from "./github.ts";
-import { manifestFile, type ProjectEntry, readManifest, writeManifest } from "./manifest.ts";
+import {
+  appDirectory,
+  manifestFile,
+  type ProjectEntry,
+  readManifest,
+  writeManifest,
+} from "./manifest.ts";
 import { gitLock, workspaceRoot } from "./workspaces.ts";
 
+const projectsDirectory = `${appDirectory}/projects`;
 const keepFile = ".keep";
+
+const projectPath = (directory: string) => `${projectsDirectory}/${directory}`;
 
 const toProject = (entry: ProjectEntry): Project => Struct.omit(entry, ["directory"]);
 
@@ -29,7 +38,10 @@ const availableDirectory = Effect.fn("availableDirectory")(function* (
   current?: string,
 ) {
   const fs = yield* FileSystem.FileSystem;
-  const entries = yield* fs.readDirectory(root).pipe(Effect.orDie);
+  const path = yield* Path.Path;
+  const entries = yield* fs
+    .readDirectory(path.join(root, projectsDirectory))
+    .pipe(Effect.orElseSucceed(() => []));
   const taken = new Set(
     entries.filter((entry) => entry !== current).map((entry) => entry.toLowerCase()),
   );
@@ -42,10 +54,11 @@ const availableDirectory = Effect.fn("availableDirectory")(function* (
 });
 
 const move = Effect.fn("move")(function* (root: string, from: string, to: string) {
-  if (from.toLowerCase() !== to.toLowerCase()) return yield* git(root, "mv", "--", from, to);
-  const through = `${to}.${crypto.randomUUID()}`;
-  yield* git(root, "mv", "--", from, through);
-  yield* git(root, "mv", "--", through, to);
+  const [source, target] = [projectPath(from), projectPath(to)];
+  if (from.toLowerCase() !== to.toLowerCase()) return yield* git(root, "mv", "--", source, target);
+  const through = `${target}.${crypto.randomUUID()}`;
+  yield* git(root, "mv", "--", source, through);
+  yield* git(root, "mv", "--", through, target);
 });
 
 type Change = { projects: ReadonlyArray<ProjectEntry>; project: ProjectEntry };
@@ -61,7 +74,7 @@ const updateProjects = Effect.fn("updateProjects")(function* <E, R>(
     const { document, manifest } = yield* readManifest(root).pipe(Effect.orDie);
     const { projects, project } = yield* change(root, manifest.projects);
     yield* writeManifest(root, { ...document, projects });
-    yield* commit(root, message, [manifestFile, project.directory]);
+    yield* commit(root, message, [manifestFile, projectPath(project.directory)]);
     return toProject(project);
   }).pipe(
     Effect.onError(() => git(root, "reset", "--hard", "@{upstream}").pipe(Effect.ignore)),
@@ -75,8 +88,9 @@ export const createProject = ({ workspaceId, ...fields }: CreateProject) =>
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const directory = yield* availableDirectory(root, fields.title);
-      yield* fs.makeDirectory(path.join(root, directory)).pipe(Effect.orDie);
-      yield* fs.writeFileString(path.join(root, directory, keepFile), "").pipe(Effect.orDie);
+      const folder = path.join(root, projectPath(directory));
+      yield* fs.makeDirectory(folder, { recursive: true }).pipe(Effect.orDie);
+      yield* fs.writeFileString(path.join(folder, keepFile), "").pipe(Effect.orDie);
       const project = { id: crypto.randomUUID(), ...fields, directory };
       return { projects: [...projects, project], project };
     }),

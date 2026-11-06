@@ -2,7 +2,8 @@ import { Project } from "@possibilities/contract";
 import { Effect, FileSystem, Path, Schema } from "effect";
 import { parse, stringify } from "smol-toml";
 
-export const manifestFile = ".possibilities/workspace.toml";
+export const appDirectory = ".possibilities";
+export const manifestFile = `${appDirectory}/workspace.toml`;
 
 export const ProjectEntry = Schema.Struct({ ...Project.fields, directory: Schema.String });
 export type ProjectEntry = typeof ProjectEntry.Type;
