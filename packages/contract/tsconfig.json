@@ -1,17 +1,9 @@
 {
+  "extends": "../../tsconfig/base.json",
   "compilerOptions": {
     "target": "es2023",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "strict": true,
-    "skipLibCheck": true,
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true
+    "lib": ["es2023"],
+    "module": "nodenext"
   },
   "include": ["src"]
 }
