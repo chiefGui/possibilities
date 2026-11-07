@@ -14,7 +14,7 @@
     "start": "vp run @possibilities/desktop#start",
     "typecheck": "vp run -r typecheck",
     "check": "vp check",
-    "ready": "vp check && vp run -r typecheck && vp run -r build",
+    "ready": "vp run -r typecheck && vp check && vp run -r build",
     "prepare": "vp config --no-agent"
   },
   "devDependencies": {

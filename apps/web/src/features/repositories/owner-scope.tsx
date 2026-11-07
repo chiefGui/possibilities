@@ -1,9 +1,8 @@
-import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 
 import { ownersQuery } from "@/features/repositories/queries";
-import { space } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 import * as Combobox from "@possibilities/ui/combobox";
 
 type OwnerScopeProps = {
@@ -16,7 +15,7 @@ export function OwnerScope({ value, onValueChange, children }: OwnerScopeProps) 
   const owners = useQuery(ownersQuery).data ?? [];
 
   return (
-    <div {...stylex.props(styles.scope)}>
+    <div className={scope}>
       <Combobox.Root
         items={owners}
         value={value}
@@ -42,10 +41,8 @@ export function OwnerScope({ value, onValueChange, children }: OwnerScopeProps) 
   );
 }
 
-const styles = stylex.create({
-  scope: {
-    display: "grid",
-    gridTemplateColumns: "minmax(0, auto) minmax(0, 1fr)",
-    gap: space[2],
-  },
+const scope = css({
+  display: "grid",
+  gridTemplateColumns: "minmax(0, auto) minmax(0, 1fr)",
+  gap: "2",
 });

@@ -1,54 +1,52 @@
-import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { border, surface } from "@possibilities/ui/theme/colors.stylex";
-import { radius, size, space, weight } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 import type { Unstyled } from "@possibilities/ui/props";
 
 export function Root(props: Unstyled<ComponentProps<"div">>) {
-  return <div {...props} {...stylex.props(styles.root)} />;
+  return <div {...props} className={styles.root} />;
 }
 
 export function Main(props: Unstyled<ComponentProps<"div">>) {
-  return <div {...props} {...stylex.props(styles.main)} />;
+  return <div {...props} className={styles.main} />;
 }
 
 export function Header(props: Unstyled<ComponentProps<"header">>) {
-  return <header {...props} {...stylex.props(styles.header)} />;
+  return <header {...props} className={styles.header} />;
 }
 
-const styles = stylex.create({
-  root: {
+const styles = {
+  root: css({
     display: "flex",
     flex: 1,
     height: "100vh",
     overflow: "hidden",
-  },
-  main: {
+  }),
+  main: css({
     display: "flex",
     flexDirection: "column",
     flex: 1,
     minWidth: 0,
-    margin: space[2],
+    margin: "2",
     marginInlineStart: 0,
-    borderWidth: 1,
+    borderWidth: "1px",
     borderStyle: "solid",
-    borderColor: border.default,
-    borderRadius: radius.md,
-    backgroundColor: surface.default,
+    borderColor: "border.default",
+    borderRadius: "md",
+    backgroundColor: "surface.default",
     overflow: "hidden",
-    WebkitAppRegion: "no-drag",
-  },
-  header: {
+    appRegion: "no-drag",
+  }),
+  header: css({
     display: "flex",
     alignItems: "center",
-    gap: space[3],
+    gap: "3",
     flexShrink: 0,
-    height: size.row,
-    paddingInline: space[4],
-    borderBottomWidth: 1,
+    height: "row",
+    paddingInline: "4",
+    borderBottomWidth: "1px",
     borderBottomStyle: "solid",
-    borderBottomColor: border.default,
-    fontWeight: weight.medium,
-  },
-});
+    borderBottomColor: "border.default",
+    fontWeight: "medium",
+  }),
+};

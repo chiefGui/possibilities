@@ -1,16 +1,13 @@
-import * as stylex from "@stylexjs/stylex";
+import { css } from "../styled-system/css";
 
-import { background, border } from "./theme/colors.stylex";
-import { ring } from "./theme/tokens.stylex";
-
-export const states = stylex.create({
-  hover: {
-    backgroundColor: { default: "transparent", ":hover": background.hovered },
-  },
-  ring: {
-    outlineStyle: { default: "none", ":focus-visible": "solid" },
-    outlineWidth: ring.width,
-    outlineColor: border.focused,
-    outlineOffset: ring.offset,
-  },
-});
+export const states = {
+  hover: css.raw({
+    backgroundColor: { base: "transparent", _hover: "background.hovered" },
+  }),
+  ring: css.raw({
+    outlineStyle: { base: "none", _focusVisible: "solid" },
+    outlineWidth: "3px",
+    outlineColor: "border.focused",
+    outlineOffset: "1px",
+  }),
+};

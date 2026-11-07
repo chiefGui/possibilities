@@ -1,11 +1,9 @@
 import type { Project } from "@possibilities/contract";
-import * as stylex from "@stylexjs/stylex";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { projectsQuery } from "@/features/projects/queries";
 import { call } from "@/rpc";
-import { text as color } from "@possibilities/ui/theme/colors.stylex";
-import { fontSize, weight } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 import { EditableText } from "@possibilities/ui/editable-text";
 import { text } from "@possibilities/ui/text";
 
@@ -39,7 +37,7 @@ export function ProjectTitle({ workspaceId, project }: { workspaceId: string; pr
         onCommit={(title) => rename.mutate(title)}
       />
       {rename.error && (
-        <span role="alert" {...stylex.props(text.truncate, styles.error)}>
+        <span role="alert" className={css(text.truncate, error)}>
           {rename.error.message}
         </span>
       )}
@@ -47,10 +45,8 @@ export function ProjectTitle({ workspaceId, project }: { workspaceId: string; pr
   );
 }
 
-const styles = stylex.create({
-  error: {
-    fontSize: fontSize.sm,
-    fontWeight: weight.regular,
-    color: color.danger,
-  },
+const error = css.raw({
+  fontSize: "sm",
+  fontWeight: "regular",
+  color: "text.danger",
 });

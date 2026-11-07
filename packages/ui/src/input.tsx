@@ -1,31 +1,30 @@
 import { Input } from "@base-ui/react/input";
-import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { text } from "./theme/colors.stylex";
+import { css } from "../styled-system/css";
 import { control } from "./control";
 import type { Unstyled } from "./props";
 
 export function Root(props: Unstyled<ComponentProps<"div">>) {
-  return <div {...props} {...stylex.props(control.base)} />;
+  return <div {...props} className={css(control.base)} />;
 }
 
 export function Control(props: Unstyled<Input.Props>) {
-  return <Input {...props} {...stylex.props(control.input, styles.control)} />;
+  return <Input {...props} className={css(control.input, styles.control)} />;
 }
 
 export function Addon(props: Unstyled<ComponentProps<"span">>) {
-  return <span {...props} {...stylex.props(styles.addon)} />;
+  return <span {...props} className={styles.addon} />;
 }
 
-const styles = stylex.create({
-  control: {
+const styles = {
+  control: css.raw({
     flex: 1,
     height: "100%",
-  },
-  addon: {
+  }),
+  addon: css({
     flexShrink: 0,
     whiteSpace: "nowrap",
-    color: text.subtle,
-  },
-});
+    color: "text.subtle",
+  }),
+};

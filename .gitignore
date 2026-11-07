@@ -8,3 +8,4 @@ dist
 .claude/worktrees/
 apps/desktop/.user-data
 apps/desktop/release
+styled-system

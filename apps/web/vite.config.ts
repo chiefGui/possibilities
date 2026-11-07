@@ -1,4 +1,4 @@
-import stylex from "@stylexjs/unplugin/vite";
+import pandacss from "@pandacss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
@@ -18,7 +18,14 @@ export default defineConfig({
       routesDirectory: `${src}/routes`,
       generatedRouteTree: `${src}/routeTree.gen.ts`,
     }),
-    stylex(),
+    pandacss({ codegen: false }),
     react(),
   ]),
+  run: {
+    tasks: {
+      dev: { command: "vp dev", dependsOn: ["@possibilities/ui#build"], cache: false },
+      build: { command: "vp build", dependsOn: ["@possibilities/ui#build"] },
+      typecheck: { command: "tsrs --fast", dependsOn: ["@possibilities/ui#build"] },
+    },
+  },
 });

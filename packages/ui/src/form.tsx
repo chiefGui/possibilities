@@ -1,28 +1,26 @@
 import { Form as BaseForm } from "@base-ui/react/form";
-import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { text } from "./theme/colors.stylex";
-import { fontSize, space } from "./theme/tokens.stylex";
+import { css } from "../styled-system/css";
 import type { Unstyled } from "./props";
 
 export function Root(props: Unstyled<BaseForm.Props>) {
-  return <BaseForm {...props} {...stylex.props(styles.root)} />;
+  return <BaseForm {...props} className={styles.root} />;
 }
 
 export function Error(props: Unstyled<ComponentProps<"p">>) {
-  return <p role="alert" {...props} {...stylex.props(styles.error)} />;
+  return <p role="alert" {...props} className={styles.error} />;
 }
 
-const styles = stylex.create({
-  root: {
+const styles = {
+  root: css({
     display: "flex",
     flexDirection: "column",
-    gap: space[6],
-  },
-  error: {
+    gap: "6",
+  }),
+  error: css({
     margin: 0,
-    fontSize: fontSize.sm,
-    color: text.danger,
-  },
-});
+    fontSize: "sm",
+    color: "text.danger",
+  }),
+};

@@ -1,6 +1,6 @@
 import { Menu } from "@base-ui/react/menu";
-import * as stylex from "@stylexjs/stylex";
 
+import { css } from "../styled-system/css";
 import { Icon } from "./icon";
 import { popup, returnFocus, sideOffset } from "./popup";
 import type { Unstyled } from "./props";
@@ -17,7 +17,7 @@ export function Popup(props: Unstyled<Menu.Popup.Props>) {
         <Menu.Popup
           finalFocus={returnFocus}
           {...props}
-          {...stylex.props(popup.root, popup.content)}
+          className={css(popup.root, popup.content)}
         />
       </Menu.Positioner>
     </Menu.Portal>
@@ -25,19 +25,18 @@ export function Popup(props: Unstyled<Menu.Popup.Props>) {
 }
 
 export function LinkItem(props: Unstyled<Menu.LinkItem.Props>) {
-  return <Menu.LinkItem closeOnClick {...props} {...stylex.props(row.base, popup.item)} />;
+  return <Menu.LinkItem closeOnClick {...props} className={css(row, popup.item)} />;
 }
 
 export function Check() {
-  return <Icon name="selected" xstyle={[popup.indicator, styles.current]} />;
+  return <Icon name="selected" className={css(popup.indicator, current)} />;
 }
 
 export function Separator() {
-  return <Menu.Separator {...stylex.props(popup.separator)} />;
+  return <Menu.Separator className={css(popup.separator)} />;
 }
 
-const styles = stylex.create({
-  current: {
-    visibility: { default: "hidden", ":is([aria-current=page] > *)": "visible" },
-  },
+const current = css.raw({
+  visibility: "hidden",
+  "[aria-current=page] > &": { visibility: "visible" },
 });

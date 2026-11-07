@@ -1,9 +1,7 @@
 import type { Environment } from "@possibilities/contract";
-import * as stylex from "@stylexjs/stylex";
 
 import { isDone, steps } from "@/features/environment/steps";
-import { icon, text as color } from "@possibilities/ui/theme/colors.stylex";
-import { font, fontSize, size, space, weight } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 import * as Accordion from "@possibilities/ui/accordion";
 import { StatusIcon } from "@possibilities/ui/status-icon";
 import { text } from "@possibilities/ui/text";
@@ -18,27 +16,27 @@ export function EnvironmentChecks({ environment }: { environment: Environment | 
         <Accordion.Item key={step.title} value={step.title}>
           <Accordion.Trigger>
             <StatusIcon ok={environment !== undefined && isDone(step, environment)} />
-            <span {...stylex.props(styles.stepTitle)}>{step.title}</span>
+            <span className={styles.stepTitle}>{step.title}</span>
             {environment && step.value && (
-              <span {...stylex.props(styles.value)}>{step.value(environment)}</span>
+              <span className={styles.value}>{step.value(environment)}</span>
             )}
           </Accordion.Trigger>
           <Accordion.Panel>
-            <ul {...stylex.props(styles.checks)}>
+            <ul className={styles.checks}>
               {step.checks.map((check) => {
                 const passes = environment !== undefined && check.passes(environment);
                 return (
-                  <li key={check.label} {...stylex.props(styles.check)}>
-                    <div {...stylex.props(styles.checkLine)}>
-                      <span {...stylex.props(styles.dotCell)}>
-                        <span {...stylex.props(styles.dot, passes && styles.dotOk)} />
+                  <li key={check.label} className={styles.check}>
+                    <div className={styles.checkLine}>
+                      <span className={styles.dotCell}>
+                        <span className={css(styles.dot, passes && styles.dotOk)} />
                       </span>
                       <span>{check.label}</span>
                     </div>
                     {environment &&
                       !passes &&
                       check.fix.map((command) => (
-                        <code key={command} {...stylex.props(text.truncate, styles.fix)}>
+                        <code key={command} className={css(text.truncate, styles.fix)}>
                           {command}
                         </code>
                       ))}
@@ -53,56 +51,56 @@ export function EnvironmentChecks({ environment }: { environment: Environment | 
   );
 }
 
-const styles = stylex.create({
-  stepTitle: {
+const styles = {
+  stepTitle: css({
     flex: 1,
-    fontWeight: weight.medium,
+    fontWeight: "medium",
     textAlign: "start",
-  },
-  value: {
-    color: color.subtle,
-  },
-  checks: {
+  }),
+  value: css({
+    color: "text.subtle",
+  }),
+  checks: css({
     display: "flex",
     flexDirection: "column",
     margin: 0,
-    paddingBlockEnd: space[2],
-    paddingInline: space[3],
+    paddingBlockEnd: "2",
+    paddingInline: "3",
     listStyle: "none",
-  },
-  check: {
+  }),
+  check: css({
     display: "flex",
     flexDirection: "column",
-  },
-  checkLine: {
+  }),
+  checkLine: css({
     display: "flex",
     alignItems: "center",
-    gap: space[3],
-    height: size.line,
-    color: color.subtle,
-  },
-  dotCell: {
+    gap: "3",
+    height: "line",
+    color: "text.subtle",
+  }),
+  dotCell: css({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: size.icon,
+    width: "icon",
     flexShrink: 0,
-  },
-  dot: {
-    width: space[1.5],
-    height: space[1.5],
+  }),
+  dot: css.raw({
+    width: "{spacing.1.5}",
+    height: "{spacing.1.5}",
     borderRadius: "50%",
-    backgroundColor: icon.subtle,
-  },
-  dotOk: {
-    backgroundColor: icon.success,
-  },
-  fix: {
-    lineHeight: size.line,
-    paddingInlineStart: `calc(${size.icon} + ${space[3]})`,
-    fontFamily: font.mono,
-    fontSize: fontSize.sm,
-    color: color.subtle,
+    backgroundColor: "icon.subtle",
+  }),
+  dotOk: css.raw({
+    backgroundColor: "icon.success",
+  }),
+  fix: css.raw({
+    lineHeight: "{sizes.line}",
+    paddingInlineStart: "calc({sizes.icon} + {spacing.3})",
+    fontFamily: "mono",
+    fontSize: "sm",
+    color: "text.subtle",
     userSelect: "text",
-  },
-});
+  }),
+};

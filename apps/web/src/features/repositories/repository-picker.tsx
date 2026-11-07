@@ -1,11 +1,9 @@
-import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { OwnerScope } from "@/features/repositories/owner-scope";
 import { repositoriesQuery, useOwner } from "@/features/repositories/queries";
-import { text } from "@possibilities/ui/theme/colors.stylex";
-import { fontSize } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 import * as Combobox from "@possibilities/ui/combobox";
 
 type RepositoryPickerProps = {
@@ -54,7 +52,7 @@ export function RepositoryPicker({ value, onValueChange, noneLabel }: Repository
             {(item: string) => (
               <Combobox.Item key={item} value={item}>
                 {labelOf(item)}
-                {privacy.get(item) && <span {...stylex.props(styles.badge)}>Private</span>}
+                {privacy.get(item) && <span className={badge}>Private</span>}
               </Combobox.Item>
             )}
           </Combobox.List>
@@ -64,10 +62,8 @@ export function RepositoryPicker({ value, onValueChange, noneLabel }: Repository
   );
 }
 
-const styles = stylex.create({
-  badge: {
-    marginInlineStart: "auto",
-    fontSize: fontSize.xs,
-    color: text.subtle,
-  },
+const badge = css({
+  marginInlineStart: "auto",
+  fontSize: "xs",
+  color: "text.subtle",
 });

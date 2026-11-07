@@ -1,29 +1,25 @@
-import * as stylex from "@stylexjs/stylex";
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
-import { surface, text } from "@possibilities/ui/theme/colors.stylex";
-import { font, fontSize } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   component: RootLayout,
 });
 
-const styles = stylex.create({
-  root: {
-    display: "flex",
-    minHeight: "100vh",
-    backgroundColor: surface.sunken,
-    color: text.default,
-    fontFamily: font.sans,
-    fontSize: fontSize.md,
-    WebkitAppRegion: "drag",
-  },
+const root = css({
+  display: "flex",
+  minHeight: "100vh",
+  backgroundColor: "surface.sunken",
+  color: "text.default",
+  fontFamily: "sans",
+  fontSize: "md",
+  appRegion: "drag",
 });
 
 function RootLayout() {
   return (
-    <main {...stylex.props(styles.root)}>
+    <main className={root}>
       <Outlet />
     </main>
   );

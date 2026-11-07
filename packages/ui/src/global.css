@@ -1,20 +1,24 @@
 @import "@fontsource-variable/inter";
 
-:root {
-  color-scheme: light dark;
-  -webkit-font-smoothing: antialiased;
-}
+@layer reset, base, tokens, recipes, utilities;
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@layer reset {
+  :root {
+    color-scheme: light dark;
+    -webkit-font-smoothing: antialiased;
+  }
 
-body {
-  margin: 0;
-}
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-:any-link {
-  cursor: default;
+  body {
+    margin: 0;
+  }
+
+  :any-link {
+    cursor: default;
+  }
 }
