@@ -1,5 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { segments } from "@possibilities/contract";
+import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { DocumentMenu } from "@/features/documents/document-menu";
@@ -11,20 +12,14 @@ import type { Stats } from "@/features/documents/editor/words";
 import { documentQuery, writerSettingsQuery } from "@/features/documents/queries";
 import { sessionFor } from "@/features/documents/session";
 import { useWriterSettings } from "@/features/documents/writer-settings";
-import { useProject } from "@/features/projects/project-context";
 import { css } from "@possibilities/ui/css";
-import { states } from "@possibilities/ui/states";
 import { text } from "@possibilities/ui/text";
 import * as Shell from "@/layout/shell";
 
-export const Route = createFileRoute(
-  "/workspaces/$workspaceId/projects/$projectId/documents/$documentName",
-)({
-  loader: ({ context, params: { workspaceId, projectId, documentName } }) =>
+export const Route = createFileRoute("/workspaces/$workspaceId/documents/$")({
+  loader: ({ context, params: { workspaceId, _splat: path = "" } }) =>
     Promise.all([
-      context.queryClient.ensureQueryData(
-        documentQuery({ workspaceId, projectId, name: documentName }),
-      ),
+      context.queryClient.ensureQueryData(documentQuery({ workspaceId, path })),
       context.queryClient.ensureQueryData(writerSettingsQuery),
       writerFont(),
     ]),
@@ -32,12 +27,8 @@ export const Route = createFileRoute(
 });
 
 function DocumentPage() {
-  const { workspaceId, projectId, documentName } = Route.useParams();
-  const project = useProject();
-  const session = useMemo(
-    () => sessionFor({ workspaceId, projectId, name: documentName }),
-    [workspaceId, projectId, documentName],
-  );
+  const { workspaceId, _splat: path = "" } = Route.useParams();
+  const session = useMemo(() => sessionFor({ workspaceId, path }), [workspaceId, path]);
   const document = useSuspenseQuery(documentQuery(session.ref)).data;
   const { settings, toggle } = useWriterSettings();
   const [stats, setStats] = useState<Stats | null>(null);
@@ -45,17 +36,17 @@ function DocumentPage() {
   return (
     <>
       <Shell.Header>
-        <Link
-          to="/workspaces/$workspaceId/projects/$projectId"
-          params={{ workspaceId, projectId }}
-          className={css(text.truncate, states.ring, styles.project)}
-        >
-          {project.title}
-        </Link>
-        <span aria-hidden className={styles.separator}>
-          /
-        </span>
-        <DocumentTitle session={session} name={documentName} />
+        {segments(path)
+          .slice(0, -1)
+          .map((folder, index) => (
+            <span key={index} className={styles.crumb}>
+              <span className={css(text.truncate)}>{folder}</span>
+              <span aria-hidden className={styles.separator}>
+                /
+              </span>
+            </span>
+          ))}
+        <DocumentTitle session={session} />
         <span className={styles.trailing}>
           <DocumentStatus session={session} stats={stats} />
           <DocumentMenu session={session} settings={settings} onToggle={toggle} />
@@ -74,11 +65,12 @@ function DocumentPage() {
 }
 
 const styles = {
-  project: css.raw({
+  crumb: css({
+    display: "flex",
+    gap: "3",
+    minWidth: "0",
     flexShrink: "1",
-    borderRadius: "xs",
-    color: { base: "text.subtle", _hover: "text.default" },
-    textDecoration: "none",
+    color: "text.subtle",
   }),
   separator: css({
     color: "text.faint",

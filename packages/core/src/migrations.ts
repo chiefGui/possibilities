@@ -37,6 +37,20 @@ export const migrations = Layer.effectDiscard(
           )
         `;
       }),
+      "3_document_paths": Effect.gen(function* () {
+        const sql = yield* SqlClient.SqlClient;
+        yield* sql`DROP TABLE document_views`;
+        yield* sql`
+          CREATE TABLE document_views (
+            workspace_id TEXT NOT NULL,
+            path TEXT NOT NULL,
+            anchor INTEGER NOT NULL,
+            head INTEGER NOT NULL,
+            top INTEGER NOT NULL,
+            PRIMARY KEY (workspace_id, path)
+          )
+        `;
+      }),
     }),
   }).pipe(Effect.orDie),
 );

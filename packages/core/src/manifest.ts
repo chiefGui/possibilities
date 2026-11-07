@@ -1,19 +1,19 @@
-import { Project } from "@possibilities/contract";
 import { Effect, FileSystem, Path, Schema } from "effect";
 import { parse, stringify } from "smol-toml";
 
 export const appDirectory = ".possibilities";
 export const manifestFile = `${appDirectory}/workspace.toml`;
-export const projectsDirectory = `${appDirectory}/projects`;
 export const documentExtension = ".md";
 
-export const ProjectEntry = Schema.Struct({ ...Project.fields, directory: Schema.String });
-export type ProjectEntry = typeof ProjectEntry.Type;
+export const documentsPathspec = [
+  `:(top,glob)${appDirectory}/**/*${documentExtension}`,
+  `:(top,exclude,glob)${appDirectory}/**/.*`,
+  `:(top,exclude,glob)${appDirectory}/**/.*/**`,
+];
 
 const Manifest = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  projects: Schema.Array(ProjectEntry).pipe(Schema.withDecodingDefaultKey(Effect.succeed([]))),
 });
 
 const decodeManifest = Schema.decodeUnknownEffect(Manifest);

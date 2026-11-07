@@ -35,13 +35,15 @@ export function SectionHeader(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} className={css(text.label, styles.sectionHeader)} />;
 }
 
-function ActionAnchor(props: Unstyled<ComponentProps<"a">>) {
-  return <a {...props} className={css(states.hover, states.ring, styles.action)} />;
+export function Actions(props: Unstyled<ComponentProps<"span">>) {
+  return <span {...props} className={styles.actions} />;
 }
 
-const ActionLink = createLink(ActionAnchor);
-
-export const Action: LinkComponent<typeof ActionAnchor> = (props) => <ActionLink {...props} />;
+export function Action(props: Unstyled<ComponentProps<"button">>) {
+  return (
+    <button type="button" {...props} className={css(states.hover, states.ring, styles.action)} />
+  );
+}
 
 function Anchor(props: Unstyled<ComponentProps<"a">>) {
   return <a {...props} className={css(row, states.ring, styles.row)} />;
@@ -50,6 +52,10 @@ function Anchor(props: Unstyled<ComponentProps<"a">>) {
 const ItemLink = createLink(Anchor);
 
 export const Item: LinkComponent<typeof Anchor> = (props) => <ItemLink {...props} />;
+
+export function Row(props: Unstyled<ComponentProps<"div">>) {
+  return <div {...props} className={css(row, styles.row)} />;
+}
 
 export function Button(props: Unstyled<ComponentProps<"button">>) {
   return <button type="button" {...props} className={css(row, states.ring, styles.row)} />;
@@ -102,8 +108,14 @@ const styles = {
     width: "line",
     height: "line",
     marginInlineEnd: "-1",
+    padding: "0",
+    borderWidth: "0",
     borderRadius: "sm",
     color: "icon.subtle",
     appRegion: "no-drag",
+  }),
+  actions: css({
+    display: "flex",
+    gap: "0.5",
   }),
 };

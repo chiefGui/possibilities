@@ -1,12 +1,19 @@
+import { nameOf } from "@possibilities/contract";
 import { Effect } from "effect";
 
 import { git } from "./github.ts";
-import { documentExtension, projectsDirectory } from "./manifest.ts";
-
-const documentsPathspec = `:(glob)${projectsDirectory}/*/*${documentExtension}`;
+import { documentExtension, documentsPathspec } from "./manifest.ts";
 
 const changedDocuments = (root: string) =>
-  git(root, "status", "--porcelain", "-z", "--untracked-files=all", "--", documentsPathspec).pipe(
+  git(
+    root,
+    "status",
+    "--porcelain",
+    "-z",
+    "--untracked-files=all",
+    "--",
+    ...documentsPathspec,
+  ).pipe(
     Effect.map((output) => {
       const paths: Array<string> = [];
       const entries = output.split("\0");
@@ -21,11 +28,7 @@ const changedDocuments = (root: string) =>
   );
 
 const subject = (paths: ReadonlyArray<string>) => {
-  const names = [
-    ...new Set(
-      paths.map((file) => file.slice(file.lastIndexOf("/") + 1, -documentExtension.length)),
-    ),
-  ];
+  const names = [...new Set(paths.map((file) => nameOf(file).slice(0, -documentExtension.length)))];
   const shown = names.slice(0, 3).join(", ");
   return names.length > 3 ? `Update ${shown} and ${names.length - 3} more` : `Update ${shown}`;
 };
@@ -33,7 +36,7 @@ const subject = (paths: ReadonlyArray<string>) => {
 export const commitDocuments = Effect.fn("commitDocuments")(function* (root: string) {
   const paths = yield* changedDocuments(root);
   if (paths.length === 0) return;
-  yield* git(root, "add", "-A", "--", documentsPathspec);
+  yield* git(root, "add", "-A", "--", ...documentsPathspec);
   yield* git(root, "commit", "-m", subject(paths));
 });
 
