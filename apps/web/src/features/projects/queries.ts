@@ -6,4 +6,5 @@ export const projectsQuery = (workspaceId: string) =>
   queryOptions({
     queryKey: ["workspaces", workspaceId, "projects"],
     queryFn: () => call((api) => api.projects({ workspaceId })),
+    staleTime: Infinity,
   });

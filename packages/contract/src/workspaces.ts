@@ -36,7 +36,12 @@ export const WorkspacesApi = RpcGroup.make(
   Rpc.make("openWorkspace", {
     payload: { id: Schema.String },
     success: Workspace,
-    error: WorkspaceNotFound,
+    error: Schema.Union([CommandFailed, WorkspaceNotFound]),
+  }),
+  Rpc.make("syncWorkspace", {
+    payload: { id: Schema.String },
+    success: Schema.Boolean,
+    error: Schema.Union([CommandFailed, WorkspaceNotFound]),
   }),
   Rpc.make("createWorkspace", {
     payload: CreateWorkspace,

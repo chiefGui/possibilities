@@ -2,7 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import * as stylex from "@stylexjs/stylex";
 
 import { Icon } from "@/ui/icon";
-import { popup, returnFocus } from "@/ui/popup";
+import { popup, returnFocus, sideOffset } from "@/ui/popup";
 import type { Unstyled } from "@/ui/props";
 import { row } from "@/ui/row";
 
@@ -13,7 +13,7 @@ export const Trigger = Menu.Trigger;
 export function Popup(props: Unstyled<Menu.Popup.Props>) {
   return (
     <Menu.Portal>
-      <Menu.Positioner align="start" sideOffset={4}>
+      <Menu.Positioner align="start" sideOffset={sideOffset}>
         <Menu.Popup
           finalFocus={returnFocus}
           {...props}

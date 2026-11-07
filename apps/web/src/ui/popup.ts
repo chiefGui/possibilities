@@ -3,6 +3,8 @@ import * as stylex from "@stylexjs/stylex";
 import { background, border, surface, text } from "@/theme/colors.stylex";
 import { font, fontSize, motion, radius, shadow, size, space } from "@/theme/tokens.stylex";
 
+export const sideOffset = 4;
+
 export const returnFocus = (closeType: string) => closeType === "keyboard";
 
 export const popup = stylex.create({

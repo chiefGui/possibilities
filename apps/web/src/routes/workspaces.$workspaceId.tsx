@@ -10,14 +10,11 @@ import * as Shell from "@/ui/shell";
 
 export const Route = createFileRoute("/workspaces/$workspaceId")({
   loader: async ({ context, params }) => {
-    const [workspace] = await Promise.all([
-      context.queryClient.query(workspaceQuery(params.workspaceId)),
+    const workspace = await context.queryClient.query(workspaceQuery(params.workspaceId));
+    await Promise.all([
       context.queryClient.prefetchQuery(projectsQuery(params.workspaceId)),
+      context.queryClient.invalidateQueries({ queryKey: workspacesQuery.queryKey, exact: true }),
     ]);
-    await context.queryClient.invalidateQueries({
-      queryKey: workspacesQuery.queryKey,
-      exact: true,
-    });
     return workspace;
   },
   shouldReload: ({ cause }) => cause === "enter",

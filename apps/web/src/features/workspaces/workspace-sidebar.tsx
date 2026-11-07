@@ -2,6 +2,7 @@ import type { Workspace } from "@possibilities/contract";
 import { useQuery } from "@tanstack/react-query";
 
 import { projectsQuery } from "@/features/projects/queries";
+import { SyncStatus } from "@/features/workspaces/sync-status";
 import { WorkspaceSwitcher } from "@/features/workspaces/workspace-switcher";
 import { Icon } from "@/ui/icon";
 import * as Sidebar from "@/ui/sidebar";
@@ -47,6 +48,9 @@ export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
           </Sidebar.Item>
         ))}
       </Sidebar.Section>
+      <Sidebar.Footer>
+        <SyncStatus workspaceId={workspaceId} />
+      </Sidebar.Footer>
     </Sidebar.Root>
   );
 }
