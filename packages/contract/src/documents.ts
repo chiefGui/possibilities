@@ -1,14 +1,38 @@
 import { Schema } from "effect";
 import { Rpc, RpcGroup } from "effect/rpc";
 
-import { ProjectNotFound } from "./projects.ts";
 import { WorkspaceNotFound } from "./workspaces.ts";
 
-export const ProjectRef = Schema.Struct({ workspaceId: Schema.String, projectId: Schema.String });
-export type ProjectRef = typeof ProjectRef.Type;
+export const WorkspaceRef = Schema.Struct({ workspaceId: Schema.String });
+export type WorkspaceRef = typeof WorkspaceRef.Type;
 
-export const DocumentRef = Schema.Struct({ ...ProjectRef.fields, name: Schema.String });
+export const DocumentRef = Schema.Struct({ ...WorkspaceRef.fields, path: Schema.String });
 export type DocumentRef = typeof DocumentRef.Type;
+
+export const FolderRef = DocumentRef;
+export type FolderRef = DocumentRef;
+
+export const root = "";
+
+const separator = "/";
+
+export const segments = (path: string) => (path === root ? [] : path.split(separator));
+
+export const nameOf = (path: string) => path.slice(path.lastIndexOf(separator) + 1);
+
+export const parentOf = (path: string) => path.slice(0, Math.max(0, path.lastIndexOf(separator)));
+
+export const childOf = (folder: string, name: string) =>
+  folder === root ? name : `${folder}${separator}${name}`;
+
+export const isWithin = (path: string, folder: string) =>
+  folder === root || path.startsWith(`${folder}${separator}`);
+
+export const relocate = (path: string, from: string, to: string) =>
+  `${to}${path.slice(from.length)}`;
+
+export const documentKey = ({ workspaceId, path }: DocumentRef) =>
+  JSON.stringify([workspaceId, path]);
 
 export const DocumentView = Schema.Struct({
   anchor: Schema.Number,
@@ -36,21 +60,21 @@ export class DocumentNotFound extends Schema.TaggedError<DocumentNotFound>()("Do
   message: Schema.String,
 }) {}
 
-const Missing = Schema.Union([WorkspaceNotFound, ProjectNotFound]);
+const Missing = Schema.Union([WorkspaceNotFound, DocumentNotFound]);
 
 export const DocumentsApi = RpcGroup.make(
   Rpc.make("documents", {
-    payload: ProjectRef,
+    payload: WorkspaceRef,
     success: Schema.Array(Schema.String),
-    error: Missing,
+    error: WorkspaceNotFound,
   }),
   Rpc.make("document", {
     payload: DocumentRef,
     success: Document,
-    error: Schema.Union([WorkspaceNotFound, ProjectNotFound, DocumentNotFound]),
+    error: Missing,
   }),
   Rpc.make("createDocument", {
-    payload: ProjectRef,
+    payload: FolderRef,
     success: Schema.String,
     error: Missing,
   }),
@@ -68,6 +92,20 @@ export const DocumentsApi = RpcGroup.make(
   }),
   Rpc.make("deleteDocument", {
     payload: DocumentRef,
+    error: Missing,
+  }),
+  Rpc.make("createFolder", {
+    payload: FolderRef,
+    success: Schema.String,
+    error: Missing,
+  }),
+  Rpc.make("renameFolder", {
+    payload: { ...FolderRef.fields, title: Schema.String },
+    success: Schema.String,
+    error: Missing,
+  }),
+  Rpc.make("deleteFolder", {
+    payload: FolderRef,
     error: Missing,
   }),
   Rpc.make("writerSettings", { success: WriterSettings }),

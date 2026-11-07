@@ -1,5 +1,12 @@
 import type { EditorState, StateEffect, Text } from "@codemirror/state";
-import { byDocumentName, type DocumentRef, type DocumentView } from "@possibilities/contract";
+import {
+  documentKey,
+  type DocumentRef,
+  type DocumentView,
+  type FolderRef,
+  isWithin,
+  relocate,
+} from "@possibilities/contract";
 
 import { documentQuery, documentsQuery } from "@/features/documents/queries";
 import { queryClient } from "@/query-client";
@@ -12,9 +19,6 @@ const patience = 2000;
 const retry = 3000;
 const settle = 1000;
 const retained = 24;
-
-const keyOf = ({ workspaceId, projectId, name }: DocumentRef) =>
-  JSON.stringify([workspaceId, projectId, name]);
 
 let ids = 0;
 
@@ -132,17 +136,11 @@ export class Session {
     void call((api) => api.saveDocumentView({ ...ref, view })).catch(discard);
   }
 
-  async rename(title: string) {
+  async exclusive<T>(work: () => Promise<T>) {
     await this.flush();
-    const previous = this.ref;
-    const run = call((api) => api.renameDocument({ ...previous, title }))
-      .then((name) => {
-        if (name !== previous.name) this.retarget(name);
-        return name;
-      })
-      .finally(() => {
-        this.inflight = null;
-      });
+    const run = work().finally(() => {
+      this.inflight = null;
+    });
     this.inflight = run.then(discard, discard);
     try {
       return await run;
@@ -151,32 +149,49 @@ export class Session {
     }
   }
 
+  rename(title: string) {
+    return this.exclusive(async () => {
+      const previous = this.ref;
+      const path = await call((api) => api.renameDocument({ ...previous, title }));
+      if (path !== previous.path) {
+        this.retarget(path);
+        updatePaths(previous.workspaceId, (paths) =>
+          paths.map((other) => (other === previous.path ? path : other)),
+        );
+      }
+      return path;
+    });
+  }
+
   async remove() {
+    await this.discard();
+    const ref = this.ref;
+    await call((api) => api.deleteDocument(ref));
+    this.forget();
+    updatePaths(ref.workspaceId, (paths) => paths.filter((other) => other !== ref.path));
+  }
+
+  async discard() {
     this.removed = true;
     clearTimeout(this.timer);
     clearTimeout(this.viewTimer);
     this.pending = null;
     await this.inflight;
-    const ref = this.ref;
-    await call((api) => api.deleteDocument(ref));
-    sessions.delete(keyOf(ref));
-    queryClient.removeQueries({ queryKey: documentQuery(ref).queryKey, exact: true });
-    queryClient.setQueryData(documentsQuery(ref).queryKey, (names) =>
-      names?.filter((name) => name !== ref.name),
-    );
   }
 
-  private retarget(name: string) {
+  forget() {
+    sessions.delete(documentKey(this.ref));
+    queryClient.removeQueries({ queryKey: documentQuery(this.ref).queryKey, exact: true });
+  }
+
+  retarget(path: string) {
     const previous = this.ref;
-    const next = { ...previous, name };
+    const next = { ...previous, path };
     const cached = queryClient.getQueryData(documentQuery(previous).queryKey);
     if (cached) queryClient.setQueryData(documentQuery(next).queryKey, cached);
     queryClient.removeQueries({ queryKey: documentQuery(previous).queryKey, exact: true });
-    queryClient.setQueryData(documentsQuery(previous).queryKey, (names) =>
-      names?.map((other) => (other === previous.name ? name : other)).sort(byDocumentName),
-    );
-    sessions.delete(keyOf(previous));
-    sessions.set(keyOf(next), this);
+    sessions.delete(documentKey(previous));
+    sessions.set(documentKey(next), this);
     this.ref = next;
   }
 
@@ -189,6 +204,41 @@ export class Session {
 
 const sessions = new Map<string, Session>();
 
+const updatePaths = (
+  workspaceId: string,
+  update: (paths: ReadonlyArray<string>) => ReadonlyArray<string>,
+) =>
+  queryClient.setQueryData(documentsQuery(workspaceId).queryKey, (paths) => paths && update(paths));
+
+const within = ({ workspaceId, path }: FolderRef) =>
+  [...sessions.values()].filter(
+    (session) => session.ref.workspaceId === workspaceId && isWithin(session.ref.path, path),
+  );
+
+const exclusively = <T>(affected: ReadonlyArray<Session>, work: () => Promise<T>) =>
+  affected.reduce<() => Promise<T>>((inner, session) => () => session.exclusive(inner), work)();
+
+export const renameFolder = (ref: FolderRef, title: string) => {
+  const affected = within(ref);
+  return exclusively(affected, async () => {
+    const path = await call((api) => api.renameFolder({ ...ref, title }));
+    if (path === ref.path) return path;
+    for (const session of affected) session.retarget(relocate(session.ref.path, ref.path, path));
+    updatePaths(ref.workspaceId, (paths) =>
+      paths.map((other) => (isWithin(other, ref.path) ? relocate(other, ref.path, path) : other)),
+    );
+    return path;
+  });
+};
+
+export const removeFolder = async (ref: FolderRef) => {
+  const affected = within(ref);
+  await Promise.all(affected.map((session) => session.discard()));
+  await call((api) => api.deleteFolder(ref));
+  for (const session of affected) session.forget();
+  updatePaths(ref.workspaceId, (paths) => paths.filter((other) => !isWithin(other, ref.path)));
+};
+
 const evict = () => {
   for (const [key, session] of sessions) {
     if (sessions.size <= retained) return;
@@ -197,7 +247,7 @@ const evict = () => {
 };
 
 export const sessionFor = (ref: DocumentRef) => {
-  const key = keyOf(ref);
+  const key = documentKey(ref);
   const session = sessions.get(key) ?? new Session(ref);
   sessions.delete(key);
   sessions.set(key, session);

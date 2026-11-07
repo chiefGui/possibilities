@@ -1,24 +1,23 @@
+import { nameOf } from "@possibilities/contract";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 
+import { documentParams, documentRoute } from "@/features/documents/links";
 import type { Session } from "@/features/documents/session";
 import { css } from "@possibilities/ui/css";
 import { EditableText } from "@possibilities/ui/editable-text";
 import { text } from "@possibilities/ui/text";
 
-export function DocumentTitle({ session, name }: { session: Session; name: string }) {
+export function DocumentTitle({ session }: { session: Session }) {
   const navigate = useNavigate();
+  const name = nameOf(session.ref.path);
 
   const rename = useMutation({
     mutationFn: (title: string) => session.rename(title),
-    onSuccess: (renamed) =>
+    onSuccess: (path) =>
       navigate({
-        to: "/workspaces/$workspaceId/projects/$projectId/documents/$documentName",
-        params: {
-          workspaceId: session.ref.workspaceId,
-          projectId: session.ref.projectId,
-          documentName: renamed,
-        },
+        to: documentRoute,
+        params: documentParams(session.ref.workspaceId, path),
         replace: true,
       }),
   });

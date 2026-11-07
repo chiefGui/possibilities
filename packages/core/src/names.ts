@@ -1,5 +1,7 @@
+export const untitled = "Untitled";
+
 export const safeName = (title: string) =>
-  title.replace(/[/\\:*?"<>|\p{Cc}]/gu, "-").replace(/^[\s.-]+|[\s.-]+$/g, "") || "Untitled";
+  title.replace(/[/\\:*?"<>|\p{Cc}]/gu, "-").replace(/^[\s.-]+|[\s.-]+$/g, "") || untitled;
 
 export const availableName = (taken: ReadonlyArray<string>, title: string, current?: string) => {
   const used = new Set(taken.filter((name) => name !== current).map((name) => name.toLowerCase()));

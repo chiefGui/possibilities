@@ -3,7 +3,6 @@ import { Effect, Layer } from "effect";
 
 import { Documents } from "./documents.ts";
 import { environment, owners, repositories } from "./github.ts";
-import { createProject, listProjects, renameProject } from "./projects.ts";
 import { Registry } from "./registry.ts";
 import { ClonesDirectory, createWorkspace, openWorkspace, syncWorkspace } from "./workspaces.ts";
 
@@ -19,9 +18,6 @@ const handlers = Api.toLayer(
       openWorkspace: ({ id }) => openWorkspace(id),
       syncWorkspace: ({ id }) => syncWorkspace(id),
       createWorkspace,
-      projects: ({ workspaceId }) => listProjects(workspaceId),
-      createProject,
-      renameProject,
       documents: documents.list,
       document: documents.read,
       createDocument: documents.create,
@@ -29,6 +25,9 @@ const handlers = Api.toLayer(
       saveDocumentView: ({ view, ...ref }) => documents.saveView(ref, view),
       renameDocument: ({ title, ...ref }) => documents.rename(ref, title),
       deleteDocument: documents.remove,
+      createFolder: documents.createFolder,
+      renameFolder: ({ title, ...ref }) => documents.renameFolder(ref, title),
+      deleteFolder: documents.removeFolder,
       writerSettings: () => documents.settings,
       saveWriterSettings: documents.saveSettings,
     });

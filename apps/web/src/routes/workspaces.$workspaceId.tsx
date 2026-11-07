@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
-import { projectsQuery } from "@/features/projects/queries";
+import { documentsQuery } from "@/features/documents/queries";
 import { workspaceQuery, workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceSidebar } from "@/features/workspaces/workspace-sidebar";
 import { css } from "@possibilities/ui/css";
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/workspaces/$workspaceId")({
   loader: async ({ context, params }) => {
     const workspace = await context.queryClient.query(workspaceQuery(params.workspaceId));
     await Promise.all([
-      context.queryClient.prefetchQuery(projectsQuery(params.workspaceId)),
+      context.queryClient.prefetchQuery(documentsQuery(params.workspaceId)),
       context.queryClient.invalidateQueries({ queryKey: workspacesQuery.queryKey, exact: true }),
     ]);
     return workspace;

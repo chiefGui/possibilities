@@ -9,14 +9,11 @@ import * as Combobox from "@possibilities/ui/combobox";
 type RepositoryPickerProps = {
   value: string | null;
   onValueChange: (nameWithOwner: string | null) => void;
-  noneLabel?: string;
 };
-
-const none = "";
 
 const nameOf = (nameWithOwner: string) => nameWithOwner.slice(nameWithOwner.indexOf("/") + 1);
 
-export function RepositoryPicker({ value, onValueChange, noneLabel }: RepositoryPickerProps) {
+export function RepositoryPicker({ value, onValueChange }: RepositoryPickerProps) {
   const [selectedOwner, setSelectedOwner] = useState<string | null>(null);
   const owner = useOwner(selectedOwner);
   const repositories = useQuery({ ...repositoriesQuery(owner ?? ""), enabled: owner !== null });
@@ -24,7 +21,6 @@ export function RepositoryPicker({ value, onValueChange, noneLabel }: Repository
     repositories.data?.map((repository) => [repository.nameWithOwner, repository.isPrivate]),
   );
   const names = [...privacy.keys()];
-  const labelOf = (item: string) => (item === none ? (noneLabel ?? "") : nameOf(item));
 
   return (
     <OwnerScope
@@ -35,10 +31,10 @@ export function RepositoryPicker({ value, onValueChange, noneLabel }: Repository
       }}
     >
       <Combobox.Root
-        items={repositories.isSuccess ? (noneLabel ? [none, ...names] : names) : []}
-        value={value ?? (noneLabel ? none : null)}
-        onValueChange={(next: string | null) => onValueChange(next || null)}
-        itemToStringLabel={labelOf}
+        items={repositories.isSuccess ? names : []}
+        value={value}
+        onValueChange={(next: string | null) => onValueChange(next)}
+        itemToStringLabel={nameOf}
       >
         <Combobox.Trigger aria-label="Repository" placeholder="Repository" disabled={!owner} />
         <Combobox.Popup>
@@ -51,7 +47,7 @@ export function RepositoryPicker({ value, onValueChange, noneLabel }: Repository
           <Combobox.List>
             {(item: string) => (
               <Combobox.Item key={item} value={item}>
-                {labelOf(item)}
+                {nameOf(item)}
                 {privacy.get(item) && <span className={badge}>Private</span>}
               </Combobox.Item>
             )}

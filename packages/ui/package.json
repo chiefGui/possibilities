@@ -10,6 +10,7 @@
     "./alert-dialog": "./src/alert-dialog.tsx",
     "./button": "./src/button.tsx",
     "./combobox": "./src/combobox.tsx",
+    "./context-menu": "./src/context-menu.tsx",
     "./editable-text": "./src/editable-text.tsx",
     "./field": "./src/field.tsx",
     "./form": "./src/form.tsx",

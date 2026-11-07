@@ -1,16 +1,11 @@
-import type { WriterSettings } from "@possibilities/contract";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { parentOf, type WriterSettings } from "@possibilities/contract";
 import { useState } from "react";
 
+import { DeleteDialog } from "@/features/documents/delete-dialog";
 import { type Setting, shortcut } from "@/features/documents/editor/modes";
-import { documentsQuery } from "@/features/documents/queries";
 import type { Session } from "@/features/documents/session";
-import { useCreateDocument } from "@/features/documents/use-create-document";
-import { Actions } from "@possibilities/ui/actions";
-import * as AlertDialog from "@possibilities/ui/alert-dialog";
+import { useCreate } from "@/features/documents/use-create";
 import { Button } from "@possibilities/ui/button";
-import * as Form from "@possibilities/ui/form";
 import { Icon } from "@possibilities/ui/icon";
 import * as Menu from "@possibilities/ui/menu";
 
@@ -33,25 +28,9 @@ const label = (binding: string) =>
     .join("");
 
 export function DocumentMenu({ session, settings, onToggle }: DocumentMenuProps) {
-  const { workspaceId, projectId } = session.ref;
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const create = useCreateDocument(workspaceId, projectId);
+  const { workspaceId, path } = session.ref;
+  const create = useCreate(workspaceId, "createDocument");
   const [confirming, setConfirming] = useState(false);
-
-  const remove = useMutation({
-    mutationFn: async () => {
-      const removal = session.remove();
-      await navigate({
-        to: "/workspaces/$workspaceId/projects/$projectId",
-        params: { workspaceId, projectId },
-        replace: true,
-      });
-      await removal;
-    },
-    onError: () =>
-      queryClient.invalidateQueries({ queryKey: documentsQuery(session.ref).queryKey }),
-  });
 
   return (
     <>
@@ -75,7 +54,7 @@ export function DocumentMenu({ session, settings, onToggle }: DocumentMenuProps)
             Typewriter
           </Menu.CheckboxItem>
           <Menu.Separator />
-          <Menu.Item disabled={create.isPending} onClick={() => create.mutate()}>
+          <Menu.Item disabled={create.isPending} onClick={() => create.mutate(parentOf(path))}>
             <Icon name="add" />
             New document
           </Menu.Item>
@@ -85,21 +64,12 @@ export function DocumentMenu({ session, settings, onToggle }: DocumentMenuProps)
           </Menu.Item>
         </Menu.Popup>
       </Menu.Root>
-      <AlertDialog.Root open={confirming} onOpenChange={setConfirming}>
-        <AlertDialog.Popup>
-          <AlertDialog.Title>Delete {session.ref.name}?</AlertDialog.Title>
-          <AlertDialog.Description>
-            It stays in the workspace history, but leaves this project.
-          </AlertDialog.Description>
-          {remove.error && <Form.Error>{remove.error.message}</Form.Error>}
-          <Actions>
-            <AlertDialog.Close render={<Button variant="ghost" />}>Cancel</AlertDialog.Close>
-            <Button variant="danger" disabled={remove.isPending} onClick={() => remove.mutate()}>
-              Delete
-            </Button>
-          </Actions>
-        </AlertDialog.Popup>
-      </AlertDialog.Root>
+      <DeleteDialog
+        workspaceId={workspaceId}
+        entry={{ kind: "document", path }}
+        open={confirming}
+        onOpenChange={setConfirming}
+      />
     </>
   );
 }
