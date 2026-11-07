@@ -5,7 +5,7 @@ import { text as color } from "@/theme/colors.stylex";
 import { size, space } from "@/theme/tokens.stylex";
 import { control } from "@/ui/control";
 import { Icon } from "@/ui/icon";
-import { popup, returnFocus } from "@/ui/popup";
+import { popup, returnFocus, sideOffset } from "@/ui/popup";
 import type { Unstyled } from "@/ui/props";
 import { row } from "@/ui/row";
 import * as ScrollArea from "@/ui/scroll-area";
@@ -33,7 +33,7 @@ export function Trigger({ placeholder, ...props }: TriggerProps) {
 export function Popup(props: Unstyled<Combobox.Popup.Props>) {
   return (
     <Combobox.Portal>
-      <Combobox.Positioner align="start" sideOffset={4}>
+      <Combobox.Positioner align="start" sideOffset={sideOffset}>
         <Combobox.Popup
           finalFocus={returnFocus}
           {...props}

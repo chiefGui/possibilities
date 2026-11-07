@@ -2,7 +2,7 @@ import { Tooltip } from "@base-ui/react/tooltip";
 import * as stylex from "@stylexjs/stylex";
 
 import { fontSize, size, space } from "@/theme/tokens.stylex";
-import { popup } from "@/ui/popup";
+import { popup, sideOffset } from "@/ui/popup";
 import type { Unstyled } from "@/ui/props";
 
 export const Root = Tooltip.Root;
@@ -12,7 +12,7 @@ export const Trigger = Tooltip.Trigger;
 export function Popup(props: Unstyled<Tooltip.Popup.Props>) {
   return (
     <Tooltip.Portal>
-      <Tooltip.Positioner sideOffset={6}>
+      <Tooltip.Positioner sideOffset={sideOffset}>
         <Tooltip.Popup {...props} {...stylex.props(popup.root, styles.popup)} />
       </Tooltip.Positioner>
     </Tooltip.Portal>
