@@ -1,4 +1,4 @@
 {
   "extends": "../../tsconfig/dom.json",
-  "include": ["src", "panda.config.ts"]
+  "include": ["src", "panda.config.ts", "vite.config.ts"]
 }

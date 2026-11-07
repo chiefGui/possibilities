@@ -61,8 +61,7 @@
     }
   },
   "scripts": {
-    "build": "panda codegen && panda lib",
-    "typecheck": "panda codegen && tsrs --fast"
+    "build": "panda codegen && panda lib"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -75,7 +74,8 @@
     "@pandacss/preset-base": "^2.5.0",
     "@types/react": "^19.3.0",
     "react": "^19.3.1",
-    "tsrs": "^0.21.0-ts7.1.0-beta"
+    "tsrs": "^0.21.0-ts7.1.0-beta",
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "react": "^19.3.1"
