@@ -79,8 +79,8 @@ const styles = {
     color: "text.subtle",
   }),
   popup: css.raw({
-    minWidth: "max({sizes.popup}, var(--anchor-width))",
-    maxHeight: "min(var(--available-height), calc(10 * {sizes.md}))",
+    minWidth: "[max({sizes.popup}, var(--anchor-width))]",
+    maxHeight: "[min(var(--available-height), calc(10 * {sizes.md}))]",
     overflow: "hidden",
   }),
   empty: css.raw({

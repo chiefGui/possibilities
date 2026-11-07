@@ -19,7 +19,7 @@ export function Popup(props: Unstyled<Tooltip.Popup.Props>) {
 }
 
 const tooltip = css.raw({
-  minWidth: 0,
+  minWidth: "0",
   maxWidth: "column",
   paddingBlock: "1.5",
   paddingInline: "2",

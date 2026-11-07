@@ -53,7 +53,7 @@ export function EnvironmentChecks({ environment }: { environment: Environment | 
 
 const styles = {
   stepTitle: css({
-    flex: 1,
+    flex: "1",
     fontWeight: "medium",
     textAlign: "start",
   }),
@@ -63,7 +63,7 @@ const styles = {
   checks: css({
     display: "flex",
     flexDirection: "column",
-    margin: 0,
+    margin: "0",
     paddingBlockEnd: "2",
     paddingInline: "3",
     listStyle: "none",
@@ -87,9 +87,9 @@ const styles = {
     flexShrink: 0,
   }),
   dot: css.raw({
-    width: "{spacing.1.5}",
-    height: "{spacing.1.5}",
-    borderRadius: "50%",
+    width: "1.5",
+    height: "1.5",
+    borderRadius: "[50%]",
     backgroundColor: "icon.subtle",
   }),
   dotOk: css.raw({
@@ -97,7 +97,7 @@ const styles = {
   }),
   fix: css.raw({
     lineHeight: "{sizes.line}",
-    paddingInlineStart: "calc({sizes.icon} + {spacing.3})",
+    paddingInlineStart: "[calc({sizes.icon} + {spacing.3})]",
     fontFamily: "mono",
     fontSize: "sm",
     color: "text.subtle",

@@ -4,7 +4,7 @@ export const row = css.raw({
   display: "flex",
   alignItems: "center",
   gap: "2",
-  minWidth: 0,
+  minWidth: "0",
   height: "sm",
   paddingInline: "2",
   borderWidth: 0,

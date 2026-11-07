@@ -8,6 +8,6 @@ export const states = {
     outlineStyle: { base: "none", _focusVisible: "solid" },
     outlineWidth: "3px",
     outlineColor: "border.focused",
-    outlineOffset: "1px",
+    outlineOffset: "px",
   }),
 };

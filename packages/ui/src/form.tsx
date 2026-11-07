@@ -19,7 +19,7 @@ const styles = {
     gap: "6",
   }),
   error: css({
-    margin: 0,
+    margin: "0",
     fontSize: "sm",
     color: "text.danger",
   }),

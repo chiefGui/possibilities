@@ -59,7 +59,7 @@ const styles = {
   header: css({
     display: "flex",
     "[data-platform=darwin] &": {
-      paddingInlineStart: "calc({sizes.trafficLights} - {spacing.2})",
+      paddingInlineStart: "[calc({sizes.trafficLights} - {spacing.2})]",
     },
   }),
   section: css.raw({

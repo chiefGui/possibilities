@@ -18,7 +18,7 @@ export function Title(props: Unstyled<ComponentProps<"h1">>) {
 const styles = {
   page: css({
     display: "flex",
-    flex: 1,
+    flex: "1",
     alignItems: "center",
     justifyContent: "center",
     padding: "6",
@@ -27,12 +27,12 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "6",
-    width: "100%",
+    width: "full",
     maxWidth: "column",
     appRegion: "no-drag",
   }),
   title: css({
-    margin: 0,
+    margin: "0",
     fontSize: "xl",
     fontWeight: "semibold",
     letterSpacing: "-0.01em",

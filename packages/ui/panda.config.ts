@@ -24,12 +24,26 @@ const green = mode("oklch(0.6 0.15 150)", "oklch(0.72 0.15 150)");
 
 const red = mode("oklch(0.577 0.215 27)", "oklch(0.704 0.191 22)");
 
+const space = {
+  "0": "0",
+  px: "1px",
+  "0.5": "2px",
+  "1": "4px",
+  "1.5": "6px",
+  "2": "8px",
+  "3": "12px",
+  "4": "16px",
+  "6": "24px",
+  "8": "32px",
+};
+
 const values = (scale: Record<string, string>) =>
   Object.fromEntries(Object.entries(scale).map(([key, value]) => [key, { value }]));
 
 export default defineConfig({
   presets: [base],
   preflight: false,
+  strictTokens: true,
   include: ["src/**/*.{ts,tsx}"],
   outdir: "styled-system",
   utilities: {
@@ -62,16 +76,7 @@ export default defineConfig({
           danger: red,
         }),
       },
-      spacing: values({
-        "0.5": "2px",
-        "1": "4px",
-        "1.5": "6px",
-        "2": "8px",
-        "3": "12px",
-        "4": "16px",
-        "6": "24px",
-        "8": "32px",
-      }),
+      spacing: values(space),
       radii: values({ xs: "4px", sm: "6px", md: "8px", lg: "12px" }),
       fontSizes: values({ xs: "11px", sm: "12px", md: "13px", xl: "20px" }),
       fontWeights: values({ regular: "400", medium: "500", semibold: "600" }),
@@ -80,6 +85,8 @@ export default defineConfig({
         mono: "ui-monospace, monospace",
       }),
       sizes: values({
+        ...space,
+        full: "100%",
         icon: "16px",
         line: "24px",
         sm: "28px",
@@ -96,7 +103,7 @@ export default defineConfig({
         raised: "0 1px 2px oklch(0 0 0 / 8%)",
         overlay: "0 4px 16px oklch(0 0 0 / 16%)",
       }),
-      opacity: values({ disabled: "0.5" }),
+      opacity: values({ "0": "0", disabled: "0.5", "1": "1" }),
     },
     recipes: {
       icon: {
