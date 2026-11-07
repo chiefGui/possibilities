@@ -99,14 +99,13 @@ export const createProject = ({ workspaceId, ...fields }: CreateProject) =>
 export const renameProject = ({ workspaceId, id, title }: RenameProject) =>
   updateProjects(workspaceId, `Rename project ${title}`, (root, projects) =>
     Effect.gen(function* () {
-      const index = projects.findIndex((project) => project.id === id);
-      if (index === -1) {
+      const current = projects.find((project) => project.id === id);
+      if (!current) {
         return yield* new ProjectNotFound({ message: `No project with id ${id}` });
       }
-      const current = projects[index];
       const directory = yield* availableDirectory(root, title, current.directory);
       if (directory !== current.directory) yield* move(root, current.directory, directory);
       const project = { ...current, title, directory };
-      return { projects: projects.with(index, project), project };
+      return { projects: projects.map((other) => (other === current ? project : other)), project };
     }),
   );
