@@ -2,10 +2,10 @@ import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 
 import { syncQuery } from "@/features/workspaces/queries";
-import { icon } from "@/theme/colors.stylex";
-import { Icon } from "@/ui/icon";
-import * as Sidebar from "@/ui/sidebar";
-import * as Tooltip from "@/ui/tooltip";
+import { icon } from "@possibilities/ui/theme/colors.stylex";
+import { Icon } from "@possibilities/ui/icon";
+import * as Sidebar from "@/layout/sidebar";
+import * as Tooltip from "@possibilities/ui/tooltip";
 
 export function SyncStatus({ workspaceId }: { workspaceId: string }) {
   const sync = useQuery(syncQuery(workspaceId));

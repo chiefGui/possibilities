@@ -2,8 +2,8 @@ import * as stylex from "@stylexjs/stylex";
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
-import { surface, text } from "@/theme/colors.stylex";
-import { font, fontSize } from "@/theme/tokens.stylex";
+import { surface, text } from "@possibilities/ui/theme/colors.stylex";
+import { font, fontSize } from "@possibilities/ui/theme/tokens.stylex";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   component: RootLayout,

@@ -1,10 +1,10 @@
 import { Menu } from "@base-ui/react/menu";
 import * as stylex from "@stylexjs/stylex";
 
-import { Icon } from "@/ui/icon";
-import { popup, returnFocus, sideOffset } from "@/ui/popup";
-import type { Unstyled } from "@/ui/props";
-import { row } from "@/ui/row";
+import { Icon } from "./icon";
+import { popup, returnFocus, sideOffset } from "./popup";
+import type { Unstyled } from "./props";
+import { row } from "./row";
 
 export const Root = Menu.Root;
 

@@ -2,9 +2,9 @@ import { Input } from "@base-ui/react/input";
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { text } from "@/theme/colors.stylex";
-import { control } from "@/ui/control";
-import type { Unstyled } from "@/ui/props";
+import { text } from "./theme/colors.stylex";
+import { control } from "./control";
+import type { Unstyled } from "./props";
 
 export function Root(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(control.base)} />;

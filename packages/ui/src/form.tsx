@@ -2,9 +2,9 @@ import { Form as BaseForm } from "@base-ui/react/form";
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { text } from "@/theme/colors.stylex";
-import { fontSize, space } from "@/theme/tokens.stylex";
-import type { Unstyled } from "@/ui/props";
+import { text } from "./theme/colors.stylex";
+import { fontSize, space } from "./theme/tokens.stylex";
+import type { Unstyled } from "./props";
 
 export function Root(props: Unstyled<BaseForm.Props>) {
   return <BaseForm {...props} {...stylex.props(styles.root)} />;

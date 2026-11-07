@@ -5,11 +5,11 @@ import { type ReactNode, useState } from "react";
 import { projectsQuery } from "@/features/projects/queries";
 import { RepositoryPicker } from "@/features/repositories/repository-picker";
 import { call } from "@/rpc";
-import { Actions } from "@/ui/actions";
-import { Button } from "@/ui/button";
-import * as Field from "@/ui/field";
-import * as Form from "@/ui/form";
-import * as Input from "@/ui/input";
+import { Actions } from "@possibilities/ui/actions";
+import { Button } from "@possibilities/ui/button";
+import * as Field from "@possibilities/ui/field";
+import * as Form from "@possibilities/ui/form";
+import * as Input from "@possibilities/ui/input";
 
 export function ProjectForm({
   workspaceId,

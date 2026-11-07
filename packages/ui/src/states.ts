@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 
-import { background, border } from "@/theme/colors.stylex";
-import { ring } from "@/theme/tokens.stylex";
+import { background, border } from "./theme/colors.stylex";
+import { ring } from "./theme/tokens.stylex";
 
 export const states = stylex.create({
   hover: {

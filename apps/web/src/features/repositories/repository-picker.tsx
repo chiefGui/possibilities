@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import { OwnerScope } from "@/features/repositories/owner-scope";
 import { repositoriesQuery, useOwner } from "@/features/repositories/queries";
-import { text } from "@/theme/colors.stylex";
-import { fontSize } from "@/theme/tokens.stylex";
-import * as Combobox from "@/ui/combobox";
+import { text } from "@possibilities/ui/theme/colors.stylex";
+import { fontSize } from "@possibilities/ui/theme/tokens.stylex";
+import * as Combobox from "@possibilities/ui/combobox";
 
 type RepositoryPickerProps = {
   value: string | null;

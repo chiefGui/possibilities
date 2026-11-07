@@ -6,11 +6,11 @@ import { EnvironmentChecks } from "@/features/environment/environment-checks";
 import { environmentQuery } from "@/features/environment/queries";
 import { isReady } from "@/features/environment/steps";
 import { WorkspaceForm } from "@/features/workspaces/workspace-form";
-import { background, border } from "@/theme/colors.stylex";
-import { radius, space } from "@/theme/tokens.stylex";
-import { Actions } from "@/ui/actions";
-import { Button } from "@/ui/button";
-import * as CenteredPage from "@/ui/centered-page";
+import { background, border } from "@possibilities/ui/theme/colors.stylex";
+import { radius, space } from "@possibilities/ui/theme/tokens.stylex";
+import { Actions } from "@possibilities/ui/actions";
+import { Button } from "@possibilities/ui/button";
+import * as CenteredPage from "@/layout/centered-page";
 
 const stages = ["setup", "workspace"] as const;
 type Stage = (typeof stages)[number];

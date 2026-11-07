@@ -1,10 +1,10 @@
 import { Tabs } from "@base-ui/react/tabs";
 import * as stylex from "@stylexjs/stylex";
 
-import { background, surface, text } from "@/theme/colors.stylex";
-import { fontSize, radius, shadow, size, space, weight } from "@/theme/tokens.stylex";
-import type { Unstyled } from "@/ui/props";
-import { states } from "@/ui/states";
+import { background, surface, text } from "./theme/colors.stylex";
+import { fontSize, radius, shadow, size, space, weight } from "./theme/tokens.stylex";
+import type { Unstyled } from "./props";
+import { states } from "./states";
 
 export const Root = Tabs.Root;
 

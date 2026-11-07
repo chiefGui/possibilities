@@ -12,8 +12,8 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import * as stylex from "@stylexjs/stylex";
 
-import { icon } from "@/theme/colors.stylex";
-import { size } from "@/theme/tokens.stylex";
+import { icon } from "./theme/colors.stylex";
+import { size } from "./theme/tokens.stylex";
 
 const glyphs = {
   add: Add01Icon,

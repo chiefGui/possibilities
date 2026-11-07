@@ -4,9 +4,9 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { ProjectTitle } from "@/features/projects/project-title";
 import { projectsQuery } from "@/features/projects/queries";
-import { text } from "@/theme/colors.stylex";
-import { weight } from "@/theme/tokens.stylex";
-import * as Shell from "@/ui/shell";
+import { text } from "@possibilities/ui/theme/colors.stylex";
+import { weight } from "@possibilities/ui/theme/tokens.stylex";
+import * as Shell from "@/layout/shell";
 
 export const Route = createFileRoute("/workspaces/$workspaceId/projects/$projectId")({
   component: ProjectPage,

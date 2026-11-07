@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import type { ReactNode } from "react";
 
-import { space } from "@/theme/tokens.stylex";
+import { space } from "./theme/tokens.stylex";
 
 export function Actions({ children }: { children: ReactNode }) {
   return <div {...stylex.props(styles.actions)}>{children}</div>;

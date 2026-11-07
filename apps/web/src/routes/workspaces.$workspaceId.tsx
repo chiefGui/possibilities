@@ -4,9 +4,9 @@ import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { projectsQuery } from "@/features/projects/queries";
 import { workspaceQuery, workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceSidebar } from "@/features/workspaces/workspace-sidebar";
-import { text } from "@/theme/colors.stylex";
-import * as CenteredPage from "@/ui/centered-page";
-import * as Shell from "@/ui/shell";
+import { text } from "@possibilities/ui/theme/colors.stylex";
+import * as CenteredPage from "@/layout/centered-page";
+import * as Shell from "@/layout/shell";
 
 export const Route = createFileRoute("/workspaces/$workspaceId")({
   loader: async ({ context, params }) => {

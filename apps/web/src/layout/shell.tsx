@@ -1,9 +1,9 @@
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { border, surface } from "@/theme/colors.stylex";
-import { radius, size, space, weight } from "@/theme/tokens.stylex";
-import type { Unstyled } from "@/ui/props";
+import { border, surface } from "@possibilities/ui/theme/colors.stylex";
+import { radius, size, space, weight } from "@possibilities/ui/theme/tokens.stylex";
+import type { Unstyled } from "@possibilities/ui/props";
 
 export function Root(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} {...stylex.props(styles.root)} />;

@@ -1,15 +1,15 @@
 import { Combobox } from "@base-ui/react/combobox";
 import * as stylex from "@stylexjs/stylex";
 
-import { text as color } from "@/theme/colors.stylex";
-import { size, space } from "@/theme/tokens.stylex";
-import { control } from "@/ui/control";
-import { Icon } from "@/ui/icon";
-import { popup, returnFocus, sideOffset } from "@/ui/popup";
-import type { Unstyled } from "@/ui/props";
-import { row } from "@/ui/row";
-import * as ScrollArea from "@/ui/scroll-area";
-import { text } from "@/ui/text";
+import { text as color } from "./theme/colors.stylex";
+import { size, space } from "./theme/tokens.stylex";
+import { control } from "./control";
+import { Icon } from "./icon";
+import { popup, returnFocus, sideOffset } from "./popup";
+import type { Unstyled } from "./props";
+import { row } from "./row";
+import * as ScrollArea from "./scroll-area";
+import { text } from "./text";
 
 export const Root: typeof Combobox.Root = (props) => <Combobox.Root autoHighlight {...props} />;
 

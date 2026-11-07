@@ -1,8 +1,8 @@
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { fontSize, size, space, weight } from "@/theme/tokens.stylex";
-import type { Unstyled } from "@/ui/props";
+import { fontSize, size, space, weight } from "@possibilities/ui/theme/tokens.stylex";
+import type { Unstyled } from "@possibilities/ui/props";
 
 export function Root({ children }: Pick<ComponentProps<"div">, "children">) {
   return (

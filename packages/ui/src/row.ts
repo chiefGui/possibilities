@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 
-import { text } from "@/theme/colors.stylex";
-import { fontSize, radius, size, space } from "@/theme/tokens.stylex";
+import { text } from "./theme/colors.stylex";
+import { fontSize, radius, size, space } from "./theme/tokens.stylex";
 
 export const row = stylex.create({
   base: {
