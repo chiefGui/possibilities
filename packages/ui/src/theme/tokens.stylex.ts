@@ -32,7 +32,7 @@ export const weight = stylex.defineVars({
 });
 
 export const font = stylex.defineVars({
-  sans: "'Google Sans Variable', system-ui, sans-serif",
+  sans: "'Inter Variable', system-ui, sans-serif",
   mono: "ui-monospace, monospace",
 });
 
