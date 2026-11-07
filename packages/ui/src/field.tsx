@@ -28,9 +28,9 @@ const styles = {
     gap: "2",
   }),
   group: css.raw({
-    minWidth: 0,
-    margin: 0,
-    padding: 0,
+    minWidth: "0",
+    margin: "0",
+    padding: "0",
     borderWidth: 0,
   }),
 };

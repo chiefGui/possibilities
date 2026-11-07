@@ -19,8 +19,8 @@ export function Addon(props: Unstyled<ComponentProps<"span">>) {
 
 const styles = {
   control: css.raw({
-    flex: 1,
-    height: "100%",
+    flex: "1",
+    height: "full",
   }),
   addon: css({
     flexShrink: 0,

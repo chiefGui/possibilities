@@ -18,17 +18,17 @@ export function Header(props: Unstyled<ComponentProps<"header">>) {
 const styles = {
   root: css({
     display: "flex",
-    flex: 1,
-    height: "100vh",
+    flex: "1",
+    height: "screen",
     overflow: "hidden",
   }),
   main: css({
     display: "flex",
     flexDirection: "column",
-    flex: 1,
-    minWidth: 0,
+    flex: "1",
+    minWidth: "0",
     margin: "2",
-    marginInlineStart: 0,
+    marginInlineStart: "0",
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: "border.default",

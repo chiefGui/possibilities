@@ -79,8 +79,8 @@ const styles = {
     gap: "1",
   }),
   segment: css.raw({
-    flex: 1,
-    height: "{spacing.0.5}",
+    flex: "1",
+    height: "0.5",
     borderRadius: "xs",
     backgroundColor: "border.default",
   }),

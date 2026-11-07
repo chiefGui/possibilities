@@ -41,6 +41,6 @@ function WorkspaceLayout() {
 }
 
 const message = css({
-  margin: 0,
+  margin: "0",
   color: "text.subtle",
 });

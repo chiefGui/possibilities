@@ -9,7 +9,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 const root = css({
   display: "flex",
-  minHeight: "100vh",
+  minHeight: "screen",
   backgroundColor: "surface.sunken",
   color: "text.default",
   fontFamily: "sans",

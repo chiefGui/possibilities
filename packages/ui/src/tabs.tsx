@@ -27,7 +27,7 @@ const styles = {
     backgroundColor: "background.neutral",
   }),
   tab: css.raw({
-    flex: 1,
+    flex: "1",
     height: "line",
     borderWidth: 0,
     borderRadius: "sm",

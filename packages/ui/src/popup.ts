@@ -21,7 +21,7 @@ export const popup = {
     outlineStyle: "none",
     appRegion: "no-drag",
     transformOrigin: "var(--transform-origin)",
-    _transitioning: { opacity: 0, transform: "scale(0.96)" },
+    _transitioning: { opacity: "0", transform: "scale(0.96)" },
     transitionProperty: "opacity, transform",
     transitionDuration: "fast",
     transitionTimingFunction: "standard",
@@ -41,7 +41,7 @@ export const popup = {
   }),
   separator: css.raw({
     flexShrink: 0,
-    height: "1px",
+    height: "px",
     marginBlock: "1.5",
     marginInline: "-1.5",
     backgroundColor: "border.default",
@@ -49,7 +49,7 @@ export const popup = {
   search: css.raw({
     flexShrink: 0,
     height: "lg",
-    paddingInline: "calc({spacing.1.5} + {spacing.2})",
+    paddingInline: "[calc({spacing.1.5} + {spacing.2})]",
     borderBottomWidth: "1px",
     borderBottomStyle: "solid",
     borderBottomColor: "border.default",
