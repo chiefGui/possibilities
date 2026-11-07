@@ -8,18 +8,29 @@ import { Effect, FileSystem, Path, Struct } from "effect";
 
 import { commit, git } from "./github.ts";
 import {
-  appDirectory,
   manifestFile,
   type ProjectEntry,
+  projectsDirectory,
   readManifest,
   writeManifest,
 } from "./manifest.ts";
+import { availableName } from "./names.ts";
+import { commitDocuments, head, integrate } from "./sync.ts";
 import { gitLock, workspaceRoot } from "./workspaces.ts";
 
-const projectsDirectory = `${appDirectory}/projects`;
 const keepFile = ".keep";
 
 const projectPath = (directory: string) => `${projectsDirectory}/${directory}`;
+
+const missingProject = (id: string) => new ProjectNotFound({ message: `No project with id ${id}` });
+
+export const projectFolder = Effect.fn("projectFolder")(function* (root: string, id: string) {
+  const path = yield* Path.Path;
+  const { manifest } = yield* readManifest(root).pipe(Effect.orDie);
+  const project = manifest.projects.find((candidate) => candidate.id === id);
+  if (!project) return yield* missingProject(id);
+  return path.join(root, projectPath(project.directory));
+});
 
 const toProject = (entry: ProjectEntry): Project => Struct.omit(entry, ["directory"]);
 
@@ -28,9 +39,6 @@ export const listProjects = Effect.fn("listProjects")(function* (workspaceId: st
   const { manifest } = yield* readManifest(root).pipe(Effect.orDie);
   return manifest.projects.map(toProject);
 });
-
-const directoryName = (title: string) =>
-  title.replace(/[/\\:*?"<>|\p{Cc}]/gu, "-").replace(/^[\s.-]+|[\s.-]+$/g, "") || "Untitled";
 
 const availableDirectory = Effect.fn("availableDirectory")(function* (
   root: string,
@@ -42,15 +50,7 @@ const availableDirectory = Effect.fn("availableDirectory")(function* (
   const entries = yield* fs
     .readDirectory(path.join(root, projectsDirectory))
     .pipe(Effect.orElseSucceed(() => []));
-  const taken = new Set(
-    entries.filter((entry) => entry !== current).map((entry) => entry.toLowerCase()),
-  );
-  const base = directoryName(title);
-  let candidate = base;
-  for (let suffix = 2; taken.has(candidate.toLowerCase()); suffix++) {
-    candidate = `${base} ${suffix}`;
-  }
-  return candidate;
+  return availableName(entries, title, current);
 });
 
 const move = Effect.fn("move")(function* (root: string, from: string, to: string) {
@@ -70,16 +70,17 @@ const updateProjects = Effect.fn("updateProjects")(function* <E, R>(
 ) {
   const root = yield* workspaceRoot(workspaceId);
   return yield* Effect.gen(function* () {
-    yield* git(root, "pull", "--ff-only");
-    const { document, manifest } = yield* readManifest(root).pipe(Effect.orDie);
-    const { projects, project } = yield* change(root, manifest.projects);
-    yield* writeManifest(root, { ...document, projects });
-    yield* commit(root, message, [manifestFile, projectPath(project.directory)]);
-    return toProject(project);
-  }).pipe(
-    Effect.onError(() => git(root, "reset", "--hard", "@{upstream}").pipe(Effect.ignore)),
-    gitLock.withPermits(1),
-  );
+    yield* commitDocuments(root);
+    yield* integrate(root);
+    const before = yield* head(root);
+    return yield* Effect.gen(function* () {
+      const { document, manifest } = yield* readManifest(root).pipe(Effect.orDie);
+      const { projects, project } = yield* change(root, manifest.projects);
+      yield* writeManifest(root, { ...document, projects });
+      yield* commit(root, message, [manifestFile, projectPath(project.directory)]);
+      return toProject(project);
+    }).pipe(Effect.onError(() => git(root, "reset", "--hard", before).pipe(Effect.ignore)));
+  }).pipe(gitLock.withPermits(1));
 });
 
 export const createProject = ({ workspaceId, ...fields }: CreateProject) =>
@@ -100,9 +101,7 @@ export const renameProject = ({ workspaceId, id, title }: RenameProject) =>
   updateProjects(workspaceId, `Rename project ${title}`, (root, projects) =>
     Effect.gen(function* () {
       const current = projects.find((project) => project.id === id);
-      if (!current) {
-        return yield* new ProjectNotFound({ message: `No project with id ${id}` });
-      }
+      if (!current) return yield* missingProject(id);
       const directory = yield* availableDirectory(root, title, current.directory);
       if (directory !== current.directory) yield* move(root, current.directory, directory);
       const project = { ...current, title, directory };

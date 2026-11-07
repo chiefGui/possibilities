@@ -4,6 +4,8 @@ import { parse, stringify } from "smol-toml";
 
 export const appDirectory = ".possibilities";
 export const manifestFile = `${appDirectory}/workspace.toml`;
+export const projectsDirectory = `${appDirectory}/projects`;
+export const documentExtension = ".md";
 
 export const ProjectEntry = Schema.Struct({ ...Project.fields, directory: Schema.String });
 export type ProjectEntry = typeof ProjectEntry.Type;

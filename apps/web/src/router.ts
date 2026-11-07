@@ -1,15 +1,7 @@
-import { focusManager, QueryClient } from "@tanstack/react-query";
 import { createBrowserHistory, createHashHistory, createRouter } from "@tanstack/react-router";
 
+import { queryClient } from "./query-client";
 import { routeTree } from "./routeTree.gen";
-
-export const queryClient = new QueryClient();
-
-focusManager.setEventListener((onFocus) => {
-  const listener = () => onFocus();
-  window.addEventListener("focus", listener);
-  return () => window.removeEventListener("focus", listener);
-});
 
 export const router = createRouter({
   routeTree,

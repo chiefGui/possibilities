@@ -10,10 +10,12 @@ export const Root = Menu.Root;
 
 export const Trigger = Menu.Trigger;
 
-export function Popup(props: Unstyled<Menu.Popup.Props>) {
+type PopupProps = Unstyled<Menu.Popup.Props> & Pick<Menu.Positioner.Props, "align">;
+
+export function Popup({ align = "start", ...props }: PopupProps) {
   return (
     <Menu.Portal>
-      <Menu.Positioner align="start" sideOffset={sideOffset}>
+      <Menu.Positioner align={align} sideOffset={sideOffset}>
         <Menu.Popup
           finalFocus={returnFocus}
           {...props}
@@ -21,6 +23,27 @@ export function Popup(props: Unstyled<Menu.Popup.Props>) {
         />
       </Menu.Positioner>
     </Menu.Portal>
+  );
+}
+
+export function Item(props: Unstyled<Menu.Item.Props>) {
+  return <Menu.Item {...props} className={css(row, popup.item)} />;
+}
+
+type CheckboxItemProps = Unstyled<Menu.CheckboxItem.Props> & { shortcut?: string };
+
+export function CheckboxItem({ children, shortcut, ...props }: CheckboxItemProps) {
+  return (
+    <Menu.CheckboxItem {...props} className={css(row, popup.item)}>
+      {children}
+      {shortcut && <kbd className={css(popup.indicator, styles.shortcut)}>{shortcut}</kbd>}
+      <Menu.CheckboxItemIndicator
+        keepMounted
+        className={css(shortcut ? styles.trailing : popup.indicator, styles.checkbox)}
+      >
+        <Icon name="selected" />
+      </Menu.CheckboxItemIndicator>
+    </Menu.CheckboxItem>
   );
 }
 
@@ -35,6 +58,22 @@ export function Check() {
 export function Separator() {
   return <Menu.Separator className={css(popup.separator)} />;
 }
+
+const styles = {
+  checkbox: css.raw({
+    display: "flex",
+    visibility: "hidden",
+    "&[data-checked]": { visibility: "visible" },
+  }),
+  trailing: css.raw({
+    marginInlineStart: "2",
+  }),
+  shortcut: css.raw({
+    fontFamily: "inherit",
+    fontSize: "sm",
+    color: "text.subtle",
+  }),
+};
 
 const current = css.raw({
   visibility: "hidden",

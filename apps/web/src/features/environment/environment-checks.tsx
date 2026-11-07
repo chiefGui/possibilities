@@ -96,7 +96,7 @@ const styles = {
     backgroundColor: "icon.success",
   }),
   fix: css.raw({
-    lineHeight: "{sizes.line}",
+    lineHeight: "line",
     paddingInlineStart: "[calc({sizes.icon} + {spacing.3})]",
     fontFamily: "mono",
     fontSize: "sm",

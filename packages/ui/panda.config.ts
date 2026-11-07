@@ -66,8 +66,18 @@ export default defineConfig({
           neutralBold: wash(ink, 24),
           brand: indigo,
           brandHovered: `color-mix(in oklch, ${indigo} 88%, white)`,
+          selection: wash(indigo, 22),
+          danger: red,
+          dangerHovered: `color-mix(in oklch, ${red} 88%, white)`,
+          scrim: "oklch(0 0 0 / 24%)",
         }),
-        text: values({ default: slate[12], subtle: slate[11], inverse: "white", danger: red }),
+        text: values({
+          default: slate[12],
+          subtle: slate[11],
+          faint: mode(wash(inks.light, 28), wash(inks.dark, 28)),
+          inverse: "white",
+          danger: red,
+        }),
         icon: values({ subtle: slate[11], success: green, danger: red }),
         border: values({
           default: mode(wash(inks.light, 12), wash(inks.dark, 8)),
@@ -78,11 +88,13 @@ export default defineConfig({
       },
       spacing: values(space),
       radii: values({ xs: "4px", sm: "6px", md: "8px", lg: "12px" }),
-      fontSizes: values({ xs: "11px", sm: "12px", md: "13px", xl: "20px" }),
+      fontSizes: values({ xs: "11px", sm: "12px", md: "13px", xl: "20px", writer: "17px" }),
+      lineHeights: values({ line: "24px", writer: "1.75" }),
       fontWeights: values({ regular: "400", medium: "500", semibold: "600" }),
       fonts: values({
         sans: "'Inter Variable', system-ui, sans-serif",
         mono: "ui-monospace, monospace",
+        writer: "'iA Writer Duo', ui-monospace, monospace",
       }),
       sizes: values({
         ...space,
@@ -97,13 +109,16 @@ export default defineConfig({
         sidebar: "240px",
         column: "420px",
         popup: "220px",
+        measure: "64ch",
+        hang: "7ch",
+        caret: "2px",
       }),
       easings: values({ standard: "cubic-bezier(0.2, 0, 0, 1)" }),
       shadows: values({
         raised: "0 1px 2px oklch(0 0 0 / 8%)",
         overlay: "0 4px 16px oklch(0 0 0 / 16%)",
       }),
-      opacity: values({ "0": "0", disabled: "0.5", "1": "1" }),
+      opacity: values({ "0": "0", dimmed: "0.24", disabled: "0.5", "1": "1" }),
     },
     recipes: {
       icon: {
@@ -114,6 +129,7 @@ export default defineConfig({
     semanticTokens: {
       durations: {
         fast: { value: { base: "100ms", _motionReduce: "0ms" } },
+        calm: { value: { base: "320ms", _motionReduce: "0ms" } },
       },
     },
   },

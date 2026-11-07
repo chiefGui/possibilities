@@ -23,6 +23,14 @@ export function Footer(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} className={css(styles.section, styles.footer)} />;
 }
 
+export function Nested(props: Unstyled<ComponentProps<"div">>) {
+  return <div {...props} className={css(styles.section, styles.nested)} />;
+}
+
+export function Label(props: Unstyled<ComponentProps<"span">>) {
+  return <span {...props} className={css(text.truncate)} />;
+}
+
 export function SectionHeader(props: Unstyled<ComponentProps<"div">>) {
   return <div {...props} className={css(text.label, styles.sectionHeader)} />;
 }
@@ -66,6 +74,9 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "0.5",
+  }),
+  nested: css.raw({
+    paddingInlineStart: "6",
   }),
   footer: css.raw({
     marginBlockStart: "auto",
