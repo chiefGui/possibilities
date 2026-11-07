@@ -35,6 +35,10 @@ const button = cva({
         backgroundColor: { base: "background.brand", _hover: "background.brandHovered" },
         color: "text.inverse",
       },
+      danger: {
+        backgroundColor: { base: "background.danger", _hover: "background.dangerHovered" },
+        color: "text.inverse",
+      },
       ghost: {
         ...states.hover,
         color: "text.default",

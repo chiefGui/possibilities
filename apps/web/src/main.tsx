@@ -3,7 +3,8 @@ import { RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import { queryClient, router } from "./router";
+import { queryClient } from "./query-client";
+import { router } from "./router";
 import "@possibilities/ui/global.css";
 
 if (window.desktop) document.documentElement.dataset.platform = window.desktop.platform;

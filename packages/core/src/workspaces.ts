@@ -1,9 +1,10 @@
 import { type CreateWorkspace, Workspace } from "@possibilities/contract";
 import { Context, Effect, FileSystem, Path, Semaphore } from "effect";
 
-import { clone, commit, createRepository, git } from "./github.ts";
+import { clone, commit, createRepository } from "./github.ts";
 import { manifestFile, readManifest, writeManifest } from "./manifest.ts";
 import { alreadyWorkspace, Registry } from "./registry.ts";
+import { sync } from "./sync.ts";
 
 export class ClonesDirectory extends Context.Service<ClonesDirectory, string>()(
   "ClonesDirectory",
@@ -32,11 +33,7 @@ export const openWorkspace = Effect.fn("openWorkspace")(function* (id: string) {
 }, gitLock.withPermits(1));
 
 export const syncWorkspace = Effect.fn("syncWorkspace")(function* (id: string) {
-  const root = yield* workspaceRoot(id);
-  const head = git(root, "rev-parse", "HEAD");
-  const before = yield* head;
-  yield* git(root, "pull", "--ff-only");
-  return (yield* head) !== before;
+  return yield* sync(yield* workspaceRoot(id));
 }, gitLock.withPermits(1));
 
 export const createWorkspace = Effect.fn("createWorkspace")(function* ({

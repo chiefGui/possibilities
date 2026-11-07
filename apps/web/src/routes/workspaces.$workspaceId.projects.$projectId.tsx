@@ -1,16 +1,17 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-import { ProjectTitle } from "@/features/projects/project-title";
+import { documentsQuery } from "@/features/documents/queries";
+import { ProjectContext } from "@/features/projects/project-context";
 import { projectsQuery } from "@/features/projects/queries";
-import { css } from "@possibilities/ui/css";
 import * as Shell from "@/layout/shell";
 
 export const Route = createFileRoute("/workspaces/$workspaceId/projects/$projectId")({
-  component: ProjectPage,
+  loader: ({ context, params }) => context.queryClient.prefetchQuery(documentsQuery(params)),
+  component: ProjectLayout,
 });
 
-function ProjectPage() {
+function ProjectLayout() {
   const { workspaceId, projectId } = Route.useParams();
   const project = useSuspenseQuery(projectsQuery(workspaceId)).data.find(
     (candidate) => candidate.id === projectId,
@@ -19,15 +20,8 @@ function ProjectPage() {
   if (!project) return <Shell.Header>Project not found</Shell.Header>;
 
   return (
-    <Shell.Header>
-      <ProjectTitle workspaceId={workspaceId} project={project} />
-      {project.codebase && <span className={codebase}>{project.codebase}</span>}
-    </Shell.Header>
+    <ProjectContext value={project}>
+      <Outlet />
+    </ProjectContext>
   );
 }
-
-const codebase = css({
-  marginInlineStart: "auto",
-  fontWeight: "regular",
-  color: "text.subtle",
-});
