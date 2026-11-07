@@ -10,7 +10,6 @@
     "typecheck": "tsrs --fast"
   },
   "dependencies": {
-    "@fontsource-variable/geist": "^5.3.0",
     "@possibilities/contract": "workspace:*",
     "@possibilities/ui": "workspace:*",
     "@stylexjs/stylex": "^0.19.1",

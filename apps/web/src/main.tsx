@@ -4,7 +4,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { queryClient, router } from "./router";
-import "./index.css";
+import "@possibilities/ui/global.css";
 
 if (window.desktop) document.documentElement.dataset.platform = window.desktop.platform;
 
