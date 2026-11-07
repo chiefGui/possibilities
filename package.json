@@ -8,13 +8,14 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "vp run @possibilities/desktop#dev",
-    "dev:web": "vp run @possibilities/web#dev",
+    "deps": "bun install --frozen-lockfile",
+    "dev": "bun run deps && vp run @possibilities/desktop#dev",
+    "dev:web": "bun run deps && vp run @possibilities/web#dev",
     "build": "vp run -r build",
-    "start": "vp run @possibilities/desktop#start",
+    "start": "bun run deps && vp run @possibilities/desktop#start",
     "typecheck": "vp run -r typecheck",
     "check": "vp check",
-    "ready": "vp run -r typecheck && vp check && vp run -r build",
+    "ready": "bun run deps && vp run -r typecheck && vp check && vp run -r build",
     "prepare": "vp config --no-agent"
   },
   "devDependencies": {

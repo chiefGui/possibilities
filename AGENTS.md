@@ -6,6 +6,7 @@
 
 ## Verification
 
+- Work is done when `bun run ready` passes.
 - Let the user eye-ball when it's visual.
 - Do not write unit tests.
 

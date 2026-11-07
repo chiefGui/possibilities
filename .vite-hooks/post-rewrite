@@ -1,0 +1,2 @@
+[ "$1" = rebase ] || exit 0
+git diff --quiet ORIG_HEAD HEAD -- bun.lock || bun install --frozen-lockfile
