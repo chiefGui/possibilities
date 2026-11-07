@@ -1,8 +1,7 @@
-import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 
 import { syncQuery } from "@/features/workspaces/queries";
-import { icon } from "@possibilities/ui/theme/colors.stylex";
+import { css } from "@possibilities/ui/css";
 import { Icon } from "@possibilities/ui/icon";
 import * as Sidebar from "@/layout/sidebar";
 import * as Tooltip from "@possibilities/ui/tooltip";
@@ -16,7 +15,7 @@ export function SyncStatus({ workspaceId }: { workspaceId: string }) {
       <Tooltip.Trigger
         render={<Sidebar.Button disabled={sync.isFetching} onClick={() => sync.refetch()} />}
       >
-        <Icon name="failed" xstyle={styles.failed} />
+        <Icon name="failed" className={failed} />
         {sync.isFetching ? "Syncing…" : "Sync failed"}
       </Tooltip.Trigger>
       <Tooltip.Popup>{sync.error.message}</Tooltip.Popup>
@@ -24,6 +23,4 @@ export function SyncStatus({ workspaceId }: { workspaceId: string }) {
   );
 }
 
-const styles = stylex.create({
-  failed: { color: icon.danger },
-});
+const failed = css({ color: "icon.danger" });

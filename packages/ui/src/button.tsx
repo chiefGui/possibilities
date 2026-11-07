@@ -1,48 +1,45 @@
 import { Button as BaseButton } from "@base-ui/react/button";
-import * as stylex from "@stylexjs/stylex";
 
-import { background, text } from "./theme/colors.stylex";
-import { fontSize, opacity, radius, size, space, weight } from "./theme/tokens.stylex";
+import { cva, type RecipeVariantProps } from "../styled-system/css";
 import type { Unstyled } from "./props";
 import { states } from "./states";
 
-type ButtonProps = Unstyled<BaseButton.Props> & { variant?: keyof typeof variants };
+type ButtonProps = Unstyled<BaseButton.Props> & RecipeVariantProps<typeof button>;
 
-export function Button({ variant = "primary", ...props }: ButtonProps) {
-  return <BaseButton {...props} {...stylex.props(styles.base, states.ring, variants[variant])} />;
+export function Button({ variant, ...props }: ButtonProps) {
+  return <BaseButton {...props} className={button({ variant })} />;
 }
 
-const styles = stylex.create({
+const button = cva({
   base: {
+    ...states.ring,
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: space[2],
+    gap: "2",
     flexShrink: 0,
-    height: size.md,
-    paddingInline: space[3],
+    height: "md",
+    paddingInline: "3",
     borderWidth: 0,
-    borderRadius: radius.md,
+    borderRadius: "md",
     fontFamily: "inherit",
-    fontSize: fontSize.md,
-    fontWeight: weight.medium,
+    fontSize: "md",
+    fontWeight: "medium",
     whiteSpace: "nowrap",
     userSelect: "none",
-    opacity: { default: null, ":disabled": opacity.disabled },
+    _disabled: { opacity: "disabled" },
   },
+  variants: {
+    variant: {
+      primary: {
+        backgroundColor: { base: "background.brand", _hover: "background.brandHovered" },
+        color: "text.inverse",
+      },
+      ghost: {
+        ...states.hover,
+        color: "text.default",
+      },
+    },
+  },
+  defaultVariants: { variant: "primary" },
 });
-
-const tones = stylex.create({
-  primary: {
-    backgroundColor: { default: background.brand, ":hover": background.brandHovered },
-    color: text.inverse,
-  },
-  ghost: {
-    color: text.default,
-  },
-});
-
-const variants = {
-  primary: tones.primary,
-  ghost: [states.hover, tones.ghost],
-};

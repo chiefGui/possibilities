@@ -1,11 +1,9 @@
 import type { Workspace } from "@possibilities/contract";
-import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 
 import { workspacesQuery } from "@/features/workspaces/queries";
-import { background, text as color } from "@possibilities/ui/theme/colors.stylex";
-import { fontSize, radius, size, weight } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 import { Icon } from "@possibilities/ui/icon";
 import * as Menu from "@possibilities/ui/menu";
 import * as Sidebar from "@/layout/sidebar";
@@ -18,7 +16,7 @@ export function WorkspaceSwitcher({ workspace }: { workspace: Workspace }) {
     <Menu.Root>
       <Menu.Trigger render={<Sidebar.Button />}>
         <Avatar title={workspace.title} />
-        <span {...stylex.props(text.truncate, styles.title)}>{workspace.title}</span>
+        <span className={css(text.truncate, styles.title)}>{workspace.title}</span>
         <Icon name="dropdown" />
       </Menu.Trigger>
       <Menu.Popup>
@@ -50,26 +48,26 @@ export function WorkspaceSwitcher({ workspace }: { workspace: Workspace }) {
 
 function Avatar({ title }: { title: string }) {
   return (
-    <span aria-hidden {...stylex.props(styles.avatar)}>
+    <span aria-hidden className={styles.avatar}>
       {title.charAt(0).toUpperCase()}
     </span>
   );
 }
 
-const styles = stylex.create({
-  title: {
-    fontWeight: weight.semibold,
-  },
-  avatar: {
+const styles = {
+  title: css.raw({
+    fontWeight: "semibold",
+  }),
+  avatar: css({
     display: "grid",
     placeItems: "center",
     flexShrink: 0,
-    width: size.icon,
-    height: size.icon,
-    borderRadius: radius.xs,
-    fontSize: fontSize.xs,
-    fontWeight: weight.semibold,
-    color: color.inverse,
-    backgroundColor: background.brand,
-  },
-});
+    width: "icon",
+    height: "icon",
+    borderRadius: "xs",
+    fontSize: "xs",
+    fontWeight: "semibold",
+    color: "text.inverse",
+    backgroundColor: "background.brand",
+  }),
+};

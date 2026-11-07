@@ -10,10 +10,8 @@ import {
   Tick01Icon,
 } from "@hugeicons-pro/core-stroke-rounded";
 import { HugeiconsIcon } from "@hugeicons/react";
-import * as stylex from "@stylexjs/stylex";
-
-import { icon } from "./theme/colors.stylex";
-import { size } from "./theme/tokens.stylex";
+import { cx } from "../styled-system/css";
+import { icon } from "../styled-system/recipes";
 
 const glyphs = {
   add: Add01Icon,
@@ -29,15 +27,6 @@ const glyphs = {
 
 type IconName = keyof typeof glyphs;
 
-export function Icon({ name, xstyle }: { name: IconName; xstyle?: stylex.StyleXStyles }) {
-  return <HugeiconsIcon icon={glyphs[name]} aria-hidden {...stylex.props(styles.icon, xstyle)} />;
+export function Icon({ name, className }: { name: IconName; className?: string }) {
+  return <HugeiconsIcon icon={glyphs[name]} aria-hidden className={cx(icon(), className)} />;
 }
-
-const styles = stylex.create({
-  icon: {
-    flexShrink: 0,
-    width: size.icon,
-    height: size.icon,
-    color: icon.subtle,
-  },
-});

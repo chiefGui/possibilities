@@ -1,34 +1,32 @@
-import * as stylex from "@stylexjs/stylex";
+import { css } from "../styled-system/css";
 
-import { border, surface, text } from "./theme/colors.stylex";
-import { fontSize, radius, size, space } from "./theme/tokens.stylex";
-
-export const control = stylex.create({
-  base: {
+export const control = {
+  base: css.raw({
     display: "flex",
     alignItems: "center",
-    gap: space[2],
+    gap: "2",
     width: "100%",
     minWidth: 0,
-    height: size.md,
-    paddingInline: space[3],
-    borderWidth: 1,
+    height: "md",
+    paddingInline: "3",
+    borderWidth: "1px",
     borderStyle: "solid",
-    borderColor: {
-      default: border.default,
-      ":is(:hover, :has(:hover)):not(:focus-within, [data-popup-open], :has([data-invalid]))":
-        border.hovered,
-      ":is(:focus-within, [data-popup-open]):not(:has([data-invalid]))": border.focused,
-      ":has([data-invalid])": border.danger,
-    },
-    borderRadius: radius.md,
-    backgroundColor: surface.default,
-    color: text.default,
+    borderColor: "border.default",
+    borderRadius: "md",
+    backgroundColor: "surface.default",
+    color: "text.default",
     fontFamily: "inherit",
-    fontSize: fontSize.md,
+    fontSize: "md",
     outlineStyle: "none",
-  },
-  input: {
+    "&:is(:hover, :has(:hover)):not(:focus-within, [data-popup-open], :has([data-invalid]))": {
+      borderColor: "border.hovered",
+    },
+    "&:is(:focus-within, [data-popup-open]):not(:has([data-invalid]))": {
+      borderColor: "border.focused",
+    },
+    "&:has([data-invalid])": { borderColor: "border.danger" },
+  }),
+  input: css.raw({
     minWidth: 0,
     padding: 0,
     borderWidth: 0,
@@ -38,6 +36,6 @@ export const control = stylex.create({
     fontSize: "inherit",
     fontWeight: "inherit",
     outlineStyle: "none",
-    "::placeholder": { color: text.subtle },
-  },
-});
+    "&::placeholder": { color: "text.subtle" },
+  }),
+};

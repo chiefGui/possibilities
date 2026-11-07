@@ -1,4 +1,3 @@
-import * as stylex from "@stylexjs/stylex";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -6,8 +5,7 @@ import { EnvironmentChecks } from "@/features/environment/environment-checks";
 import { environmentQuery } from "@/features/environment/queries";
 import { isReady } from "@/features/environment/steps";
 import { WorkspaceForm } from "@/features/workspaces/workspace-form";
-import { background, border } from "@possibilities/ui/theme/colors.stylex";
-import { radius, space } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 import { Actions } from "@possibilities/ui/actions";
 import { Button } from "@possibilities/ui/button";
 import * as CenteredPage from "@/layout/centered-page";
@@ -67,26 +65,26 @@ function Onboarding() {
 function Progress({ current }: { current: Stage }) {
   const reached = stages.indexOf(current);
   return (
-    <div {...stylex.props(styles.progress)}>
+    <div className={styles.progress}>
       {stages.map((stage, index) => (
-        <span key={stage} {...stylex.props(styles.segment, index <= reached && styles.reached)} />
+        <span key={stage} className={css(styles.segment, index <= reached && styles.reached)} />
       ))}
     </div>
   );
 }
 
-const styles = stylex.create({
-  progress: {
+const styles = {
+  progress: css({
     display: "flex",
-    gap: space[1],
-  },
-  segment: {
+    gap: "1",
+  }),
+  segment: css.raw({
     flex: 1,
-    height: space[0.5],
-    borderRadius: radius.xs,
-    backgroundColor: border.default,
-  },
-  reached: {
-    backgroundColor: background.brand,
-  },
-});
+    height: "{spacing.0.5}",
+    borderRadius: "xs",
+    backgroundColor: "border.default",
+  }),
+  reached: css.raw({
+    backgroundColor: "background.brand",
+  }),
+};

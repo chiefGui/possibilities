@@ -1,10 +1,9 @@
-import * as stylex from "@stylexjs/stylex";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
 import { projectsQuery } from "@/features/projects/queries";
 import { workspaceQuery, workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceSidebar } from "@/features/workspaces/workspace-sidebar";
-import { text } from "@possibilities/ui/theme/colors.stylex";
+import { css } from "@possibilities/ui/css";
 import * as CenteredPage from "@/layout/centered-page";
 import * as Shell from "@/layout/shell";
 
@@ -22,9 +21,7 @@ export const Route = createFileRoute("/workspaces/$workspaceId")({
   errorComponent: ({ error }) => (
     <CenteredPage.Root>
       <CenteredPage.Title>Workspace unavailable</CenteredPage.Title>
-      <p {...stylex.props(styles.message)}>
-        {error instanceof Error ? error.message : String(error)}
-      </p>
+      <p className={message}>{error instanceof Error ? error.message : String(error)}</p>
       <Link to="/">Back</Link>
     </CenteredPage.Root>
   ),
@@ -43,9 +40,7 @@ function WorkspaceLayout() {
   );
 }
 
-const styles = stylex.create({
-  message: {
-    margin: 0,
-    color: text.subtle,
-  },
+const message = css({
+  margin: 0,
+  color: "text.subtle",
 });

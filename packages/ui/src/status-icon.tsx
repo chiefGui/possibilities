@@ -1,12 +1,8 @@
-import * as stylex from "@stylexjs/stylex";
-
-import { icon } from "./theme/colors.stylex";
+import { css } from "../styled-system/css";
 import { Icon } from "./icon";
 
 export function StatusIcon({ ok }: { ok: boolean }) {
-  return ok ? <Icon name="success" xstyle={styles.ok} /> : <Icon name="pending" />;
+  return ok ? <Icon name="success" className={success} /> : <Icon name="pending" />;
 }
 
-const styles = stylex.create({
-  ok: { color: icon.success },
-});
+const success = css({ color: "icon.success" });

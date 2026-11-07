@@ -1,11 +1,9 @@
-import * as stylex from "@stylexjs/stylex";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { ProjectTitle } from "@/features/projects/project-title";
 import { projectsQuery } from "@/features/projects/queries";
-import { text } from "@possibilities/ui/theme/colors.stylex";
-import { weight } from "@possibilities/ui/theme/tokens.stylex";
+import { css } from "@possibilities/ui/css";
 import * as Shell from "@/layout/shell";
 
 export const Route = createFileRoute("/workspaces/$workspaceId/projects/$projectId")({
@@ -23,15 +21,13 @@ function ProjectPage() {
   return (
     <Shell.Header>
       <ProjectTitle workspaceId={workspaceId} project={project} />
-      {project.codebase && <span {...stylex.props(styles.codebase)}>{project.codebase}</span>}
+      {project.codebase && <span className={codebase}>{project.codebase}</span>}
     </Shell.Header>
   );
 }
 
-const styles = stylex.create({
-  codebase: {
-    marginInlineStart: "auto",
-    fontWeight: weight.regular,
-    color: text.subtle,
-  },
+const codebase = css({
+  marginInlineStart: "auto",
+  fontWeight: "regular",
+  color: "text.subtle",
 });

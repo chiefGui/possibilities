@@ -1,8 +1,6 @@
 import { Combobox } from "@base-ui/react/combobox";
-import * as stylex from "@stylexjs/stylex";
 
-import { text as color } from "./theme/colors.stylex";
-import { size, space } from "./theme/tokens.stylex";
+import { css } from "../styled-system/css";
 import { control } from "./control";
 import { Icon } from "./icon";
 import { popup, returnFocus, sideOffset } from "./popup";
@@ -19,11 +17,9 @@ type TriggerProps = Omit<Unstyled<Combobox.Trigger.Props>, "children"> & {
 
 export function Trigger({ placeholder, ...props }: TriggerProps) {
   return (
-    <Combobox.Trigger {...props} {...stylex.props(control.base, styles.trigger)}>
-      <span {...stylex.props(text.truncate)}>
-        <Combobox.Value
-          placeholder={<span {...stylex.props(styles.placeholder)}>{placeholder}</span>}
-        />
+    <Combobox.Trigger {...props} className={css(control.base, styles.trigger)}>
+      <span className={css(text.truncate)}>
+        <Combobox.Value placeholder={<span className={styles.placeholder}>{placeholder}</span>} />
       </span>
       <Icon name="dropdown" />
     </Combobox.Trigger>
@@ -37,7 +33,7 @@ export function Popup(props: Unstyled<Combobox.Popup.Props>) {
         <Combobox.Popup
           finalFocus={returnFocus}
           {...props}
-          {...stylex.props(popup.root, styles.popup)}
+          className={css(popup.root, styles.popup)}
         />
       </Combobox.Positioner>
     </Combobox.Portal>
@@ -45,14 +41,14 @@ export function Popup(props: Unstyled<Combobox.Popup.Props>) {
 }
 
 export function Search(props: Unstyled<Combobox.Input.Props>) {
-  return <Combobox.Input {...props} {...stylex.props(control.input, popup.search)} />;
+  return <Combobox.Input {...props} className={css(control.input, popup.search)} />;
 }
 
 export function List(props: Unstyled<Combobox.List.Props>) {
   return (
     <ScrollArea.Root>
       <ScrollArea.Viewport>
-        <Combobox.List {...props} {...stylex.props(popup.content, styles.collapsible)} />
+        <Combobox.List {...props} className={css(popup.content, styles.collapsible)} />
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar />
     </ScrollArea.Root>
@@ -61,40 +57,38 @@ export function List(props: Unstyled<Combobox.List.Props>) {
 
 export function Item({ children, ...props }: Unstyled<Combobox.Item.Props>) {
   return (
-    <Combobox.Item {...props} {...stylex.props(row.base, popup.item)}>
+    <Combobox.Item {...props} className={css(row, popup.item)}>
       {children}
-      <Combobox.ItemIndicator render={<Icon name="selected" xstyle={popup.indicator} />} />
+      <Combobox.ItemIndicator render={<Icon name="selected" className={css(popup.indicator)} />} />
     </Combobox.Item>
   );
 }
 
 export function Empty(props: Unstyled<Combobox.Empty.Props>) {
   return (
-    <Combobox.Empty
-      {...props}
-      {...stylex.props(row.base, popup.item, styles.empty, styles.collapsible)}
-    />
+    <Combobox.Empty {...props} className={css(row, popup.item, styles.empty, styles.collapsible)} />
   );
 }
 
-const styles = stylex.create({
-  trigger: {
+const styles = {
+  trigger: css.raw({
     justifyContent: "space-between",
     textAlign: "start",
-  },
-  placeholder: {
-    color: color.subtle,
-  },
-  popup: {
-    minWidth: `max(${size.popup}, var(--anchor-width))`,
-    maxHeight: `min(var(--available-height), calc(10 * ${size.md}))`,
+  }),
+  placeholder: css({
+    color: "text.subtle",
+  }),
+  popup: css.raw({
+    minWidth: "max({sizes.popup}, var(--anchor-width))",
+    maxHeight: "min(var(--available-height), calc(10 * {sizes.md}))",
     overflow: "hidden",
-  },
-  empty: {
-    margin: space[1.5],
-    color: color.subtle,
-  },
-  collapsible: {
-    display: { default: "flex", ":empty": "none" },
-  },
-});
+  }),
+  empty: css.raw({
+    margin: "1.5",
+    color: "text.subtle",
+  }),
+  collapsible: css.raw({
+    display: "flex",
+    "&:empty": { display: "none" },
+  }),
+};

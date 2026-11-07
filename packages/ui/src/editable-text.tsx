@@ -1,8 +1,6 @@
-import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { background } from "./theme/colors.stylex";
-import { radius, size, space } from "./theme/tokens.stylex";
+import { css } from "../styled-system/css";
 import { control } from "./control";
 import type { Unstyled } from "./props";
 
@@ -28,22 +26,20 @@ export function EditableText({ defaultValue, onCommit, ...props }: EditableTextP
         if (!value) event.currentTarget.value = defaultValue;
         else if (value !== defaultValue) onCommit(value);
       }}
-      {...stylex.props(control.input, styles.input)}
+      className={css(control.input, input)}
     />
   );
 }
 
-const styles = stylex.create({
-  input: {
-    fieldSizing: "content",
-    height: size.sm,
-    marginInline: `calc(-1 * ${space[2]})`,
-    paddingInline: space[2],
-    borderRadius: radius.sm,
-    backgroundColor: {
-      default: "transparent",
-      ":hover": background.hovered,
-      ":focus": background.hovered,
-    },
+const input = css.raw({
+  fieldSizing: "content",
+  height: "sm",
+  marginInline: "-2",
+  paddingInline: "2",
+  borderRadius: "sm",
+  backgroundColor: {
+    base: "transparent",
+    _hover: "background.hovered",
+    _focus: "background.hovered",
   },
 });

@@ -13,7 +13,7 @@ export default defineConfig({
     tasks: {
       dev: {
         command: "bun scripts/dev.ts",
-        dependsOn: ["build"],
+        dependsOn: ["build", "@possibilities/ui#build"],
         cache: false,
       },
       start: {

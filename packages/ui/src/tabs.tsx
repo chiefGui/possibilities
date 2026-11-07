@@ -1,46 +1,48 @@
 import { Tabs } from "@base-ui/react/tabs";
-import * as stylex from "@stylexjs/stylex";
 
-import { background, surface, text } from "./theme/colors.stylex";
-import { fontSize, radius, shadow, size, space, weight } from "./theme/tokens.stylex";
+import { css } from "../styled-system/css";
 import type { Unstyled } from "./props";
 import { states } from "./states";
 
 export const Root = Tabs.Root;
 
 export function List(props: Unstyled<Tabs.List.Props>) {
-  return <Tabs.List {...props} {...stylex.props(styles.list)} />;
+  return <Tabs.List {...props} className={styles.list} />;
 }
 
 export function Tab(props: Unstyled<Tabs.Tab.Props>) {
-  return <Tabs.Tab {...props} {...stylex.props(states.ring, styles.tab)} />;
+  return <Tabs.Tab {...props} className={css(states.ring, styles.tab)} />;
 }
 
 export function Panel(props: Unstyled<Tabs.Panel.Props>) {
-  return <Tabs.Panel {...props} {...stylex.props(styles.panel)} />;
+  return <Tabs.Panel {...props} className={styles.panel} />;
 }
 
-const styles = stylex.create({
-  list: {
+const styles = {
+  list: css({
     display: "flex",
-    gap: space[0.5],
-    padding: space[0.5],
-    borderRadius: radius.md,
-    backgroundColor: background.neutral,
-  },
-  tab: {
+    gap: "0.5",
+    padding: "0.5",
+    borderRadius: "md",
+    backgroundColor: "background.neutral",
+  }),
+  tab: css.raw({
     flex: 1,
-    height: size.line,
+    height: "line",
     borderWidth: 0,
-    borderRadius: radius.sm,
+    borderRadius: "sm",
     fontFamily: "inherit",
-    fontSize: fontSize.sm,
-    fontWeight: weight.medium,
-    color: { default: text.subtle, ":is([data-active])": text.default },
-    backgroundColor: { default: "transparent", ":is([data-active])": surface.default },
-    boxShadow: { default: "none", ":is([data-active])": shadow.raised },
-  },
-  panel: {
-    marginTop: space[2],
-  },
-});
+    fontSize: "sm",
+    fontWeight: "medium",
+    color: "text.subtle",
+    backgroundColor: "transparent",
+    "&[data-active]": {
+      color: "text.default",
+      backgroundColor: "surface.default",
+      boxShadow: "raised",
+    },
+  }),
+  panel: css({
+    marginTop: "2",
+  }),
+};

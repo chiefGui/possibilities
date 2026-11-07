@@ -1,64 +1,57 @@
-import * as stylex from "@stylexjs/stylex";
-
-import { background, border, surface, text } from "./theme/colors.stylex";
-import { font, fontSize, motion, radius, shadow, size, space } from "./theme/tokens.stylex";
+import { css } from "../styled-system/css";
 
 export const sideOffset = 4;
 
 export const returnFocus = (closeType: string) => closeType === "keyboard";
 
-export const popup = stylex.create({
-  root: {
+export const popup = {
+  root: css.raw({
     display: "flex",
     flexDirection: "column",
-    minWidth: size.popup,
-    borderWidth: 1,
+    minWidth: "popup",
+    borderWidth: "1px",
     borderStyle: "solid",
-    borderColor: border.default,
-    borderRadius: radius.lg,
-    backgroundColor: surface.raised,
-    boxShadow: shadow.overlay,
-    color: text.default,
-    fontFamily: font.sans,
-    fontSize: fontSize.md,
+    borderColor: "border.default",
+    borderRadius: "lg",
+    backgroundColor: "surface.raised",
+    boxShadow: "overlay",
+    color: "text.default",
+    fontFamily: "sans",
+    fontSize: "md",
     outlineStyle: "none",
-    WebkitAppRegion: "no-drag",
+    appRegion: "no-drag",
     transformOrigin: "var(--transform-origin)",
-    opacity: { default: 1, ":is([data-starting-style], [data-ending-style])": 0 },
-    transform: {
-      default: "none",
-      ":is([data-starting-style], [data-ending-style])": "scale(0.96)",
-    },
+    _transitioning: { opacity: 0, transform: "scale(0.96)" },
     transitionProperty: "opacity, transform",
-    transitionDuration: motion.fast,
-    transitionTimingFunction: motion.easing,
-  },
-  content: {
+    transitionDuration: "fast",
+    transitionTimingFunction: "standard",
+  }),
+  content: css.raw({
     display: "flex",
     flexDirection: "column",
-    padding: space[1.5],
-  },
-  item: {
+    padding: "1.5",
+  }),
+  item: css.raw({
     flexShrink: 0,
-    height: size.md,
-    backgroundColor: { default: "transparent", ":is([data-highlighted])": background.hovered },
-  },
-  indicator: {
+    height: "md",
+    backgroundColor: { base: "transparent", _highlighted: "background.hovered" },
+  }),
+  indicator: css.raw({
     marginInlineStart: "auto",
-  },
-  separator: {
+  }),
+  separator: css.raw({
     flexShrink: 0,
-    height: 1,
-    marginBlock: space[1.5],
-    marginInline: `calc(-1 * ${space[1.5]})`,
-    backgroundColor: border.default,
-  },
-  search: {
+    height: "1px",
+    marginBlock: "1.5",
+    marginInline: "-1.5",
+    backgroundColor: "border.default",
+  }),
+  search: css.raw({
     flexShrink: 0,
-    height: size.lg,
-    paddingInline: `calc(${space[1.5]} + ${space[2]})`,
-    borderBottomWidth: 1,
+    height: "lg",
+    paddingInline: "calc({spacing.1.5} + {spacing.2})",
+    borderBottomWidth: "1px",
     borderBottomStyle: "solid",
-    borderBottomColor: border.default,
-  },
-});
+    borderBottomColor: "border.default",
+  }),
+};
