@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 
 import { workspacesQuery } from "@/features/workspaces/queries";
-import { background, text as color } from "@/theme/colors.stylex";
-import { fontSize, radius, size, weight } from "@/theme/tokens.stylex";
-import { Icon } from "@/ui/icon";
-import * as Menu from "@/ui/menu";
-import * as Sidebar from "@/ui/sidebar";
-import { text } from "@/ui/text";
+import { background, text as color } from "@possibilities/ui/theme/colors.stylex";
+import { fontSize, radius, size, weight } from "@possibilities/ui/theme/tokens.stylex";
+import { Icon } from "@possibilities/ui/icon";
+import * as Menu from "@possibilities/ui/menu";
+import * as Sidebar from "@/layout/sidebar";
+import { text } from "@possibilities/ui/text";
 
 export function WorkspaceSwitcher({ workspace }: { workspace: Workspace }) {
   const workspaces = useQuery(workspacesQuery).data ?? [workspace];

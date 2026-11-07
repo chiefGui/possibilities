@@ -8,12 +8,12 @@ import { OwnerScope } from "@/features/repositories/owner-scope";
 import { useOwner } from "@/features/repositories/queries";
 import { RepositoryPicker } from "@/features/repositories/repository-picker";
 import { call } from "@/rpc";
-import { Actions } from "@/ui/actions";
-import { Button } from "@/ui/button";
-import * as Field from "@/ui/field";
-import * as Form from "@/ui/form";
-import * as Input from "@/ui/input";
-import * as Tabs from "@/ui/tabs";
+import { Actions } from "@possibilities/ui/actions";
+import { Button } from "@possibilities/ui/button";
+import * as Field from "@possibilities/ui/field";
+import * as Form from "@possibilities/ui/form";
+import * as Input from "@possibilities/ui/input";
+import * as Tabs from "@possibilities/ui/tabs";
 
 type Source = "New" | "Existing";
 

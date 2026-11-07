@@ -2,11 +2,11 @@ import type { Environment } from "@possibilities/contract";
 import * as stylex from "@stylexjs/stylex";
 
 import { isDone, steps } from "@/features/environment/steps";
-import { icon, text as color } from "@/theme/colors.stylex";
-import { font, fontSize, size, space, weight } from "@/theme/tokens.stylex";
-import * as Accordion from "@/ui/accordion";
-import { StatusIcon } from "@/ui/status-icon";
-import { text } from "@/ui/text";
+import { icon, text as color } from "@possibilities/ui/theme/colors.stylex";
+import { font, fontSize, size, space, weight } from "@possibilities/ui/theme/tokens.stylex";
+import * as Accordion from "@possibilities/ui/accordion";
+import { StatusIcon } from "@possibilities/ui/status-icon";
+import { text } from "@possibilities/ui/text";
 
 export function EnvironmentChecks({ environment }: { environment: Environment | undefined }) {
   const failing = environment

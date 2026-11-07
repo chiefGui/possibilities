@@ -1,10 +1,10 @@
 import * as stylex from "@stylexjs/stylex";
 import type { ComponentProps } from "react";
 
-import { background } from "@/theme/colors.stylex";
-import { radius, size, space } from "@/theme/tokens.stylex";
-import { control } from "@/ui/control";
-import type { Unstyled } from "@/ui/props";
+import { background } from "./theme/colors.stylex";
+import { radius, size, space } from "./theme/tokens.stylex";
+import { control } from "./control";
+import type { Unstyled } from "./props";
 
 type EditableTextProps = Omit<
   Unstyled<ComponentProps<"input">>,

@@ -1,9 +1,9 @@
 import { ScrollArea } from "@base-ui/react/scroll-area";
 import * as stylex from "@stylexjs/stylex";
 
-import { background } from "@/theme/colors.stylex";
-import { radius, space } from "@/theme/tokens.stylex";
-import type { Unstyled } from "@/ui/props";
+import { background } from "./theme/colors.stylex";
+import { radius, space } from "./theme/tokens.stylex";
+import type { Unstyled } from "./props";
 
 const fade = (edge: "start" | "end") =>
   `min(${space[6]}, var(--scroll-area-overflow-y-${edge}, 0px))`;

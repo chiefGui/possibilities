@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { projectsQuery } from "@/features/projects/queries";
 import { SyncStatus } from "@/features/workspaces/sync-status";
 import { WorkspaceSwitcher } from "@/features/workspaces/workspace-switcher";
-import { Icon } from "@/ui/icon";
-import * as Sidebar from "@/ui/sidebar";
+import { Icon } from "@possibilities/ui/icon";
+import * as Sidebar from "@/layout/sidebar";
 
 export function WorkspaceSidebar({ workspace }: { workspace: Workspace }) {
   const workspaceId = workspace.id;

@@ -18,7 +18,7 @@ export default defineConfig({
           patterns: [
             {
               group: ["@hugeicons/*", "@hugeicons-pro/*"],
-              message: "Register the glyph in @/ui/icon and render <Icon name />.",
+              message: "Register the glyph in @possibilities/ui/icon and render <Icon name />.",
             },
           ],
         },
@@ -30,7 +30,7 @@ export default defineConfig({
         rules: { "react/only-export-components": "off" },
       },
       {
-        files: ["apps/web/src/ui/icon.tsx"],
+        files: ["packages/ui/src/icon.tsx"],
         rules: { "no-restricted-imports": "off" },
       },
     ],

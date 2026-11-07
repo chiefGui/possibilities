@@ -1,10 +1,10 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import * as stylex from "@stylexjs/stylex";
 
-import { background, text } from "@/theme/colors.stylex";
-import { fontSize, opacity, radius, size, space, weight } from "@/theme/tokens.stylex";
-import type { Unstyled } from "@/ui/props";
-import { states } from "@/ui/states";
+import { background, text } from "./theme/colors.stylex";
+import { fontSize, opacity, radius, size, space, weight } from "./theme/tokens.stylex";
+import type { Unstyled } from "./props";
+import { states } from "./states";
 
 type ButtonProps = Unstyled<BaseButton.Props> & { variant?: keyof typeof variants };
 

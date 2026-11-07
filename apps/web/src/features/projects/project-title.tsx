@@ -4,10 +4,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { projectsQuery } from "@/features/projects/queries";
 import { call } from "@/rpc";
-import { text as color } from "@/theme/colors.stylex";
-import { fontSize, weight } from "@/theme/tokens.stylex";
-import { EditableText } from "@/ui/editable-text";
-import { text } from "@/ui/text";
+import { text as color } from "@possibilities/ui/theme/colors.stylex";
+import { fontSize, weight } from "@possibilities/ui/theme/tokens.stylex";
+import { EditableText } from "@possibilities/ui/editable-text";
+import { text } from "@possibilities/ui/text";
 
 export function ProjectTitle({ workspaceId, project }: { workspaceId: string; project: Project }) {
   const queryClient = useQueryClient();

@@ -1,12 +1,12 @@
 import { Accordion } from "@base-ui/react/accordion";
 import * as stylex from "@stylexjs/stylex";
 
-import { border, surface } from "@/theme/colors.stylex";
-import { motion, radius, size, space } from "@/theme/tokens.stylex";
-import { Icon } from "@/ui/icon";
-import type { Unstyled } from "@/ui/props";
-import { row } from "@/ui/row";
-import { states } from "@/ui/states";
+import { border, surface } from "./theme/colors.stylex";
+import { motion, radius, size, space } from "./theme/tokens.stylex";
+import { Icon } from "./icon";
+import type { Unstyled } from "./props";
+import { row } from "./row";
+import { states } from "./states";
 
 export function Root(props: Unstyled<Accordion.Root.Props>) {
   return <Accordion.Root {...props} {...stylex.props(styles.root)} />;

@@ -1,9 +1,9 @@
 import { Tooltip } from "@base-ui/react/tooltip";
 import * as stylex from "@stylexjs/stylex";
 
-import { fontSize, size, space } from "@/theme/tokens.stylex";
-import { popup, sideOffset } from "@/ui/popup";
-import type { Unstyled } from "@/ui/props";
+import { fontSize, size, space } from "./theme/tokens.stylex";
+import { popup, sideOffset } from "./popup";
+import type { Unstyled } from "./props";
 
 export const Root = Tooltip.Root;
 

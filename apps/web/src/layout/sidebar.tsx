@@ -2,12 +2,12 @@ import * as stylex from "@stylexjs/stylex";
 import { createLink, type LinkComponent } from "@tanstack/react-router";
 import type { ComponentProps } from "react";
 
-import { background, icon } from "@/theme/colors.stylex";
-import { radius, size, space } from "@/theme/tokens.stylex";
-import type { Unstyled } from "@/ui/props";
-import { row } from "@/ui/row";
-import { states } from "@/ui/states";
-import { text } from "@/ui/text";
+import { background, icon } from "@possibilities/ui/theme/colors.stylex";
+import { radius, size, space } from "@possibilities/ui/theme/tokens.stylex";
+import type { Unstyled } from "@possibilities/ui/props";
+import { row } from "@possibilities/ui/row";
+import { states } from "@possibilities/ui/states";
+import { text } from "@possibilities/ui/text";
 
 export function Root(props: Unstyled<ComponentProps<"nav">>) {
   return <nav {...props} {...stylex.props(styles.root)} />;

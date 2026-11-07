@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 
 import { ownersQuery } from "@/features/repositories/queries";
-import { space } from "@/theme/tokens.stylex";
-import * as Combobox from "@/ui/combobox";
+import { space } from "@possibilities/ui/theme/tokens.stylex";
+import * as Combobox from "@possibilities/ui/combobox";
 
 type OwnerScopeProps = {
   value: string | null;

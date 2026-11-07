@@ -18,7 +18,7 @@ export default defineConfig({
       routesDirectory: `${src}/routes`,
       generatedRouteTree: `${src}/routeTree.gen.ts`,
     }),
-    stylex({ aliases: { "@/*": [`${src}/*`] } }),
+    stylex(),
     react(),
   ]),
 });

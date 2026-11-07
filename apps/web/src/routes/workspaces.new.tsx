@@ -4,8 +4,8 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { prefetchRepositories } from "@/features/repositories/queries";
 import { workspacesQuery } from "@/features/workspaces/queries";
 import { WorkspaceForm } from "@/features/workspaces/workspace-form";
-import { Button } from "@/ui/button";
-import * as CenteredPage from "@/ui/centered-page";
+import { Button } from "@possibilities/ui/button";
+import * as CenteredPage from "@/layout/centered-page";
 
 export const Route = createFileRoute("/workspaces/new")({
   loader: ({ context }) => {
